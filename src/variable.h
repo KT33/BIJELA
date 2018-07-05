@@ -10,6 +10,42 @@
 
 #include "stdint.h"
 
+#define speed_search　450
+#define speed_max 2000
+
+
+typedef struct {
+	int now;//今の値
+	int reference;//真ん中にいるときのセンサー値
+	int threshold;//閾値
+} sensor_t;
+
+typedef struct{
+	float now;//今の値
+	float ideal;//目標速
+	float error;//速度偏差
+} speed_t;
+
+
+extern volatile int g_count;
+extern volatile unsigned short Batt;
+extern volatile float Battery;
+extern char flag,gyro_flag;
+extern volatile float angle;
+extern uint8_t  gyro_r;
+extern int16_t encoder_L,encoder_R;
+extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF;
+#define LogMax 2000
+extern float log[LogMax];
+extern uint16_t log_index;
+extern speed_t speed_R,speed_L;
+extern speed_t distance_R,distance_L;
+extern float diameter;//タイヤ径
+extern float tread;//トレッド幅
+extern float accel;
+
+
+
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4
 #define UI_LED3 PORT5.PODR.BIT.B5
@@ -30,13 +66,5 @@
 #define Moter_Stby PORTB.PODR.BIT.B0
 #define Moter_R_IN1 PORTB.PODR.BIT.B5
 #define Moter_R_IN2 PORTB.PODR.BIT.B6
-
-extern volatile int g_count;
-extern volatile unsigned short Batt;
-extern volatile float Battery;
-extern char flag,gyro_flag;
-extern volatile float angle;
-extern uint8_t  gyro_r;
-extern int16_t encoder1,encoder2;
 
 #endif /* VARIABLE_H_ */

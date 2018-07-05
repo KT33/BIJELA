@@ -11,13 +11,24 @@
 
 void interrupt_cmt0(void) {
 	g_count++;
+	AD_all();
 	if (gyro_flag == 1) {
 		angle += test_gyro2() / 1000;
 	} else {
 		angle = 0;
 	}
-	encoder1 = TPU1.TCNT;
-	encoder2 = TPU2.TCNT;
+	encoder_L = TPU1.TCNT; //L
+	encoder_R = TPU2.TCNT; //R
+	TPU1.TCNT=0;
+	TPU2.TCNT=0;
+
+	speed_L.now=1*(float)encoder_L*diameter*3.14159265359/4096/4/40*11/0.001;
+	speed_R.now=-1*(float)encoder_R*diameter*3.14159265359/4096/4/40*11/0.001;
+
+	distance_L.now+=speed_L.now*0.001;
+	distance_R.now+=speed_R.now*0.001;
+
+
 
 }
 

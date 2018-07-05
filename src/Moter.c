@@ -52,10 +52,10 @@ void init_Encoder(void) {
 	MPC.P15PFS.BIT.PSEL = 4;
 	MPC.P16PFS.BIT.PSEL = 4;
 	MPC.P17PFS.BIT.PSEL = 4;
-	TPU1.TMDR.BIT.MD = 4;
-	TPU2.TMDR.BIT.MD = 4;
-	TPUA.TSTR.BIT.CST1 = 1; //TPU1を動作停止
-	TPUA.TSTR.BIT.CST2 = 1; //TPU2を動作停止
+	TPU1.TMDR.BIT.MD = 4;//位相係数モード1
+	TPU2.TMDR.BIT.MD = 4;//位相係数モード1
+	TPUA.TSTR.BIT.CST1 = 1; //TPU1を動作開始(L)
+	TPUA.TSTR.BIT.CST2 = 1; //TPU2を動作開始(R)
 
 //	MTU.TSTR.BIT.CST1 = 0; //MTU1を動作停止
 //	MTU.TSTR.BIT.CST2 = 0; //MTU2を動作停止

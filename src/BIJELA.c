@@ -52,15 +52,43 @@ void main() {
 	while (1) {
 		AD_all();
 		Battery_Check();
+		SENLED_L = 1;
+		SENLED_LF = 1;
+		SENLED_R = 1;
+		SENLED_RF = 1;
+
 		while (1) {
 			gyro_flag = 1;
 
-			Moter_Stby=1;
-			Moter_L_IN1=0;
-			Moter_L_IN2=1;
-			Moter_R_IN1=1;
-			Moter_R_IN2=0;
+			if (distance_L.now >= 1000000 || distance_L.now <= -1000000) {
+				distance_L.now = 0;
+			}
+			if (distance_R.now >= 1000000 || distance_R.now <= -1000000) {
+				distance_R.now = 0;
+			}
 
+//			myprintf("speed_L:%8.2f,speed_R;%8.2f,distance_L:%8.2f,distance_R:%8.2f\n",
+//				speed_L.now, speed_R.now, distance_L.now, distance_R.now);
+//			myprintf("encoder_r:%8d,encoder_l:%8d\n",TPU1.TCNT,TPU2.TCNT);
+
+//			wait_time(100);
+
+//			mario_start(140, 1);
+//			nchancha(200, 2);
+//			for (i = 0; i < 1; i++) {
+//				mizutamari(200, 2);
+//			}
+//			seven_ATM(240,1);
+//			mario_start(140,1);
+			victory_fanfare(100, 1);
+
+			wait_time(1000);
+
+//			Moter_Stby=1;
+//			Moter_L_IN1=0;
+//			Moter_L_IN2=1;
+//			Moter_R_IN1=1;
+//			Moter_R_IN2=0;
 
 //			myprintf("%f\n", angle*360.0/(2*3.14));
 //			HPB(120,1);
@@ -120,11 +148,8 @@ void main() {
 //		gyro_r = communicate_gyro(0x80,0x0);
 //		myprintf("WHO AM I %d\n", gyro_r);
 
-//		speaker_on(A_4,8.0,120);
-//
-//		KirbyDance(180,1);
-//		UI_LED1=1;
-//		wait_time(1000);
+
+
 	}
 }
 

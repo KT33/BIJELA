@@ -10,6 +10,7 @@
 #include "variable.h"
 
 void init_AD(void) {
+	PORTE.PMR.BIT.B0 = 1;
 	SYSTEM.PRCR.WORD = 0xA502; //低消費電力モードレジスタのプロテクト解除
 	SYSTEM.MSTPCRA.BIT.MSTPA17 = 0; //S12ADの低消費電力モード解除
 	SYSTEM.PRCR.WORD = 0xA500; //低消費電力モードレジスタのプロテクト
@@ -29,7 +30,7 @@ void init_AD(void) {
 	S12AD.ADCSR.BIT.CKS = 3; //PCLKの1分周に設定
 	S12AD.ADCSR.BIT.ADCS = 0; //シングルスキャンモード
 
-	S12AD.ADANS0.WORD = 0x2115; //RF,
+	S12AD.ADANS0.WORD = 0x2115; //AD変換5つを設定
 	S12AD.ADADS0.WORD = 0x0; //AN000~AN015を非加算モード
 
 	S12AD.ADANS1.BIT.ANS1 = 0; //AN016~An021は対象外に
@@ -52,5 +53,9 @@ void AD_all(void) {
 	Batt = S12AD.ADDR0;
 	Battery=(float)Batt*0.00248648;
 
+	SEN_R.now=S12AD.ADDR13;
+	SEN_LF.now=S12AD.ADDR2;
+	SEN_RF.now=S12AD.ADDR8;
+	SEN_L.now=S12AD.ADDR4;
 }
 

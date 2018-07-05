@@ -8,18 +8,25 @@
 #ifndef SPEAKER_H_
 #define SPEAKER_H_
 
+#define F_2 87
+#define G_2 98
+#define A_2 110
+#define B_b_2 117
+#define C_3 131
+#define F_3 175
+#define G_3 196
 #define A_3 220
 #define B_b_3 233
 #define B_3 247
-#define C_3 262
-#define D_b_3 277
-#define D_3 294
-#define E_b_3 311
-#define E_3 330
-#define F_3 394
-#define G_b_3 370
-#define G_3 392
-#define A_b_3 415
+#define C_4 262
+#define D_b_4 277
+#define D_4 294
+#define E_b_4 311
+#define E_4 330
+#define F_4 349
+#define G_b_4 370
+#define G_4 392
+#define A_b_4 415
 #define A_4 440
 #define B_b_4 466
 #define B_4 494
@@ -66,5 +73,12 @@
 void init_speaker(void);
 void speaker_on(int,float,int);
 void KirbyDance(int, int);
+void cde(int, int);
+void hikakin(int,float);
+void victory_fanfare(int,int);
+void mario_start(int,int);
+void seven_ATM(int,int);
+void mizutamari(int,int);
+void nchancha(int,int);
 
 #endif /* SPEAKER_H_ */
