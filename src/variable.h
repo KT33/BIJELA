@@ -10,7 +10,7 @@
 
 #include "stdint.h"
 
-#define speed_search　450
+#define speed_search 450
 #define speed_max 2000
 
 
