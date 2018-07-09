@@ -10,8 +10,7 @@
 
 #include "stdint.h"
 
-#define speed_search 450
-#define speed_max 2000
+#define LogMax
 
 
 typedef struct {
@@ -21,10 +20,37 @@ typedef struct {
 } sensor_t;
 
 typedef struct{
-	float now;//今の値
-	float ideal;//目標速
-	float error;//速度偏差
-} speed_t;
+	float accel;//加速度・各速度
+	float velocity;//速度・各速度
+	float dis;//距離・角度
+} run_t;
+
+typedef struct{
+	float Kp;
+	float Ki;
+	float Kd;
+} gain_t;
+
+typedef struct{
+	float i_distance;
+	float accel;
+	float min_vel;
+	float max_vel;
+	float strat_vel;
+	float end_vel;
+	float triangle;
+	int8_t triangle_flag;
+	float acceldistance;
+	float deacceldistance;
+	int8_t run_flag;
+} trapezoid_t;
+
+typedef struct{
+	float vel_search;
+	float vel_max;
+	float vel_min;
+	float accel;
+} normal_para_t;
 
 
 extern volatile int g_count;
@@ -35,14 +61,18 @@ extern volatile float angle;
 extern uint8_t  gyro_r;
 extern int16_t encoder_L,encoder_R;
 extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF;
-#define LogMax 2000
-extern float log[LogMax];
+//#define LogMax 200
+extern volatile float log[LogMax];
 extern uint16_t log_index;
-extern speed_t speed_R,speed_L;
-extern speed_t distance_R,distance_L;
-extern float diameter;//タイヤ径
-extern float tread;//トレッド幅
-extern float accel;
+extern volatile float diameter;//タイヤ径
+extern volatile float tread;//トレッド幅
+extern volatile int speacer_i;
+extern volatile float triangle;
+extern volatile uint8_t run_flag;
+
+extern run_t translation_ideal,rotation_ideal;
+extern trapezoid_t translation_parameter,rotation_parameter;
+extern normal_para_t nomal_run;
 
 
 
@@ -61,10 +91,10 @@ extern float accel;
 #define SENLED_R PORTB.PODR.BIT.B7
 #define SENLED_RF PORTC.PODR.BIT.B2
 #define FAN PORT4.PODR.BIT.B6
-#define Moter_L_IN1 PORTA.PODR.BIT.B3
-#define Moter_L_IN2 PORTA.PODR.BIT.B4
+#define Moter_L_BACK PORTA.PODR.BIT.B3
+#define Moter_L_FRONT PORTA.PODR.BIT.B4
 #define Moter_Stby PORTB.PODR.BIT.B0
-#define Moter_R_IN1 PORTB.PODR.BIT.B5
-#define Moter_R_IN2 PORTB.PODR.BIT.B6
+#define Moter_R_FRONT PORTB.PODR.BIT.B5
+#define Moter_R_BACK PORTB.PODR.BIT.B6
 
 #endif /* VARIABLE_H_ */

@@ -8,6 +8,10 @@
 #ifndef SPEAKER_H_
 #define SPEAKER_H_
 
+enum Music {
+	SEVEN_ATM, MARIO_START, NCHANVHA, MIZUTAMRI, HIKAKIN, VICTORY_FANFARE
+};
+
 #define F_2 87
 #define G_2 98
 #define A_2 110
@@ -69,16 +73,15 @@
 #define C_8 4186
 #define REST 0
 
-
 void init_speaker(void);
-void speaker_on(int,float,int);
+void speaker_on(int, float, int);
 void KirbyDance(int, int);
 void cde(int, int);
-void hikakin(int,float);
-void victory_fanfare(int,int);
-void mario_start(int,int);
-void seven_ATM(int,int);
-void mizutamari(int,int);
-void nchancha(int,int);
+void hikakin(int, float);
+void victory_fanfare(int, int);
+void mario_start(int, int);
+void seven_ATM(int, int);
+void mizutamari(int, int);
+void nchancha(int, int);
 
 #endif /* SPEAKER_H_ */

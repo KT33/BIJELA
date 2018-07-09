@@ -28,14 +28,15 @@
 #include "AD.h"
 #include "Clock.h"
 #include "SPI.h"
-#include "MTU.h"
 #include "speaker.h"
 #include "Moter.h"
+#include "run.h"
 
 //PCKBは50Mhz
 
 void main() {
-	int i;
+	volatile int i;
+	enum Music music;
 
 	Clock_Settting();
 	LED_Setting();
@@ -47,6 +48,8 @@ void main() {
 	init_gyro();
 	init_Encoder();
 	init_Moter_PWM();
+
+//	seven_ATM(240, 1);
 
 	FAN = 1;
 	while (1) {
@@ -60,12 +63,27 @@ void main() {
 		while (1) {
 			gyro_flag = 1;
 
-			if (distance_L.now >= 1000000 || distance_L.now <= -1000000) {
-				distance_L.now = 0;
+			set_straight(1000, nomal_run.accel, nomal_run.vel_search,
+					nomal_run.vel_min, nomal_run.vel_min);
+			while (1) {
+				myprintf("%6.2f,%6.2f,%6.2f\n", translation_ideal.accel,
+						translation_ideal.velocity, translation_ideal.dis);
 			}
-			if (distance_R.now >= 1000000 || distance_R.now <= -1000000) {
-				distance_R.now = 0;
-			}
+
+			wait_time(500);
+
+//			if (distance_L.now >= 1000000 || distance_L.now <= -1000000) {
+//				distance_L.now = 0;
+//			}
+//			if (distance_R.now >= 1000000 || distance_R.now <= -1000000) {
+//				distance_R.now = 0;
+//			}
+
+//			Moter_Stby = 1;
+//			Moter_L_BACK = 1;
+//			Moter_L_FRONT = 0;
+//			Moter_R_FRONT = 0;
+//			Moter_R_BACK = 1;
 
 //			myprintf("speed_L:%8.2f,speed_R;%8.2f,distance_L:%8.2f,distance_R:%8.2f\n",
 //				speed_L.now, speed_R.now, distance_L.now, distance_R.now);
@@ -80,9 +98,9 @@ void main() {
 //			}
 //			seven_ATM(240,1);
 //			mario_start(140,1);
-			victory_fanfare(100, 1);
-
-			wait_time(1000);
+//			victory_fanfare(100, 1);
+//
+//			wait_time(1000);
 
 //			Moter_Stby=1;
 //			Moter_L_IN1=0;
@@ -147,8 +165,6 @@ void main() {
 //		test_gyro();
 //		gyro_r = communicate_gyro(0x80,0x0);
 //		myprintf("WHO AM I %d\n", gyro_r);
-
-
 
 	}
 }

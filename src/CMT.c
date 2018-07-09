@@ -19,16 +19,13 @@ void interrupt_cmt0(void) {
 	}
 	encoder_L = TPU1.TCNT; //L
 	encoder_R = TPU2.TCNT; //R
-	TPU1.TCNT=0;
-	TPU2.TCNT=0;
+	TPU1.TCNT = 0;
+	TPU2.TCNT = 0;
 
-	speed_L.now=1*(float)encoder_L*diameter*3.14159265359/4096/4/40*11/0.001;
-	speed_R.now=-1*(float)encoder_R*diameter*3.14159265359/4096/4/40*11/0.001;
-
-	distance_L.now+=speed_L.now*0.001;
-	distance_R.now+=speed_R.now*0.001;
-
-
+	if(translation_parameter.run_flag==1){
+		control_accel(&translation_ideal,&translation_parameter);
+		integral(&translation_ideal);
+	}
 
 }
 

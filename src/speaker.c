@@ -35,6 +35,8 @@ void init_speaker(void) {
 	TPUA.TSTR.BIT.CST0 = 0; //TPU0を停止
 }
 
+
+
 void speaker_on(int frq, float beat, int bpm) {
 	if (frq != REST) {
 		TPU0.TGRA = (int) (12500000 / frq) - 1;
@@ -47,7 +49,7 @@ void speaker_on(int frq, float beat, int bpm) {
 
 }
 
-void nchancha(int bpm, int pitch) {
+void nchancha(int bpm, int pitch) {//200,2
 	speaker_on(pitch * F_3, 6.000000, bpm);
 	speaker_on(pitch * G_3, 6.000000, bpm);
 	speaker_on(pitch * A_3, 6.000000, bpm);
@@ -70,7 +72,7 @@ void nchancha(int bpm, int pitch) {
 	speaker_on(pitch * A_3, 6.000000, bpm);
 }
 
-void mizutamari(int bpm, int pitch) {
+void mizutamari(int bpm, int pitch) {//200,2
 	speaker_on(pitch * D_4, 6.000000, bpm);
 	speaker_on(pitch * E_b_4, 6.000000, bpm);
 	speaker_on(pitch * F_4, 6.000000, bpm);
@@ -172,7 +174,7 @@ void mizutamari(int bpm, int pitch) {
 
 }
 
-void seven_ATM(int bpm, int pitch) {
+void seven_ATM(int bpm, int pitch) {//240,1
 	speaker_on(pitch * E_4, 6.000000, bpm);
 	speaker_on(pitch * A_4, 6.000000, bpm);
 	speaker_on(pitch * D_b_5, 6.000000, bpm);
@@ -194,7 +196,7 @@ void seven_ATM(int bpm, int pitch) {
 	speaker_on(pitch * REST, 6.000000, bpm);
 }
 
-void mario_start(int bpm, int pitch) {
+void mario_start(int bpm, int pitch) {//140,1
 	speaker_on(pitch * F_5, 18.000000, bpm);
 	speaker_on(pitch * REST, 18.000000, bpm);
 	speaker_on(pitch * B_b_4, 18.000000, bpm);
@@ -294,7 +296,7 @@ void KirbyDance(int bpm, int pitch) {
 	speaker_on(pitch * C_6, 4.000000, bpm);
 }
 
-void HPB(int bpm, int pitch) {
+void HPB(int bpm, int pitch) {//120,1
 	speaker_on(pitch * G_5, 9.000000, bpm);
 	speaker_on(pitch * G_5, 18.000000, bpm);
 	speaker_on(pitch * A_5, 6.000000, bpm);
