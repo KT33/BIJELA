@@ -17,8 +17,15 @@ void wait_time(int ms) {
 	}
 }
 
+void log_start(void){
+	log_counter=0;
+	log_index=0;
+	log_how_often=5;
+	log_flag=1;
+}
+
 void Battery_Check(void) {
-	if (Battery < 7.64) {
+	if (Battery < 7.7) {
 		while (1) {
 			UI_LED1 = 1;
 			UI_LED2 = 0;
@@ -36,6 +43,7 @@ void Battery_Check(void) {
 			RIGHTFRONT = 0;
 			LEFTFRONT = 1;
 			wait_time(500);
+		//	myprintf("%6.2f\n",Battery);
 		}
 	}
 }

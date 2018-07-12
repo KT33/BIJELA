@@ -10,7 +10,7 @@
 
 #include "stdint.h"
 
-#define LogMax
+#define LogMax 2000
 
 
 typedef struct {
@@ -63,16 +63,18 @@ extern int16_t encoder_L,encoder_R;
 extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF;
 //#define LogMax 200
 extern volatile float log[LogMax];
+extern int8_t log_flag,log_counter,log_how_often;
 extern uint16_t log_index;
 extern volatile float diameter;//タイヤ径
 extern volatile float tread;//トレッド幅
 extern volatile int speacer_i;
 extern volatile float triangle;
-extern volatile uint8_t run_flag;
+//extern volatile uint8_t run_flag;
 
 extern run_t translation_ideal,rotation_ideal;
 extern trapezoid_t translation_parameter,rotation_parameter;
 extern normal_para_t nomal_run;
+extern run_t *pp;
 
 
 
@@ -81,7 +83,7 @@ extern normal_para_t nomal_run;
 #define UI_LED3 PORT5.PODR.BIT.B5
 #define RIGHTWING PORTC.PODR.BIT.B5
 #define LEFTEING PORT0.PODR.BIT.B5
-#define LEFTFRONT PORTE.PODR.BIT.B0
+#define LEFTFRONT PORTA.PODR.BIT.B0
 #define CENTERFRONT PORTA.PODR.BIT.B6
 #define RIGHTFRONT PORTC.PODR.BIT.B3
 #define SWITCH PORT3.PIDR.BIT.B1

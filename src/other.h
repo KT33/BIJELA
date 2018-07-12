@@ -8,6 +8,8 @@
 #ifndef OTHER_H_
 #define OTHER_H_
 
+
+void log_start(void);
 void Battery_Check(void);
 void wait_time(int);
 void chattering(void);

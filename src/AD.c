@@ -51,7 +51,7 @@ void AD_all(void) {
 	}
 
 	Batt = S12AD.ADDR0;
-	Battery=(float)Batt*0.00248648;
+	Battery=(float)Batt*0.00248648;//(9.97+20.8)/9.97*3.3/4096
 
 	SEN_R.now=S12AD.ADDR13;
 	SEN_LF.now=S12AD.ADDR2;

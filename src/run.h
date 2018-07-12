@@ -21,4 +21,6 @@ void control_accel(run_t *ideal,trapezoid_t *trapezoid);
 
 void integral(run_t *ideal);
 
+void wait_straight(void);
+
 #endif /* RUN_H_ */

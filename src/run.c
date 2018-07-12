@@ -13,10 +13,25 @@
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 		float end_vel) {
-	trapezoid_preparation(&translation_parameter, i_distance,accel,
-			max_vel,strat_vel, end_vel);
+	trapezoid_preparation(&translation_parameter, i_distance, accel, max_vel,
+			strat_vel, end_vel);
 
-	translation_ideal.velocity=translation_parameter.strat_vel;
+	translation_ideal.velocity = translation_parameter.strat_vel;
+	translation_parameter.run_flag = 1;
+	pp = &translation_ideal;
+	log_start();
+
+}
+
+void wait_straight(void) {
+	volatile int i;
+	while (translation_parameter.run_flag == 1) {
+		i++;
+	}
+
+	translation_ideal.accel = 0;
+	translation_ideal.dis = 0;
+	translation_ideal.velocity = 0;
 
 }
 
@@ -45,12 +60,11 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 		trapezoid->deacceldistance = 0.0;
 	}
 
-	trapezoid->run_flag = 1;
 }
 
 void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
 	if (ideal->dis < trapezoid->deacceldistance) {
-		UI_LED1=1;
+		UI_LED1 = 1;
 		if (ideal->velocity < trapezoid->max_vel) {
 			ideal->accel = trapezoid->accel;
 		} else {
@@ -60,21 +74,22 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
 
 	} else if (ideal->dis
 			< (trapezoid->i_distance - trapezoid->deacceldistance)) {
-		UI_LED2=1;
+		UI_LED2 = 1;
 		ideal->accel = 0;
 
 	} else if (ideal->dis < trapezoid->i_distance) {
-		UI_LED3=1;
-		if (ideal->velocity > trapezoid->min_vel) {
+		UI_LED3 = 1;
+		if (ideal->velocity > trapezoid->end_vel) {
 			ideal->accel = -trapezoid->accel;
 		} else {
-			ideal->velocity = trapezoid->min_vel;
+			ideal->velocity = trapezoid->end_vel;
 			ideal->accel = 0;
 		}
+	} else {
+		trapezoid->run_flag = 0;
+		RIGHTWING = 1;
 	}
-//	UI_LED1=0;
-//	UI_LED2=0;
-//	UI_LED3=0;
+
 }
 
 void integral(run_t *ideal) {

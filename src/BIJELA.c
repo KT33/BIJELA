@@ -54,23 +54,38 @@ void main() {
 	FAN = 1;
 	while (1) {
 		AD_all();
-		Battery_Check();
+		//	Battery_Check();
 		SENLED_L = 1;
 		SENLED_LF = 1;
 		SENLED_R = 1;
 		SENLED_RF = 1;
 
-		while (1) {
-			gyro_flag = 1;
+		//while (1) {
+		gyro_flag = 1;
 
-			set_straight(1000, nomal_run.accel, nomal_run.vel_search,
-					nomal_run.vel_min, nomal_run.vel_min);
-			while (1) {
-				myprintf("%6.2f,%6.2f,%6.2f\n", translation_ideal.accel,
-						translation_ideal.velocity, translation_ideal.dis);
-			}
+		LEFTFRONT = 1;
 
-			wait_time(500);
+		set_straight(1000, nomal_run.accel, nomal_run.vel_search,
+				nomal_run.vel_min, nomal_run.vel_min);
+		while (translation_parameter.run_flag == 1) {
+			LEFTEING = 1;
+		}
+		RIGHTWING = 1;
+		translation_ideal.accel = 0;
+		translation_ideal.dis = 0;
+		translation_ideal.velocity = 0;
+
+//		wait_straight();
+
+		for (i = 0; i < LogMax; i++) {
+			myprintf("%f\n", log[i]);
+		}
+		break;
+
+		//			while (1) {
+//				myprintf("%6.2f,%6.2f,%6.2f\n", translation_ideal.accel,
+//						translation_ideal.velocity, translation_ideal.dis);
+//			}
 
 //			if (distance_L.now >= 1000000 || distance_L.now <= -1000000) {
 //				distance_L.now = 0;
@@ -160,7 +175,6 @@ void main() {
 //				LEFTEING=0;
 //
 //			}
-		}
 
 //		test_gyro();
 //		gyro_r = communicate_gyro(0x80,0x0);

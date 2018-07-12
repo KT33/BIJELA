@@ -22,9 +22,24 @@ void interrupt_cmt0(void) {
 	TPU1.TCNT = 0;
 	TPU2.TCNT = 0;
 
-	if(translation_parameter.run_flag==1){
-		control_accel(&translation_ideal,&translation_parameter);
+	if (translation_parameter.run_flag == 1) {
+		control_accel(&translation_ideal, &translation_parameter);
 		integral(&translation_ideal);
+	}
+
+	if (log_flag == 1) {
+		log_counter++;
+
+		if (log_counter == log_how_often) {
+			log[log_index] = translation_ideal.velocity;
+			log_index++;
+			log_counter = 0;
+			if (log_index == LogMax-1) {
+				log_flag = 0;
+				log_index = 0;
+			}
+		}
+
 	}
 
 }
