@@ -34,15 +34,6 @@ void go_mode(uint8_t mode) {
 	}
 }
 
-void led_reset(void){
-	ui_led_3bit(0);
-	LEFTEING=0;
-	LEFTFRONT=0;
-	CENTERFRONT=0;
-	RIGHTFRONT=0;
-	RIGHTWING=0;
-}
-
 void ui_led_3bit(uint8_t value) {
 	if (value == 1) {
 		UI_LED1 = 0;
@@ -117,14 +108,14 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 1;
+	log_how_often = 5;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] =left_real.velocity;
+		log[log_index] = left_real.velocity;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {

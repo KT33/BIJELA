@@ -11,21 +11,18 @@
 #include "run.h"
 #include "SPI.h"
 #include "variable.h"
-#include "other.h"
 
 void mode_0(void) {
 	Battery_Check();
-	run_gain.Kp=0.6;
-	run_gain.Ki=0.0;
+
 	wait_time(1000);
-	set_straight(600, nomal_run.accel, 600.0, nomal_run.vel_min,
+	set_straight(180*2, nomal_run.accel, 600.0, nomal_run.vel_min,
 			nomal_run.vel_min);
 	wait_straight();
 	LEFTFRONT = 1;
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
 	}
-
 }
 
 void mode_1(void) {
@@ -35,16 +32,6 @@ void mode_1(void) {
 		wait_time(300);
 		ui_led_3bit(0);
 		wait_time(300);
-	}
-	run_gain.Kp=0.6;
-	run_gain.Ki=0.1;
-	wait_time(1000);
-	set_straight(600, nomal_run.accel, 600.0, nomal_run.vel_min,
-			nomal_run.vel_min);
-	wait_straight();
-	LEFTFRONT = 1;
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
 	}
 }
 
@@ -56,16 +43,6 @@ void mode_2(void) {
 		ui_led_3bit(0);
 		wait_time(300);
 	}
-	run_gain.Kp=0.6;
-	run_gain.Ki=0.2;
-	wait_time(1000);
-	set_straight(600, nomal_run.accel, 600.0, nomal_run.vel_min,
-			nomal_run.vel_min);
-	wait_straight();
-	LEFTFRONT = 1;
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
-	}
 }
 
 void mode_3(void) {
@@ -76,16 +53,6 @@ void mode_3(void) {
 		ui_led_3bit(0);
 		wait_time(300);
 	}
-	run_gain.Kp=0.6;
-	run_gain.Ki=0.5;
-	wait_time(1000);
-	set_straight(600, nomal_run.accel, 600.0, nomal_run.vel_min,
-			nomal_run.vel_min);
-	wait_straight();
-	LEFTFRONT = 1;
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
-	}
 }
 
 void mode_4(void) {
@@ -95,16 +62,6 @@ void mode_4(void) {
 		wait_time(300);
 		ui_led_3bit(0);
 		wait_time(300);
-	}
-	run_gain.Kp=0.6;
-	run_gain.Ki=0.7;
-	wait_time(1000);
-	set_straight(600, nomal_run.accel, 600.0, nomal_run.vel_min,
-			nomal_run.vel_min);
-	wait_straight();
-	LEFTFRONT = 1;
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
 	}
 
 }

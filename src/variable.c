@@ -29,7 +29,7 @@ int8_t log_flag=0,log_counter=0,log_how_often=0;
 uint16_t log_index=0;
 run_t left_real,right_real;
 duty_t duty={0,0};
-gain_t run_gain={0.6,0.4,0.0};//p,i,d
+gain_t run_gain={0.6,0.1,0.0};//p,i,d
 volatile float log[LogMax];
 
 volatile int speacer_i;
@@ -46,6 +46,5 @@ volatile float mode_select_dis=0;
 
 deviation_t run_right_deviation={0.0,0.0,0.0};
 deviation_t run_left_deviation={0.0,0.0,0.0};
-
 
 

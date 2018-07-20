@@ -39,13 +39,9 @@ void main() {
 
 	init_ALL();
 	mode_flag = 0;
-	Moter_Stby = 1;
-	Moter_L_BACK = 0;
-	Moter_L_FRONT = 1;
-	Moter_R_FRONT = 1;
-	Moter_R_BACK = 0;
-
-
+	Moter_Stby=1;
+	Moter_L_FRONT=1;
+	Moter_R_FRONT=1;
 	while (1) {
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;
@@ -61,9 +57,8 @@ void main() {
 			chattering();
 			wait_time(200);
 			go_mode(mode_flag);
-			led_reset();
 			wait_time(200);
-			mode_flag = mode_flag & 0x7f;
+			mode_flag=mode_flag&0x7f;
 		}
 	}
 }

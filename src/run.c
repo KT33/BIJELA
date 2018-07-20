@@ -36,8 +36,8 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	right_deviation->now = (int) (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
-	duty->left = left_deviation->now * (gain->Kp)
-			+ left_deviation->cumulative * (gain->Ki);
+	duty->left = left_deviation->now * gain->Kp
+			+ left_deviation->cumulative * gain->Ki;
 	duty->rghit = right_deviation->now * gain->Kp
 			+ right_deviation->cumulative * gain->Ki;
 
@@ -47,12 +47,12 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	if (duty->rghit > 100) {
 		duty->rghit = 100;
 	}
-//	if (duty->left < -100) {
-//		duty->left = 100;
-//	}
-//	if (duty->rghit < -100) {
-//		duty->rghit = -100;
-//	}
+	if (duty->left < 0) {
+		duty->left = 0;
+	}
+	if (duty->rghit < 0) {
+		duty->rghit = 0;
+	}
 }
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
@@ -62,9 +62,8 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 	translation_ideal.velocity = translation_parameter.strat_vel;
 	translation_parameter.run_flag = 1;
-	run_left_deviation.cumulative = 0.0;
-	run_right_deviation.cumulative = 0.0;
 	log_start();
+
 }
 
 void wait_straight(void) {

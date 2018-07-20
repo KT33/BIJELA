@@ -27,6 +27,5 @@ void Clock_Settting(void);
 
 void ui_led_3bit(uint8_t value);
 void go_mode(uint8_t mode);
-void led_reset(void);
 
 #endif /* OTHER_H_ */
