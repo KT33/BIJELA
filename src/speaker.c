@@ -9,6 +9,10 @@
 #include "iodefine.h"
 #include "variable.h"
 #include "other.h"
+#include "stdint.h"
+
+//seven_ATM(240, 1);
+//victory_fanfare(100, 1);
 
 void init_speaker(void) {
 	PORTA.PMR.BIT.B1 = 1; //周辺機能として使用
@@ -35,8 +39,6 @@ void init_speaker(void) {
 	TPUA.TSTR.BIT.CST0 = 0; //TPU0を停止
 }
 
-
-
 void speaker_on(int frq, float beat, int bpm) {
 	if (frq != REST) {
 		TPU0.TGRA = (int) (12500000 / frq) - 1;
@@ -49,7 +51,7 @@ void speaker_on(int frq, float beat, int bpm) {
 
 }
 
-void nchancha(int bpm, int pitch) {//200,2
+void nchancha(int bpm, int pitch) {     //200,2
 	speaker_on(pitch * F_3, 6.000000, bpm);
 	speaker_on(pitch * G_3, 6.000000, bpm);
 	speaker_on(pitch * A_3, 6.000000, bpm);
@@ -72,7 +74,7 @@ void nchancha(int bpm, int pitch) {//200,2
 	speaker_on(pitch * A_3, 6.000000, bpm);
 }
 
-void mizutamari(int bpm, int pitch) {//200,2
+void mizutamari(int bpm, int pitch) {     //200,2
 	speaker_on(pitch * D_4, 6.000000, bpm);
 	speaker_on(pitch * E_b_4, 6.000000, bpm);
 	speaker_on(pitch * F_4, 6.000000, bpm);
@@ -174,7 +176,7 @@ void mizutamari(int bpm, int pitch) {//200,2
 
 }
 
-void seven_ATM(int bpm, int pitch) {//240,1
+void seven_ATM(int bpm, int pitch) {     //240,1
 	speaker_on(pitch * E_4, 6.000000, bpm);
 	speaker_on(pitch * A_4, 6.000000, bpm);
 	speaker_on(pitch * D_b_5, 6.000000, bpm);
@@ -196,7 +198,7 @@ void seven_ATM(int bpm, int pitch) {//240,1
 	speaker_on(pitch * REST, 6.000000, bpm);
 }
 
-void mario_start(int bpm, int pitch) {//140,1
+void mario_start(int bpm, int pitch) {     //140,1
 	speaker_on(pitch * F_5, 18.000000, bpm);
 	speaker_on(pitch * REST, 18.000000, bpm);
 	speaker_on(pitch * B_b_4, 18.000000, bpm);
@@ -296,7 +298,7 @@ void KirbyDance(int bpm, int pitch) {
 	speaker_on(pitch * C_6, 4.000000, bpm);
 }
 
-void HPB(int bpm, int pitch) {//120,1
+void HPB(int bpm, int pitch) {     //120,1
 	speaker_on(pitch * G_5, 9.000000, bpm);
 	speaker_on(pitch * G_5, 18.000000, bpm);
 	speaker_on(pitch * A_5, 6.000000, bpm);
@@ -329,4 +331,31 @@ void HPB(int bpm, int pitch) {//120,1
 	speaker_on(pitch * C_6, 6.000000, bpm);
 	speaker_on(pitch * D_6, 6.000000, bpm);
 	speaker_on(pitch * C_6, 3.000000, bpm);
+}
+
+void mode_select_speaker(uint8_t mode) {
+	if (mode == 1) {
+		speaker_on( C_4,6.0 ,240);
+	}
+	if (mode == 2) {
+		speaker_on(D_4,6.0, 240);
+	}
+	if (mode == 3) {
+		speaker_on(E_4,6.0, 240);
+	}
+	if (mode == 4) {
+		speaker_on(F_4,6.0, 240);
+	}
+	if (mode == 5) {
+		speaker_on(G_4,6.0, 240);
+	}
+	if (mode == 6) {
+		speaker_on(A_4,6.0, 240);
+	}
+	if (mode == 7) {
+		speaker_on(B_4,6.0, 240);
+	}
+	if (mode == 0) {
+		speaker_on(C_5,6.0, 240);
+	}
 }

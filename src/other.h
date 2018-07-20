@@ -8,7 +8,10 @@
 #ifndef OTHER_H_
 #define OTHER_H_
 
+#include "stdint.h"
 
+void init_ALL(void);
+void log_sampling(void);
 void log_start(void);
 void Battery_Check(void);
 void wait_time(int);
@@ -21,5 +24,9 @@ int myprintf(const char *, ...);
 
 void LED_Setting(void);
 void Clock_Settting(void);
+
+void ui_led_3bit(uint8_t value);
+void go_mode(uint8_t mode);
+void led_reset(void);
 
 #endif /* OTHER_H_ */

@@ -1,103 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
-		<cconfiguration id="com.renesas.cdt.rxc.debug.win32.configuration.Id.1818072094">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.renesas.cdt.rxc.debug.win32.configuration.Id.1818072094" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+		<cconfiguration id="com.renesas.cdt.managedbuild.renesas.ccrx.debug.configuration.1753726055">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.renesas.cdt.managedbuild.renesas.ccrx.debug.configuration.1753726055" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="com.renesas.cdt.core.KPITGCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITGASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.CCRXErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITMakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITGLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.renesas.cdt.managedbuild.renesas.core.RenesasCompilerAssemblerErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.renesas.cdt.managedbuild.core.buildRunnerErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
+			<storageModule moduleId="com.renesas.cdt.managedbuild.core.toolchainInfo">
+				<option id="toolchain.id" value="Renesas_RXC"/>
+				<option id="toolchain.version" value="v2.08.00"/>
+			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="BIJELA" buildArtefactType="com.renesas.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.renesas.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf *.sni *.dbg *.lst *.lis *.lpp *.map *.x *.lbp src/*.src src/*.p src/*.pp src/*.mrc *.bls *.libelf *.lbk *.abs *.fsy" description="GDB シミュレータを使用してデバッグする" id="com.renesas.cdt.rxc.debug.win32.configuration.Id.1818072094" name="Debug" parent="com.renesas.cdt.rxc.debug.win32.configuration.Id">
-					<folderInfo id="com.renesas.cdt.rxc.debug.win32.configuration.Id.1818072094." name="/" resourcePath="">
-						<toolChain id="com.renesas.cdt.rxc.debug.win32.toolChain.Id.2025609394" name="Renesas RXC Toolchain" superClass="com.renesas.cdt.rxc.debug.win32.toolChain.Id">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.rxc.debug.win32.targetPlatform.Id.1254004020" isAbstract="false" osList="win32" superClass="com.renesas.cdt.rxc.debug.win32.targetPlatform.Id"/>
-							<builder buildPath="${workspace_loc:/BIJELA}/Debug" id="com.renesas.cdt.rxc.debug.win32.builder.Id.104232095" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="SHC Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.renesas.cdt.rxc.debug.win32.builder.Id"/>
-							<tool id="com.renesas.cdt.rxc.debug.win32.tool.dsp.Id.846014801" name="DSP Assembler" superClass="com.renesas.cdt.rxc.debug.win32.tool.dsp.Id"/>
-							<tool id="com.renesas.cdt.rxc.debug.win32.tool.compiler.Id.1919741043" name="Compiler" superClass="com.renesas.cdt.rxc.debug.win32.tool.compiler.Id">
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.defines.1580390013" name="定義" superClass="com.renesas.cdt.renesas.Compiler.option.defines" valueType="stringList">
+				<configuration artifactExtension="mot" artifactName="BIJELA" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="Debug" id="com.renesas.cdt.managedbuild.renesas.ccrx.debug.configuration.1753726055" name="Debug" parent="com.renesas.cdt.managedbuild.renesas.ccrx.debug.configuration">
+					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.debug.configuration.1753726055." name="/" resourcePath="">
+						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.debug.toolChain.1421979872" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.debug.toolChain">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform.1686522672" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
+							<builder buildPath="${workspace_loc:/BIJELA}/Debug" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.builder.1856744012" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CCRX Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.builder"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.457394133" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.1579827584" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceCommand.1737883456" name="Device Command" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceCommand" value="R5F5631P" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceName.716521528" name="Device Name" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceName" value="R5F5631PDxFM" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa.1988841564" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa" value="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa.rxv1" valueType="enumerated"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1616194231" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.338220441" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.yes" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define.725588622" name="プリプロセッサ・マクロの定義" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__RX"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.compilerDefinedSymbols.881968662" name="Compiler Defined Symbols" superClass="com.renesas.cdt.renesas.Compiler.option.compilerDefinedSymbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="__STDC_VERSION__=199409L"/>
-									<listOptionValue builtIn="false" value="__RXV1=1"/>
-									<listOptionValue builtIn="false" value="__LIT=1"/>
-									<listOptionValue builtIn="false" value="__DBL4=1"/>
-									<listOptionValue builtIn="false" value="__UCHAR=1"/>
-									<listOptionValue builtIn="false" value="__UBIT=1"/>
-									<listOptionValue builtIn="false" value="__RON=1"/>
-									<listOptionValue builtIn="false" value="__DOFF=1"/>
-									<listOptionValue builtIn="false" value="__BITRIGHT=1"/>
-									<listOptionValue builtIn="false" value="__INTRINSIC_LIB=1"/>
-									<listOptionValue builtIn="false" value="__FPU=1"/>
-									<listOptionValue builtIn="false" value="__RX600=1"/>
-									<listOptionValue builtIn="false" value="__RENESAS__=1"/>
-									<listOptionValue builtIn="false" value="__RENESAS_VERSION__=0x02080000"/>
-									<listOptionValue builtIn="false" value="__RX=1"/>
-									<listOptionValue builtIn="false" value="__CCRX__=1"/>
-								</option>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.cpuType.477989565" name="CPU 型名" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.cpuType" value="com.renesas.cdt.rxc.Debug.Compiler.option.cpuType.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.endian.179307461" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.endian" value="com.renesas.cdt.rxc.Debug.Compiler.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.roundTo.1749609" name="丸めモード" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.roundTo" value="com.renesas.cdt.rxc.Debug.Compiler.option.roundTo.nearest" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.precisionDouble.357034594" name="double 型の精度" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.precisionDouble" value="com.renesas.cdt.rxc.Debug.Compiler.option.precisionDouble.single" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.signChar.899302645" name="Char 型 の符号" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.signChar" value="com.renesas.cdt.rxc.Debug.Compiler.option.signChar.unsigned" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.signBitField.1415524205" name="ビットフィールド型の符号" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.signBitField" value="com.renesas.cdt.rxc.Debug.Compiler.option.signBitField.unsigned" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.allocLowerBit.1420813051" name="ビットフィールド型の並び順" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.allocLowerBit" value="com.renesas.cdt.rxc.Debug.Compiler.option.allocLowerBit.lowerBit" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.widthDivergence.231496882" name="関数の分岐幅" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.widthDivergence" value="com.renesas.cdt.rxc.Debug.Compiler.option.widthDivergence.24bit" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.patchCode.1889991124" name="パッチ・コード生成" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.patchCode" value="com.renesas.cdt.rxc.Debug.Compiler.option.patchCode.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.registerFastInterrupt.130207075" name="高速割込みレジスター" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.registerFastInterrupt" value="com.renesas.cdt.rxc.Debug.Compiler.option.registerFastInterrupt.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.ROM.1978619743" name="ROM" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.ROM" value="com.renesas.cdt.rxc.Debug.Compiler.option.ROM.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.RAM.1768203799" name="RAM" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.RAM" value="com.renesas.cdt.rxc.Debug.Compiler.option.RAM.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.addressRegister.1201873428" name="アドレス・レジスター" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.addressRegister" value="com.renesas.cdt.rxc.Debug.Compiler.option.addressRegister.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.renesas.Compiler.option.device.448227463" name="Device" superClass="com.renesas.cdt.renesas.Compiler.option.device" value="R5F5631P" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Compiler.option.deviceShortName.1887431264" name="DeviceShortName" superClass="com.renesas.cdt.renesas.Compiler.option.deviceShortName" value="R5F5631PDxFM" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.incFileDirectories.552753061" name="インクルード・ファイル・ディレクトリー" superClass="com.renesas.cdt.renesas.Compiler.option.incFileDirectories" valueType="includePath">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include.1360060717" name="インクルード・ファイルを検索するフォルダ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${TCINSTALL}/include&quot;"/>
 								</option>
-								<option id="com.renesas.cdt.renesas.Compiler.option.CPUSeries.739883822" name="CPU シリーズ" superClass="com.renesas.cdt.renesas.Compiler.option.CPUSeries" value="RX631" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.UserDef.1343889055" name="ユーザー定義オプション" superClass="com.renesas.cdt.renesas.Compiler.option.UserDef" valueType="stringList">
-									<listOptionValue builtIn="false" value="-nologo"/>
-								</option>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.isa.1424378616" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.isa" value="com.renesas.cdt.rxc.Debug.Compiler.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Compiler.option.floatIns.930863679" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.Debug.Compiler.option.floatIns" value="com.renesas.cdt.rxc.Debug.Compiler.option.floatIns.enable" valueType="enumerated"/>
-								<inputType id="%Base.Compiler.Shc.C.Input.Id.171576948" name="C 入力" superClass="%Base.Compiler.Shc.C.Input.Id"/>
-								<inputType id="%Base.Compiler.Shc.C.Input1.Id.1729729669" name="C++ 入力" superClass="%Base.Compiler.Shc.C.Input1.Id"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.371362090" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.561971840" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
 							</tool>
-							<tool id="com.renesas.cdt.rxc.debug.win32.tool.assembler.Id.1387822249" name="Assembler" superClass="com.renesas.cdt.rxc.debug.win32.tool.assembler.Id">
-								<option id="com.renesas.cdt.rxc.Debug.Assembler.option.cpu.939871480" name="CPU" superClass="com.renesas.cdt.rxc.Debug.Assembler.option.cpu" value="com.renesas.cdt.rxc.Debug.Assembler.option.cpu.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Assembler.option.endian.571142824" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.Debug.Assembler.option.endian" value="com.renesas.cdt.rxc.Debug.Assembler.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Assembler.option.address.472134511" name="アドレス" superClass="com.renesas.cdt.rxc.Debug.Assembler.option.address" value="00000000" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Assembler.option.userDefine.6249533" name="ユーザー定義オプション" superClass="com.renesas.cdt.renesas.Assembler.option.userDefine" valueType="stringList">
-									<listOptionValue builtIn="false" value="-nologo"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1142722470" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.option.userAfter.333436817" name="追加するオプション（すべての指定オプションの後ろに追加）&#10;" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.option.userAfter" valueType="stringList">
 									<listOptionValue builtIn="false" value=""/>
 									<listOptionValue builtIn="false" value=""/>
 								</option>
-								<option id="com.renesas.cdt.rxc.Debug.Assembler.option.isa.121805900" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.Debug.Assembler.option.isa" value="com.renesas.cdt.rxc.Debug.Assembler.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.Assembler.option.fpu.237381610" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.Debug.Assembler.option.fpu" value="com.renesas.cdt.rxc.Debug.Assembler.option.fpu.enable" valueType="enumerated"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Assembler.option.assemblerDefinedSymbols.216241265" name="Assembler Defined Symbols" superClass="com.renesas.cdt.renesas.Assembler.option.assemblerDefinedSymbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="__RX600=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__LITTLE=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RXV1=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RENESAS_VERSION__=.DEFINE 002080000H"/>
-									<listOptionValue builtIn="false" value="__ASRX__=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RENESAS__=.DEFINE 1"/>
-								</option>
-								<inputType id="%Base.Assembler.shcInputType.Id.1823733177" name="アセンブラー入力タイプ" superClass="%Base.Assembler.shcInputType.Id"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.1958863379" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
 							</tool>
-							<tool id="com.renesas.cdt.rxc.debug.win32.tool.linker.Id.1749094196" name="Linker" superClass="com.renesas.cdt.rxc.debug.win32.tool.linker.Id">
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Linker.option.rom.544363857" name="ROMからRAMへマップするセクション" superClass="com.renesas.cdt.renesas.Linker.option.rom" valueType="stringList">
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.842911810" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.nologo.60533381" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.nologo" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.rom.313673428" name="ROMからRAMへマップするセクション" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.rom" valueType="stringList">
 									<listOptionValue builtIn="false" value="D=R"/>
 									<listOptionValue builtIn="false" value="D_1=R_1"/>
 									<listOptionValue builtIn="false" value="D_2=R_2"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Linker.option.linkOrderList.1359187816" name="" superClass="com.renesas.cdt.renesas.Linker.option.linkOrderList" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList.74736235" name="(リンク順序のリスト)" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;.\src\BIJELA.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\dbsct.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\interrupt_handlers.obj&quot;"/>
@@ -106,23 +62,20 @@
 									<listOptionValue builtIn="false" value="&quot;.\src\vector_table.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\BIJELA.lib&quot;"/>
 								</option>
-								<option id="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption.604399109" name="出力ファイル・タイプ:" superClass="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption" value="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption.stypeViaAbsolute" valueType="enumerated"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection.192677168" name="セクション" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection" value="SU,SI,B_1,R_1,B_2,R_2,B,R/04,PResetPRG,C_1,C_2,C,C$*,D*,W*,L,PIntPRG,P/0FFF80000,FIXEDVECT/0FFFFFF80" valueType="string"/>
 							</tool>
-							<tool id="%com.renesas.cdt.rxc.debug.win32.tool.libgen.Id.2000704030" name="Standard Library" superClass="%com.renesas.cdt.rxc.debug.win32.tool.libgen.Id">
-								<option id="com.renesas.cdt.rxc.Debug.StandardLibrary.option.cpu.633086564" name="CPU" superClass="com.renesas.cdt.rxc.Debug.StandardLibrary.option.cpu" value="com.renesas.cdt.rxc.Debug.StandardLibrary.option.cpu.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.StandardLibrary.option.endian.1933855824" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.Debug.StandardLibrary.option.endian" value="com.renesas.cdt.rxc.Debug.StandardLibrary.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.StandardLibrary.option.address.1297130316" name="アドレス" superClass="com.renesas.cdt.rxc.Debug.StandardLibrary.option.address" value="00000000" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration.180377183" name="ライブラリー構成" superClass="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration" value="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration.c89" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.StandardLibrary.option.isa.896254799" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.Debug.StandardLibrary.option.isa" value="com.renesas.cdt.rxc.Debug.StandardLibrary.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.Debug.StandardLibrary.option.floatIns.1943255715" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.Debug.StandardLibrary.option.floatIns" value="com.renesas.cdt.rxc.Debug.StandardLibrary.option.floatIns.enable" valueType="enumerated"/>
-								<option id="com.renesas.cdt.renesas.StandardLibrary.option.mode.1546441779" name="モード" superClass="com.renesas.cdt.renesas.StandardLibrary.option.mode" value="com.renesas.cdt.renesas.StandardLibrary.option.buildOnlyWhenOptionsChanged" valueType="enumerated"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1780449544" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.headMath.45274762" name="math.h（C89/C99）：数値計算用ライブラリ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.headMath" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.noLogo.1780337162" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.noLogo" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu.1818610823" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu" value="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu.yes" valueType="enumerated"/>
 							</tool>
-							<tool id="com.renesas.cdt.rxc.debug.win32.tool.convertor.Id.609271543" name="Converter" superClass="com.renesas.cdt.rxc.debug.win32.tool.convertor.Id"/>
-							<tool id="com.renesas.cdt.rxc.release.win32.tool.config.Id.1110216390" name="RTOS Configurator" superClass="com.renesas.cdt.rxc.release.win32.tool.config.Id">
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosName.240142844" name="RTOS Name" superClass="com.renesas.cdt.renesas.Configurator.option.rtosName" value="None" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosVersion.738652121" name="RTOS Version" superClass="com.renesas.cdt.renesas.Configurator.option.rtosVersion" value="None" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosPath.2065590193" name="RTOS Path" superClass="com.renesas.cdt.renesas.Configurator.option.rtosPath" value="&quot;&quot;" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.cfgPath.908201134" name="CFG output path" superClass="com.renesas.cdt.renesas.Configurator.option.cfgPath" value="&quot;&quot;" valueType="string"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1828793557" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.noLogo.1333198867" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.noLogo" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.outputHexFile.3932558" name="Output hex file" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.outputHexFile" value="true" valueType="boolean"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.218332867" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosName.1237145604" name="RTOS Name" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosName" value="None" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosVersion.1744833335" name="RTOS Version" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosVersion" value="None" valueType="string"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -133,105 +86,61 @@
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
-		<cconfiguration id="com.renesas.cdt.rxc.hardwaredebug.win32.configuration.Id.497588025">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.renesas.cdt.rxc.hardwaredebug.win32.configuration.Id.497588025" moduleId="org.eclipse.cdt.core.settings" name="HardwareDebug">
+		<cconfiguration id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.1956639141">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.1956639141" moduleId="org.eclipse.cdt.core.settings" name="HardwareDebug">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="com.renesas.cdt.core.KPITGCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITGASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.CCRXErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITMakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="com.renesas.cdt.core.KPITGLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.renesas.cdt.managedbuild.renesas.core.RenesasCompilerAssemblerErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.renesas.cdt.managedbuild.core.buildRunnerErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
+			<storageModule moduleId="com.renesas.cdt.managedbuild.core.toolchainInfo">
+				<option id="toolchain.id" value="Renesas_RXC"/>
+				<option id="toolchain.version" value="v2.08.00"/>
+			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="mot" artifactName="BIJELA" buildArtefactType="com.renesas.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.renesas.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf *.sni *.dbg *.lst *.lis *.lpp *.map *.x *.lbp src/*.src src/*.p src/*.pp src/*.mrc *.bls *.libelf *.lbk *.abs *.fsy" description="Debug on hardware" id="com.renesas.cdt.rxc.hardwaredebug.win32.configuration.Id.497588025" name="HardwareDebug" parent="com.renesas.cdt.rxc.hardwaredebug.win32.configuration.Id">
-					<folderInfo id="com.renesas.cdt.rxc.hardwaredebug.win32.configuration.Id.497588025." name="/" resourcePath="">
-						<toolChain id="com.renesas.cdt.rxc.hardwaredebug.win32.toolChain.Id.1913799801" name="Renesas RXC Toolchain" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.toolChain.Id" targetTool="com.renesas.cdt.rxc.hardwaredebug.win32.tool.convertor.Id">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.rxc.hardwaredebug.win32.targetPlatform.Id.1638297487" isAbstract="false" osList="win32" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.targetPlatform.Id"/>
-							<builder buildPath="${workspace_loc:/BIJELA}/HardwareDebug" id="com.renesas.cdt.rxc.hardwaredebug.win32.builder.Id.964385814" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="SHC Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.builder.Id"/>
-							<tool id="com.renesas.cdt.rxc.hardwaredebug.win32.tool.dsp.Id.734260630" name="DSP Assembler" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.tool.dsp.Id"/>
-							<tool id="com.renesas.cdt.rxc.hardwaredebug.win32.tool.compiler.Id.2094740138" name="Compiler" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.tool.compiler.Id">
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.defines.139059130" name="定義" superClass="com.renesas.cdt.renesas.Compiler.option.defines" valueType="stringList">
+				<configuration artifactExtension="mot" artifactName="BIJELA" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="Debug on hardware" id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.1956639141" name="HardwareDebug" parent="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration">
+					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.1956639141." name="/" resourcePath="">
+						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.2113035553" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform.1620185473" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
+							<builder buildPath="${workspace_loc:/BIJELA}/HardwareDebug" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.builder.471066259" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CCRX Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.builder"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.307668163" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.318183882" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceCommand.954993028" name="Device Command" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceCommand" value="R5F5631P" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceName.1855855419" name="Device Name" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.deviceName" value="R5F5631PDxFM" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa.829414222" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa" value="com.renesas.cdt.managedbuild.renesas.ccrx.common.option.isa.rxv1" valueType="enumerated"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.857441764" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.1079390891" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.yes" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define.1687174742" name="プリプロセッサ・マクロの定義" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__RX"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.compilerDefinedSymbols.475200549" name="Compiler Defined Symbols" superClass="com.renesas.cdt.renesas.Compiler.option.compilerDefinedSymbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="__STDC_VERSION__=199409L"/>
-									<listOptionValue builtIn="false" value="__RXV1=1"/>
-									<listOptionValue builtIn="false" value="__LIT=1"/>
-									<listOptionValue builtIn="false" value="__DBL4=1"/>
-									<listOptionValue builtIn="false" value="__UCHAR=1"/>
-									<listOptionValue builtIn="false" value="__UBIT=1"/>
-									<listOptionValue builtIn="false" value="__RON=1"/>
-									<listOptionValue builtIn="false" value="__DOFF=1"/>
-									<listOptionValue builtIn="false" value="__BITRIGHT=1"/>
-									<listOptionValue builtIn="false" value="__INTRINSIC_LIB=1"/>
-									<listOptionValue builtIn="false" value="__FPU=1"/>
-									<listOptionValue builtIn="false" value="__RX600=1"/>
-									<listOptionValue builtIn="false" value="__RENESAS__=1"/>
-									<listOptionValue builtIn="false" value="__RENESAS_VERSION__=0x02080000"/>
-									<listOptionValue builtIn="false" value="__RX=1"/>
-									<listOptionValue builtIn="false" value="__CCRX__=1"/>
-								</option>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.cpuType.1655654452" name="CPU 型名" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.cpuType" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.cpuType.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.endian.873441659" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.endian" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.roundTo.660472726" name="丸めモード" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.roundTo" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.roundTo.nearest" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.precisionDouble.1510596443" name="double 型の精度" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.precisionDouble" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.precisionDouble.single" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signChar.489752846" name="Char 型 の符号" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signChar" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signChar.unsigned" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signBitField.2008382156" name="ビットフィールド型の符号" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signBitField" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.signBitField.unsigned" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.allocLowerBit.455845863" name="ビットフィールド型の並び順" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.allocLowerBit" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.allocLowerBit.lowerBit" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.widthDivergence.853570307" name="関数の分岐幅" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.widthDivergence" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.widthDivergence.24bit" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.patchCode.693323137" name="パッチ・コード生成" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.patchCode" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.patchCode.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.registerFastInterrupt.151254765" name="高速割込みレジスター" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.registerFastInterrupt" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.registerFastInterrupt.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.ROM.504702747" name="ROM" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.ROM" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.ROM.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.RAM.2118652653" name="RAM" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.RAM" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.RAM.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.addressRegister.778505327" name="アドレス・レジスター" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.addressRegister" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.addressRegister.none" valueType="enumerated"/>
-								<option id="com.renesas.cdt.renesas.Compiler.option.device.1080015053" name="Device" superClass="com.renesas.cdt.renesas.Compiler.option.device" value="R5F5631P" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Compiler.option.deviceShortName.53359195" name="DeviceShortName" superClass="com.renesas.cdt.renesas.Compiler.option.deviceShortName" value="R5F5631PDxFM" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.incFileDirectories.399143090" name="インクルード・ファイル・ディレクトリー" superClass="com.renesas.cdt.renesas.Compiler.option.incFileDirectories" valueType="includePath">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include.189452553" name="インクルード・ファイルを検索するフォルダ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${TCINSTALL}/include&quot;"/>
 								</option>
-								<option id="com.renesas.cdt.renesas.Compiler.option.CPUSeries.409934212" name="CPU シリーズ" superClass="com.renesas.cdt.renesas.Compiler.option.CPUSeries" value="RX631" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Compiler.option.UserDef.1091515193" name="ユーザー定義オプション" superClass="com.renesas.cdt.renesas.Compiler.option.UserDef" valueType="stringList">
-									<listOptionValue builtIn="false" value="-nologo"/>
-								</option>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.isa.777247282" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.isa" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.floatIns.162931504" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.floatIns" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.floatIns.enable" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.optimizeLevel.837440825" name="最適化レベル" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.optimizeLevel" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.optimizeLevel.2" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.interModule.200973398" name="大域最適化を行う" superClass="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.interModule" value="com.renesas.cdt.rxc.HardwareDebug.Compiler.option.interModule.none" valueType="enumerated"/>
-								<inputType id="%Base.Compiler.Shc.C.Input.Id.1254444715" name="C 入力" superClass="%Base.Compiler.Shc.C.Input.Id"/>
-								<inputType id="%Base.Compiler.Shc.C.Input1.Id.1787499798" name="C++ 入力" superClass="%Base.Compiler.Shc.C.Input1.Id"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.30758051" name="最適化レベル" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.level1" valueType="enumerated"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop.1729948243" name="自動ループ展開を行う" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop.default" valueType="enumerated"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.2010866296" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.2086274067" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
 							</tool>
-							<tool id="com.renesas.cdt.rxc.hardwaredebug.win32.tool.assembler.Id.1502502841" name="Assembler" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.tool.assembler.Id">
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.cpu.1841910042" name="CPU" superClass="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.cpu" value="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.cpu.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.endian.676028913" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.endian" value="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.address.197341116" name="アドレス" superClass="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.address" value="00000000" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Assembler.option.userDefine.1801825935" name="ユーザー定義オプション" superClass="com.renesas.cdt.renesas.Assembler.option.userDefine" valueType="stringList">
-									<listOptionValue builtIn="false" value="-nologo"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.388866124" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.option.userAfter.902481503" name="追加するオプション（すべての指定オプションの後ろに追加）&#10;" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.option.userAfter" valueType="stringList">
 									<listOptionValue builtIn="false" value=""/>
 									<listOptionValue builtIn="false" value=""/>
 								</option>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.isa.871405424" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.isa" value="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.fpu.1881254849" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.fpu" value="com.renesas.cdt.rxc.HardwareDebug.Assembler.option.fpu.enable" valueType="enumerated"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Assembler.option.assemblerDefinedSymbols.2075221972" name="Assembler Defined Symbols" superClass="com.renesas.cdt.renesas.Assembler.option.assemblerDefinedSymbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="__RX600=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__LITTLE=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RXV1=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RENESAS_VERSION__=.DEFINE 002080000H"/>
-									<listOptionValue builtIn="false" value="__ASRX__=.DEFINE 1"/>
-									<listOptionValue builtIn="false" value="__RENESAS__=.DEFINE 1"/>
-								</option>
-								<inputType id="%Base.Assembler.shcInputType.Id.1425009542" name="アセンブラー入力タイプ" superClass="%Base.Assembler.shcInputType.Id"/>
+								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.136590554" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
 							</tool>
-							<tool command="rlink" id="com.renesas.cdt.rxc.hardwaredebug.win32.tool.linker.Id.1650847474" name="Linker" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.tool.linker.Id">
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Linker.option.rom.495115227" name="ROMからRAMへマップするセクション" superClass="com.renesas.cdt.renesas.Linker.option.rom" valueType="stringList">
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1841700461" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.nologo.66150139" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.nologo" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.rom.1535073269" name="ROMからRAMへマップするセクション" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.rom" valueType="stringList">
 									<listOptionValue builtIn="false" value="D=R"/>
 									<listOptionValue builtIn="false" value="D_1=R_1"/>
 									<listOptionValue builtIn="false" value="D_2=R_2"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.renesas.Linker.option.linkOrderList.1782947116" name="" superClass="com.renesas.cdt.renesas.Linker.option.linkOrderList" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList.1456501665" name="(リンク順序のリスト)" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;.\src\BIJELA.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\dbsct.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\interrupt_handlers.obj&quot;"/>
@@ -240,24 +149,20 @@
 									<listOptionValue builtIn="false" value="&quot;.\src\vector_table.obj&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\BIJELA.lib&quot;"/>
 								</option>
-								<option id="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption.1557858989" name="出力ファイル・タイプ:" superClass="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption" value="com.renesas.cdt.renesas.Linker.option.typeOfOutputFileOption.stypeViaAbsolute" valueType="enumerated"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.renesas.Linker.option.linkOrder.2037350309" name="%option.name.179" superClass="com.renesas.cdt.renesas.Linker.option.linkOrder" valueType="stringList"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection.260482807" name="セクション" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection" value="SU,SI,B_1,R_1,B_2,R_2,B,R/04,PResetPRG,C_1,C_2,C,C$*,D*,W*,L,PIntPRG,P/0FFF80000,FIXEDVECT/0FFFFFF80" valueType="string"/>
 							</tool>
-							<tool id="%com.renesas.cdt.rxc.hardwaredebug.win32.tool.libgen.Id.1041317340" name="Standard Library" superClass="%com.renesas.cdt.rxc.hardwaredebug.win32.tool.libgen.Id">
-								<option id="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.cpu.610346021" name="CPU" superClass="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.cpu" value="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.cpu.rx600" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.endian.954590186" name="データ・エンディアン" superClass="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.endian" value="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.endian.little" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.address.842157249" name="アドレス" superClass="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.address" value="00000000" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration.787688981" name="ライブラリー構成" superClass="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration" value="com.renesas.cdt.renesas.StandardLibrary.option.libConfiguration.c89" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.isa.1536874937" name="命令セット・アーキテクチャ" superClass="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.isa" value="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.isa.rxv1" valueType="enumerated"/>
-								<option id="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.floatIns.75842341" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.floatIns" value="com.renesas.cdt.rxc.HardwareDebug.StandardLibrary.option.floatIns.enable" valueType="enumerated"/>
-								<option id="com.renesas.cdt.renesas.StandardLibrary.option.mode.1441077085" name="モード" superClass="com.renesas.cdt.renesas.StandardLibrary.option.mode" value="com.renesas.cdt.renesas.StandardLibrary.option.buildOnlyWhenOptionsChanged" valueType="enumerated"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1915076294" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.headMath.862867062" name="math.h（C89/C99）：数値計算用ライブラリ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.headMath" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.noLogo.1482442161" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.noLogo" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu.1271240821" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu" value="com.renesas.cdt.managedbuild.renesas.ccrx.librarian.option.fpu.yes" valueType="enumerated"/>
 							</tool>
-							<tool command="rlink" id="com.renesas.cdt.rxc.hardwaredebug.win32.tool.convertor.Id.682041689" name="Converter" superClass="com.renesas.cdt.rxc.hardwaredebug.win32.tool.convertor.Id"/>
-							<tool id="com.renesas.cdt.rxc.release.win32.tool.config.Id.510458458" name="RTOS Configurator" superClass="com.renesas.cdt.rxc.release.win32.tool.config.Id">
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosName.2079366116" name="RTOS Name" superClass="com.renesas.cdt.renesas.Configurator.option.rtosName" value="None" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosVersion.954008563" name="RTOS Version" superClass="com.renesas.cdt.renesas.Configurator.option.rtosVersion" value="None" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.rtosPath.1499206364" name="RTOS Path" superClass="com.renesas.cdt.renesas.Configurator.option.rtosPath" value="&quot;&quot;" valueType="string"/>
-								<option id="com.renesas.cdt.renesas.Configurator.option.cfgPath.656671095" name="CFG output path" superClass="com.renesas.cdt.renesas.Configurator.option.cfgPath" value="&quot;&quot;" valueType="string"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.167436789" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.noLogo.1773980948" name="コピーライトを表示する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.noLogo" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.outputHexFile.232192390" name="Output hex file" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.converter.option.outputHexFile" value="true" valueType="boolean"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.853785190" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig">
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosName.947885237" name="RTOS Name" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosName" value="None" valueType="string"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosVersion.364345126" name="RTOS Version" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.rtosConfig.option.rtosVersion" value="None" valueType="string"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -270,11 +175,19 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="BIJELA.com.renesas.cdt.rxc.projectType.win32.Id.1121726166" name="Executable (Renesas)" projectType="com.renesas.cdt.rxc.projectType.win32.Id"/>
+		<project id="BIJELA.com.renesas.cdt.managedbuild.renesas.ccrx.projectType.291126517" name="実行可能" projectType="com.renesas.cdt.managedbuild.renesas.ccrx.projectType"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="HardwareDebug">
+			<resource resourceType="PROJECT" workspacePath="/BIJELA"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/BIJELA"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

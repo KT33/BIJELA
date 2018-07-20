@@ -8,6 +8,8 @@
 #ifndef SPEAKER_H_
 #define SPEAKER_H_
 
+#include "stdint.h"
+
 enum Music {
 	SEVEN_ATM, MARIO_START, NCHANVHA, MIZUTAMRI, HIKAKIN, VICTORY_FANFARE
 };
@@ -83,5 +85,6 @@ void mario_start(int, int);
 void seven_ATM(int, int);
 void mizutamari(int, int);
 void nchancha(int, int);
+void mode_select_speaker(uint8_t mode);
 
 #endif /* SPEAKER_H_ */

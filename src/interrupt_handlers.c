@@ -380,10 +380,13 @@ void Excep_TPU5_TGIB5(void) {
 }
 
 // TPU6/MTU0 TGIA6/TGIA0
+//extern void interrupt_mtu0(void);
 void Excep_TPU6_TGIA6(void) {
+//	void interrupt_mtu0(void);
 }
 
 // TPU6/MTU0 TGIB6/TGIB0
+
 void Excep_TPU6_TGIB6(void) {
 }
 

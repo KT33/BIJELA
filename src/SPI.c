@@ -97,7 +97,7 @@ float test_gyro2(void) {
 //	myprintf("value %f\n",(float)value*9.80665/8192); //加速度
 //	myprintf("%f\n",(float)value*0.00106252644); //1000*pi/(2^15*180)
 //	angle=(float)value*0.00106252644; //1000*pi/(2^15*180)
-	return (float) value * 0.00106252644;
+	return (float) value * 0.00106252644;//1000*pi/(2^15*180)
 }
 
 uint8_t communicate_gyro(char io, uint8_t addres, uint8_t gyro_w) { //1,read 0,write

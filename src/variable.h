@@ -52,13 +52,24 @@ typedef struct{
 	float accel;
 } normal_para_t;
 
+typedef struct{
+	int left;
+	int rghit;
+} duty_t;
 
+typedef struct{
+	float now;//現在の偏差
+	float cumulative;//偏差の累積値
+	float difference;//偏差の差分
+} deviation_t;//偏差
+
+extern volatile int16_t i;
 extern volatile int g_count;
 extern volatile unsigned short Batt;
 extern volatile float Battery;
 extern char flag,gyro_flag;
 extern volatile float angle;
-extern uint8_t  gyro_r;
+//extern uint8_t  gyro_r;
 extern int16_t encoder_L,encoder_R;
 extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF;
 //#define LogMax 200
@@ -69,12 +80,21 @@ extern volatile float diameter;//タイヤ径
 extern volatile float tread;//トレッド幅
 extern volatile int speacer_i;
 extern volatile float triangle;
+extern volatile float velocity;
 //extern volatile uint8_t run_flag;
 
+extern run_t left_real,right_real;
 extern run_t translation_ideal,rotation_ideal;
 extern trapezoid_t translation_parameter,rotation_parameter;
 extern normal_para_t nomal_run;
-extern run_t *pp;
+extern gain_t run_gain;
+extern duty_t duty;
+extern uint8_t mode_flag;
+extern volatile float mode_select_dis;
+extern deviation_t run_right_deviation;
+extern deviation_t run_left_deviation;
+
+
 
 
 
@@ -98,5 +118,6 @@ extern run_t *pp;
 #define Moter_Stby PORTB.PODR.BIT.B0
 #define Moter_R_FRONT PORTB.PODR.BIT.B5
 #define Moter_R_BACK PORTB.PODR.BIT.B6
+
 
 #endif /* VARIABLE_H_ */

@@ -10,6 +10,103 @@
 #include "stdarg.h"
 #include "variable.h"
 #include "Clock.h"
+#include "mode.h"
+#include "other.h"
+
+void go_mode(uint8_t mode) {
+	mode_flag=mode_flag|0x80;
+	if (mode == 0) {
+		mode_0();
+	}else if(mode==1){
+		mode_1();
+	}else if(mode==2){
+		mode_2();
+	}else if(mode==3){
+		mode_3();
+	}else if(mode==4){
+		mode_4();
+	}else if(mode==5){
+		mode_5();
+	}else if(mode==6){
+		mode_6();
+	}else if(mode==7){
+		mode_7();
+	}
+}
+
+void led_reset(void){
+	ui_led_3bit(0);
+	LEFTEING=0;
+	LEFTFRONT=0;
+	CENTERFRONT=0;
+	RIGHTFRONT=0;
+	RIGHTWING=0;
+}
+
+void ui_led_3bit(uint8_t value) {
+	if (value == 1) {
+		UI_LED1 = 0;
+		UI_LED2 = 0;
+		UI_LED3 = 1;
+	}
+	if (value == 2) {
+		UI_LED1 = 0;
+		UI_LED2 = 1;
+		UI_LED3 = 0;
+	}
+	if (value == 3) {
+		UI_LED1 = 0;
+		UI_LED2 = 1;
+		UI_LED3 = 1;
+	}
+	if (value == 4) {
+		UI_LED1 = 1;
+		UI_LED2 = 0;
+		UI_LED3 = 0;
+	}
+	if (value == 5) {
+		UI_LED1 = 1;
+		UI_LED2 = 0;
+		UI_LED3 = 1;
+	}
+	if (value == 6) {
+		UI_LED1 = 1;
+		UI_LED2 = 1;
+		UI_LED3 = 0;
+	}
+	if (value == 7) {
+		UI_LED1 = 1;
+		UI_LED2 = 1;
+		UI_LED3 = 1;
+	}
+	if (value == 0) {
+		UI_LED1 = 0;
+		UI_LED2 = 0;
+		UI_LED3 = 0;
+	}
+}
+
+void mode_select_by_encoder(void) {
+	real_velocity_control();
+
+}
+
+void init_ALL(void) {
+	Clock_Settting();
+	LED_Setting();
+	init_sci1();
+	init_cmt0();
+	init_AD();
+	init_SPI();
+	init_speaker();
+	init_gyro();
+	init_Encoder();
+	init_Moter_PWM();
+	wait_time(5);
+	AD_all();
+	Battery_Check();
+	FAN = 1;
+}
 
 void wait_time(int ms) {
 	g_count = 0;
@@ -17,11 +114,24 @@ void wait_time(int ms) {
 	}
 }
 
-void log_start(void){
-	log_counter=0;
-	log_index=0;
-	log_how_often=5;
-	log_flag=1;
+void log_start(void) {
+	log_counter = 0;
+	log_index = 0;
+	log_how_often = 1;
+	log_flag = 1;
+}
+
+void log_sampling(void) {
+	log_counter++;
+	if (log_counter == log_how_often) {
+		log[log_index] =left_real.velocity;
+		log_index++;
+		log_counter = 0;
+		if (log_index == LogMax - 1) {
+			log_flag = 0;
+			log_index = 0;
+		}
+	}
 }
 
 void Battery_Check(void) {
@@ -43,7 +153,7 @@ void Battery_Check(void) {
 			RIGHTFRONT = 0;
 			LEFTFRONT = 1;
 			wait_time(500);
-		//	myprintf("%6.2f\n",Battery);
+			//	myprintf("%6.2f\n",Battery);
 		}
 	}
 }
@@ -146,7 +256,9 @@ void LED_Setting(void) {
 	PORTA.PMR.BIT.B6 = 0;
 	PORTA.PDR.BIT.B6 = 1;
 	PORTC.PMR.BIT.B3 = 0;
-	PORTC.PDR.BIT.B3 = 1;
+	PORTC.PDR.BIT.B3 = 1; /////
+	PORTA.PMR.BIT.B0 = 0; /////
+	PORTA.PDR.BIT.B0 = 1;
 	PORT3.PMR.BIT.B1 = 0; //以下SENLED
 	PORT3.PDR.BIT.B1 = 0;
 	PORT4.PMR.BIT.B1 = 0;

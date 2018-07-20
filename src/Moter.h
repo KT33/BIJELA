@@ -8,6 +8,7 @@
 #ifndef MOTER_H_
 #define MOTER_H_
 
+void interrupt_mtu0(void);
 void init_Moter_PWM(void);
 void init_Encoder(void);
 

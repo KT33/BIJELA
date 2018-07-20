@@ -36,53 +36,60 @@
 
 void main() {
 	volatile int i;
-	enum Music music;
 
-	Clock_Settting();
-	LED_Setting();
-	init_sci1();
-	init_cmt0();
-	init_AD();
-	init_SPI();
-	init_speaker();
-	init_gyro();
-	init_Encoder();
-	init_Moter_PWM();
+	init_ALL();
+	mode_flag = 0;
+	Moter_Stby = 1;
+	Moter_L_BACK = 0;
+	Moter_L_FRONT = 1;
+	Moter_R_FRONT = 1;
+	Moter_R_BACK = 0;
 
-//	seven_ATM(240, 1);
 
-	FAN = 1;
 	while (1) {
-		AD_all();
-		//	Battery_Check();
-		SENLED_L = 1;
-		SENLED_LF = 1;
-		SENLED_R = 1;
-		SENLED_RF = 1;
-
-		//while (1) {
-		gyro_flag = 1;
-
-		LEFTFRONT = 1;
-
-		set_straight(1000, nomal_run.accel, nomal_run.vel_search,
-				nomal_run.vel_min, nomal_run.vel_min);
-		while (translation_parameter.run_flag == 1) {
-			LEFTEING = 1;
+		if (mode_select_dis > 50) {
+			mode_select_dis = 0;
+			mode_flag++;
+			if (mode_flag >= 8) {
+				mode_flag = 0;
+			}
+			mode_select_speaker(mode_flag);
+			ui_led_3bit(mode_flag);
 		}
-		RIGHTWING = 1;
-		translation_ideal.accel = 0;
-		translation_ideal.dis = 0;
-		translation_ideal.velocity = 0;
-
+		if (SWITCH == 0) {
+			ui_led_3bit(0);
+			chattering();
+			wait_time(200);
+			go_mode(mode_flag);
+			led_reset();
+			wait_time(200);
+			mode_flag = mode_flag & 0x7f;
+		}
+	}
+}
+///////////////////
+//	while (1) {
+//
+//		Moter_Stby = 1;
+//		Moter_L_BACK = 0;
+//		Moter_L_FRONT = 1;
+//		Moter_R_FRONT = 1;
+//		Moter_R_BACK = 0;
+//		gyro_flag = 1;
+//
+//		wait_time(1000);
+//		set_straight(5000, nomal_run.accel, 600.0, nomal_run.vel_min,
+//				nomal_run.vel_min);
 //		wait_straight();
+//		LEFTFRONT = 1;
+//		for (i = 0; i < LogMax; i++) {
+//			myprintf("%.2f\n", log[i]);
+//		}
+//		break;
+//	}
+////////////////////
 
-		for (i = 0; i < LogMax; i++) {
-			myprintf("%f\n", log[i]);
-		}
-		break;
-
-		//			while (1) {
+//			while (1) {
 //				myprintf("%6.2f,%6.2f,%6.2f\n", translation_ideal.accel,
 //						translation_ideal.velocity, translation_ideal.dis);
 //			}
@@ -179,7 +186,4 @@ void main() {
 //		test_gyro();
 //		gyro_r = communicate_gyro(0x80,0x0);
 //		myprintf("WHO AM I %d\n", gyro_r);
-
-	}
-}
 

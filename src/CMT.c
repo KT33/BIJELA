@@ -8,6 +8,7 @@
 #include "iodefine.h"
 #include "variable.h"
 #include "SPI.h"
+#include "run.h"
 
 void interrupt_cmt0(void) {
 	g_count++;
@@ -17,31 +18,26 @@ void interrupt_cmt0(void) {
 	} else {
 		angle = 0;
 	}
-	encoder_L = TPU1.TCNT; //L
-	encoder_R = TPU2.TCNT; //R
-	TPU1.TCNT = 0;
-	TPU2.TCNT = 0;
 
-	if (translation_parameter.run_flag == 1) {
-		control_accel(&translation_ideal, &translation_parameter);
-		integral(&translation_ideal);
-	}
+	if (mode_flag & 0x80) { //モード内
 
-	if (log_flag == 1) {
-		log_counter++;
-
-		if (log_counter == log_how_often) {
-			log[log_index] = translation_ideal.velocity;
-			log_index++;
-			log_counter = 0;
-			if (log_index == LogMax-1) {
-				log_flag = 0;
-				log_index = 0;
-			}
+		if (translation_parameter.run_flag == 1) {
+			real_velocity_control();
+			control_accel(&translation_ideal, &translation_parameter);
+			PID_control(&translation_ideal, &left_real, &right_real,
+					&run_left_deviation, &run_right_deviation, &run_gain,
+					&duty);
+			integral(&translation_ideal);
 		}
+		duty_to_moter();
 
+		if (log_flag == 1) {
+			log_sampling();
+		}
+	} else { //モード選択中
+		real_velocity_control();
+		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
 	}
-
 }
 
 void init_cmt0(void) {
