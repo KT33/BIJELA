@@ -11,88 +11,155 @@
 #include "run.h"
 #include "SPI.h"
 #include "variable.h"
+#include "machine.h"
+#include "other.h"
+#include "Clock.h"
+#include "speaker.h"
+#include "stdint.h"
 
 void mode_0(void) {
-	Battery_Check();
-
-	wait_time(1000);
-	set_straight(180*2, nomal_run.accel, 600.0, nomal_run.vel_min,
+	set_straight(180 * 2, nomal_run.accel, 400.0, nomal_run.vel_min,
 			nomal_run.vel_min);
 	wait_straight();
 	LEFTFRONT = 1;
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
 	}
+
+//	translation_parameter.run_flag =0;
+//	duty.left=10;
+
 }
 
 void mode_1(void) {
-	Battery_Check();
-	for (i = 0; i < 1; i++) {
-		ui_led_3bit(1);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
+
+	translation_parameter.run_flag = 0;
+	Moter_L_BACK = 0;
+	Moter_R_BACK = 0;
+	while (1) {
+		Moter_L_FRONT = 0;
+		Moter_L_BACK = 1;
+//		Moter_R_FRONT = 1;
+		duty.left = 20;
+//		wait_time(1);
+		Moter_L_FRONT = 1;
+		Moter_L_BACK = 0;
+//		Moter_R_FRONT = 0;
+//		wait_time(1);
 	}
 }
 
 void mode_2(void) {
-	Battery_Check();
-	for (i = 0; i < 2; i++) {
-		ui_led_3bit(2);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
+	translation_parameter.run_flag = 0;
+	Moter_L_BACK = 0;
+	Moter_R_BACK = 0;
+	while (1) {
+		Moter_L_FRONT = 0;
+		Moter_L_BACK = 1;
+//		Moter_R_FRONT = 1;
+		duty.left = 20;
+		wait_time(10);
+		Moter_L_FRONT = 1;
+		Moter_L_BACK = 0;
+//		Moter_R_FRONT = 0;
+		wait_time(10);
 	}
 }
 
 void mode_3(void) {
-	Battery_Check();
-	for (i = 0; i < 3; i++) {
-		ui_led_3bit(3);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
-	}
+
+
 }
 
 void mode_4(void) {
-	Battery_Check();
-	for (i = 0; i < 4; i++) {
-		ui_led_3bit(4);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
-	}
+
 
 }
 
 void mode_5(void) {
-	Battery_Check();
-	for (i = 0; i < 5; i++) {
-		ui_led_3bit(5);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
-	}
+
+
 }
 
 void mode_6(void) {
-	Battery_Check();
-	for (i = 0; i < 6; i++) {
-		ui_led_3bit(6);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
-	}
+
+
 }
 
 void mode_7(void) {
+	Moter_L_BACK = 0;
+	Moter_L_FRONT = 0;
+	Moter_R_BACK = 0;
+	Moter_R_FRONT = 0;
+	while (1)
+		;
+}
+
+void go_mode(uint8_t mode) {
+	mode_flag = mode_flag | 0x80;
 	Battery_Check();
-	for (i = 0; i < 7; i++) {
-		ui_led_3bit(7);
-		wait_time(300);
-		ui_led_3bit(0);
-		wait_time(300);
+	wait_time(1000);
+	if (mode == 0) {
+		mode_0();
+	} else if (mode == 1) {
+		for (i = 0; i < 1; i++) {
+			ui_led_3bit(1);
+			wait_time(300);
+			ui_led_3bit(0);
+			wait_time(300);
+		}
+		mode_1();
+	} else if (mode == 2) {
+		for (i = 0; i < 2; i++) {
+			ui_led_3bit(2);
+			wait_time(300);
+			ui_led_3bit(0);
+			wait_time(300);
+		}
+		mode_2();
+	} else if (mode == 3) {
+		for (i = 0; i < 3; i++) {
+			ui_led_3bit(3);
+			wait_time(300);
+			ui_led_3bit(0);
+			wait_time(300);
+		}
+		mode_3();
+	} else if (mode == 4) {
+		for (i = 0; i < 4; i++) {
+			ui_led_3bit(4);
+			wait_time(200);
+			ui_led_3bit(0);
+			wait_time(200);
+		}
+		mode_4();
+	} else if (mode == 5) {
+		for (i = 0; i < 5; i++) {
+			ui_led_3bit(5);
+			wait_time(200);
+			ui_led_3bit(0);
+			wait_time(200);
+		}
+		mode_5();
+	} else if (mode == 6) {
+		for (i = 0; i < 6; i++) {
+			ui_led_3bit(6);
+			wait_time(150);
+			ui_led_3bit(0);
+			wait_time(150);
+		}
+		mode_6();
+	} else if (mode == 7) {
+		for (i = 0; i < 7; i++) {
+			ui_led_3bit(7);
+			wait_time(100);
+			ui_led_3bit(0);
+			wait_time(100);
+		}
+		mode_7();
 	}
+	ui_reset();
+	wait_time(200);
+	mode_flag = mode_flag & 0x7f;
 }
 

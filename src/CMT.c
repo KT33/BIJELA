@@ -20,9 +20,8 @@ void interrupt_cmt0(void) {
 	}
 
 	if (mode_flag & 0x80) { //モード内
-
+		real_velocity_control();
 		if (translation_parameter.run_flag == 1) {
-			real_velocity_control();
 			control_accel(&translation_ideal, &translation_parameter);
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,

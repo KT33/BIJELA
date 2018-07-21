@@ -43,6 +43,7 @@ void main() {
 	Moter_L_FRONT=1;
 	Moter_R_FRONT=1;
 	while (1) {
+		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;
 			mode_flag++;
@@ -50,15 +51,12 @@ void main() {
 				mode_flag = 0;
 			}
 			mode_select_speaker(mode_flag);
-			ui_led_3bit(mode_flag);
 		}
 		if (SWITCH == 0) {
-			ui_led_3bit(0);
+			ui_reset();
 			chattering();
-			wait_time(200);
 			go_mode(mode_flag);
-			wait_time(200);
-			mode_flag=mode_flag&0x7f;
+
 		}
 	}
 }

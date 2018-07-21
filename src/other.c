@@ -13,26 +13,17 @@
 #include "mode.h"
 #include "other.h"
 
-void go_mode(uint8_t mode) {
-	mode_flag=mode_flag|0x80;
-	if (mode == 0) {
-		mode_0();
-	}else if(mode==1){
-		mode_1();
-	}else if(mode==2){
-		mode_2();
-	}else if(mode==3){
-		mode_3();
-	}else if(mode==4){
-		mode_4();
-	}else if(mode==5){
-		mode_5();
-	}else if(mode==6){
-		mode_6();
-	}else if(mode==7){
-		mode_7();
-	}
+
+void ui_reset(void){
+	ui_led_3bit(0);
+	LEFTEING=0;
+	LEFTFRONT=0;
+	CENTERFRONT=0;
+	RIGHTFRONT=0;
+	RIGHTWING=0;
 }
+
+
 
 void ui_led_3bit(uint8_t value) {
 	if (value == 1) {
@@ -108,7 +99,7 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 5;
+	log_how_often = 1;
 	log_flag = 1;
 }
 
@@ -284,3 +275,6 @@ void Clock_Settting(void) {
 	R_INIT_Clock(); /* ---- Initialization of the clock ---- */
 	setpsw_i();
 }
+
+
+

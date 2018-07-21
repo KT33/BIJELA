@@ -90,7 +90,7 @@ extern normal_para_t nomal_run;
 extern gain_t run_gain;
 extern duty_t duty;
 extern uint8_t mode_flag;
-extern volatile float mode_select_dis;
+extern float mode_select_dis;
 extern deviation_t run_right_deviation;
 extern deviation_t run_left_deviation;
 

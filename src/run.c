@@ -25,20 +25,42 @@ void real_velocity_control(void) {
 }
 
 void duty_to_moter(void) {
-	MTU0.TGRB = (duty.rghit * 4); //MOTER_R
-	MTU0.TGRD = (duty.left * 4); //MOTER_L
+	int duty_left=0,duty_right=0;
+	if(duty.left>=0){
+		Moter_L_FRONT=1;
+		Moter_L_BACK=0;
+		duty_left=duty.left;
+	}else {
+		Moter_L_FRONT=0;
+		Moter_L_BACK=1;
+		duty_left=(duty.left*-1);
+	}
+	if(duty.rghit>=0){
+		Moter_R_FRONT=1;
+		Moter_R_BACK=0;
+		duty_right=duty.rghit;
+	}else{
+		Moter_R_FRONT=0;
+		Moter_R_BACK=1;
+		duty_right=(duty.rghit*-1);
+	}
+
+//	duty_left=duty.left;
+//	duty_right=duty.rghit;
+	MTU0.TGRB = (duty_right * 4); //MOTER_R
+	MTU0.TGRD = (duty_left * 4); //MOTER_L
 }
 
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
 		duty_t *duty) {
-	left_deviation->now = (int) (ideal->velocity - left->velocity);
-	right_deviation->now = (int) (ideal->velocity - right->velocity);
+	left_deviation->now = (ideal->velocity - left->velocity);
+	right_deviation->now = (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
-	duty->left = left_deviation->now * gain->Kp
+	duty->left = (int)left_deviation->now * gain->Kp
 			+ left_deviation->cumulative * gain->Ki;
-	duty->rghit = right_deviation->now * gain->Kp
+	duty->rghit =(int) right_deviation->now * gain->Kp
 			+ right_deviation->cumulative * gain->Ki;
 
 	if (duty->left > 100) {
@@ -47,11 +69,11 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	if (duty->rghit > 100) {
 		duty->rghit = 100;
 	}
-	if (duty->left < 0) {
-		duty->left = 0;
+	if (duty->left < -100) {
+		duty->left = -100;
 	}
-	if (duty->rghit < 0) {
-		duty->rghit = 0;
+	if (duty->rghit < -100) {
+		duty->rghit = -100;
 	}
 }
 
