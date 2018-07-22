@@ -12,7 +12,25 @@
 #include "Clock.h"
 #include "mode.h"
 #include "other.h"
+#include "SPI.h"
 
+
+void real_angle_control(void){
+	rotation_real.velocity=test_gyro2();
+}
+
+void real_velocity_control(void) {
+	encoder_L = TPU1.TCNT; //L
+	encoder_R = TPU2.TCNT; //R
+
+	left_real.velocity = 1 * (float) encoder_L * diameter * 3.14159265359 / 4096
+			/ 4 / 40 * 11 / 0.001;
+	right_real.velocity = -1 * (float) encoder_R * diameter * 3.14159265359
+			/ 4096 / 4 / 40 * 11 / 0.001;
+
+	TPU1.TCNT = 0;
+	TPU2.TCNT = 0;
+}
 
 void ui_reset(void){
 	ui_led_3bit(0);
@@ -99,14 +117,14 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 1;
+	log_how_often = 3;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = left_real.velocity;
+		log[log_index] = duty.left;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {

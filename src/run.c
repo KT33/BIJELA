@@ -11,44 +11,31 @@
 #include "other.h"
 #include "iodefine.h"
 
-void real_velocity_control(void) {
-	encoder_L = TPU1.TCNT; //L
-	encoder_R = TPU2.TCNT; //R
-
-	left_real.velocity = 1 * (float) encoder_L * diameter * 3.14159265359 / 4096
-			/ 4 / 40 * 11 / 0.001;
-	right_real.velocity = -1 * (float) encoder_R * diameter * 3.14159265359
-			/ 4096 / 4 / 40 * 11 / 0.001;
-
-	TPU1.TCNT = 0;
-	TPU2.TCNT = 0;
-}
-
 void duty_to_moter(void) {
-	int duty_left=0,duty_right=0;
+	int duty_left = 0, duty_right = 0;
 
-	if(translation_parameter.back_flag==1){
-		duty.left=duty.left*-1;
-		duty.rghit=duty.rghit*-1;
+	if (translation_parameter.back_rightturn_flag == 1) {
+		duty.left = duty.left * -1;
+		duty.rghit = duty.rghit * -1;
 	}
 
-	if(duty.left>=0){
-		Moter_L_FRONT=1;
-		Moter_L_BACK=0;
-		duty_left=duty.left;
-	}else {
-		Moter_L_FRONT=0;
-		Moter_L_BACK=1;
-		duty_left=(duty.left*-1);
+	if (duty.left >= 0) {
+		Moter_L_FRONT = 1;
+		Moter_L_BACK = 0;
+		duty_left = duty.left;
+	} else {
+		Moter_L_FRONT = 0;
+		Moter_L_BACK = 1;
+		duty_left = (duty.left * -1);
 	}
-	if(duty.rghit>=0){
-		Moter_R_FRONT=1;
-		Moter_R_BACK=0;
-		duty_right=duty.rghit;
-	}else{
-		Moter_R_FRONT=0;
-		Moter_R_BACK=1;
-		duty_right=(duty.rghit*-1);
+	if (duty.rghit >= 0) {
+		Moter_R_FRONT = 1;
+		Moter_R_BACK = 0;
+		duty_right = duty.rghit;
+	} else {
+		Moter_R_FRONT = 0;
+		Moter_R_BACK = 1;
+		duty_right = (duty.rghit * -1);
 	}
 
 	MTU0.TGRB = (duty_right * 4); //MOTER_R
@@ -58,17 +45,17 @@ void duty_to_moter(void) {
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
 		duty_t *duty) {
-	if(translation_parameter.back_flag==1){
-		left->velocity=left->velocity*-1;
-		right->velocity=right->velocity*-1;
+	if (translation_parameter.back_rightturn_flag == 1) {
+		left->velocity = left->velocity * -1;
+		right->velocity = right->velocity * -1;
 	}
 	left_deviation->now = (ideal->velocity - left->velocity);
 	right_deviation->now = (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
-	duty->left = (int)left_deviation->now * gain->Kp
+	duty->left = (int) left_deviation->now * gain->Kp
 			+ left_deviation->cumulative * gain->Ki;
-	duty->rghit =(int) right_deviation->now * gain->Kp
+	duty->rghit = (int) right_deviation->now * gain->Kp
 			+ right_deviation->cumulative * gain->Ki;
 
 	if (duty->left > 100) {
@@ -83,6 +70,10 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	if (duty->rghit < -100) {
 		duty->rghit = -100;
 	}
+
+	if (rotation_parameter.run_flag == 1) {
+		duty->left = duty->left * -1;
+	}
 }
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
@@ -92,26 +83,46 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 	translation_ideal.velocity = translation_parameter.strat_vel;
 	translation_parameter.run_flag = 1;
-	log_start();
+	//log_start();
 
 }
 
-
+void set_rotation(float i_angle, float accel, float max_vel) {
+	trapezoid_preparation(&rotation_parameter, i_angle, accel, max_vel, 0.0,
+			0.0);
+	rotation_ideal.velocity = rotation_parameter.strat_vel;
+	rotation_parameter.run_flag = 1;
+	log_start();
+}
 
 void wait_straight(void) {
 	volatile int i;
-	LEFTEING = 1;
+	//LEFTEING = 1;
 	while (translation_parameter.run_flag == 1) {
-		i++;
+		myprintf("%6.2f", rotation_ideal.velocity);
 	}
-	LEFTFRONT = 1;
+	//LEFTFRONT = 1;
 	translation_ideal.accel = 0.0;
 	translation_ideal.dis = 0.0;
 	translation_ideal.velocity = 0.0;
 	duty.left = 0;
 	duty.rghit = 0;
 	duty_to_moter();
+}
 
+void wait_rotation(void) {
+	volatile int i;
+	LEFTEING = 1;
+	while (rotation_parameter.run_flag == 1) {
+		i++;
+	}
+	LEFTFRONT = 1;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.dis = 0.0;
+	rotation_ideal.velocity = 0.0;
+	duty.left = 0;
+	duty.rghit = 0;
+	duty_to_moter();
 }
 
 void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
@@ -119,11 +130,11 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 //任意のパラメータから台形加速の概要を計算
 //trapezoidはポインタでとってる
 
-	trapezoid->back_flag=0;
+	trapezoid->back_rightturn_flag = 0;
 
-	if(i_distance<0){
-		i_distance=i_distance*-1;
-		trapezoid->back_flag=1;
+	if (i_distance < 0) {
+		i_distance = i_distance * -1;
+		trapezoid->back_rightturn_flag = 1;
 	}
 
 	trapezoid->accel = accel;
@@ -172,14 +183,10 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
 		UI_LED2 = 1;
 		ideal->accel = 0;
 
-	} else if (ideal->dis < trapezoid->i_distance) {
+	} else if (ideal->velocity > trapezoid->end_vel) {
 		UI_LED3 = 1;
-		if (ideal->velocity > trapezoid->end_vel) {
-			ideal->accel = -trapezoid->accel;
-		} else {
-			ideal->velocity = trapezoid->end_vel;
-			ideal->accel = 0;
-		}
+		ideal->accel = -trapezoid->accel;
+
 	} else {
 		trapezoid->run_flag = 0;
 		RIGHTWING = 1;

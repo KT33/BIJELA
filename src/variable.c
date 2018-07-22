@@ -36,10 +36,10 @@ volatile int speacer_i;
 volatile float triangle;
 //volatile uint8_t run_flag = 0; //0:停止 1:加速 2:等速 3:減速
 
-
 run_t translation_ideal,rotation_ideal;
 trapezoid_t translation_parameter,rotation_parameter;
 normal_para_t nomal_run={450.0,500.0,20.0,1000.0};//search,max,min,accel
+normal_para_t nomal_rotation={50.0,50.0,0.0,20.0};//deg/sec
 
 uint8_t mode_flag=0;//MSBが0の時モード選択中,1でモード確定
 float mode_select_dis=0;
@@ -48,5 +48,11 @@ deviation_t run_right_deviation={0.0,0.0,0.0};
 deviation_t run_left_deviation={0.0,0.0,0.0};
 
 int8_t test_flag=0;
+
+run_t rotation_real;
+gain_t rotation_gain={0.05,0.05,0.0};
+deviation_t rotation_deviation={0.0,0.0,0.0};
+
+
 
 

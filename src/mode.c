@@ -18,13 +18,20 @@
 #include "stdint.h"
 
 void mode_0(void) {
-	set_straight(-180, nomal_run.accel, 400.0, nomal_run.vel_min,
-			nomal_run.vel_min);
-	wait_straight();
+	set_rotation(180, nomal_rotation.accel , nomal_rotation.vel_search);
+	wait_rotation();
 	LEFTFRONT = 1;
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
 	}
+
+//	set_straight(-180, nomal_run.accel, 400.0, nomal_run.vel_min,
+//			nomal_run.vel_min);
+//	wait_straight();
+//	LEFTFRONT = 1;
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.2f\n", log[i]);
+//	}
 
 //	translation_parameter.run_flag =0;
 //	duty.left=10;
@@ -32,62 +39,64 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-
-	translation_parameter.run_flag = 0;
-	Moter_L_BACK = 0;
-	Moter_R_BACK = 0;
+	rotation_deviation.cumulative=0;
+	rotation_real.dis = 0.0;
+	rotation_real.velocity = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.run_flag = 1;
+	test_flag = 1;
 	while (1) {
-		Moter_L_FRONT = 0;
-		Moter_L_BACK = 1;
-//		Moter_R_FRONT = 1;
-		duty.left = 20;
-//		wait_time(1);
-		Moter_L_FRONT = 1;
-		Moter_L_BACK = 0;
-//		Moter_R_FRONT = 0;
-//		wait_time(1);
+		myprintf("%6.2f\n", rotation_real.velocity);
 	}
 }
 
 void mode_2(void) {
-	translation_parameter.run_flag = 0;
-	Moter_L_BACK = 0;
-	Moter_R_BACK = 0;
+	rotation_gain.Kp=1.3;
+	rotation_deviation.cumulative=0;
+	rotation_real.dis = 0.0;
+	rotation_real.velocity = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.run_flag = 1;
+	test_flag = 1;
 	while (1) {
-		Moter_L_FRONT = 0;
-		Moter_L_BACK = 1;
-//		Moter_R_FRONT = 1;
-		duty.left = 20;
-		wait_time(10);
-		Moter_L_FRONT = 1;
-		Moter_L_BACK = 0;
-//		Moter_R_FRONT = 0;
-		wait_time(10);
+		myprintf("%6.2f\n", rotation_real.velocity);
 	}
 }
 
 void mode_3(void) {
-	test_flag=1;
-	translation_ideal.velocity=0;
-	translation_ideal.accel=0;
-	while(1){
-		myprintf("%d",duty.left);
+	rotation_gain.Kp=1.6;
+	rotation_deviation.cumulative=0;
+	rotation_real.dis = 0.0;
+	rotation_real.velocity = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.run_flag = 1;
+	test_flag = 1;
+	while (1) {
+		myprintf("%6.2f\n", rotation_real.velocity);
 	}
-
 }
 
 void mode_4(void) {
-
-
+	rotation_gain.Kp=1.8;
+	rotation_real.dis = 0.0;
+	rotation_real.velocity = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.run_flag = 1;
+	test_flag = 1;
+	while (1) {
+		myprintf("%6.2f\n", rotation_real.velocity);
+	}
 }
 
 void mode_5(void) {
 
-
 }
 
 void mode_6(void) {
-
 
 }
 

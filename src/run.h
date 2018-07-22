@@ -26,7 +26,10 @@ void wait_straight(void);
 void PID_control(run_t *ideal, run_t *left, run_t *right, deviation_t *,
 		deviation_t *,gain_t*, duty_t *duty);
 void duty_to_moter(void);
-void real_velocity_control(void);
+
 void integral_vel_to_dis(float *velocity, float *distance);
+
+void set_rotation(float i_angle,float accel,float max_vel);
+void wait_rotation(void);
 
 #endif /* RUN_H_ */

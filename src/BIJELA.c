@@ -39,8 +39,12 @@ void main() {
 
 	init_ALL();
 	mode_flag = 0;
-	Moter_Stby=1;
+	Moter_Stby = 1;
+	Moter_R_FRONT = 1;
+	//gyro_flag=1;
 	while (1) {
+		//	myprintf("%6.2f\n", angle);
+
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;
@@ -56,6 +60,7 @@ void main() {
 			go_mode(mode_flag);
 
 		}
+
 	}
 }
 ///////////////////

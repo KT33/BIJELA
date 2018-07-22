@@ -65,9 +65,9 @@ void init_gyro(void) {
 
 	communicate_gyro(0, 0x7f, 0x20); //REG_BANK_SEL
 	wait_time(3);
-	communicate_gyro(0, 0x01, 0x06); //GYRO_CONFIG_1
+	communicate_gyro(0, 0x01, 0x06); //GYRO_CONFIG_1<=+-2000dps,nonfilter
 	wait_time(3);
-	communicate_gyro(0, 0x14, 0x02); //ACCEL_CONFIG+-2000dps
+	communicate_gyro(0, 0x14, 0x02); //ACCEL_CONFIG
 	wait_time(3);
 
 	communicate_gyro(0, 0x7f, 0x00); //REG_BANK_SEL
@@ -84,7 +84,7 @@ void test_gyro(void) {
 	value = value | read_2;
 //	myprintf("%d	%d	%d\n", read_1, read_2,value);
 //	myprintf("value %f\n",(float)value*9.80665/8192); //加速度
-	myprintf("%f\n", (float) value * 0.00106252644); //1000*pi/(2^15*180)
+	myprintf("%f\n", (float) value * 0.00106252644); //1000*pi/(2^15*180)*2000
 }
 
 float test_gyro2(void) {
@@ -96,8 +96,8 @@ float test_gyro2(void) {
 	value = value | read_2;
 //	myprintf("value %f\n",(float)value*9.80665/8192); //加速度
 //	myprintf("%f\n",(float)value*0.00106252644); //1000*pi/(2^15*180)
-//	angle=(float)value*0.00106252644; //1000*pi/(2^15*180)
-	return (float) value * 0.00106252644;//1000*pi/(2^15*180)
+//	angle=(float)value*0.00106252644; //2000*pi/(2^15*180)
+	return (float) value * 0.06103515625;//2000/(2^15)
 }
 
 uint8_t communicate_gyro(char io, uint8_t addres, uint8_t gyro_w) { //1,read 0,write

@@ -39,7 +39,7 @@ typedef struct{
 	float strat_vel;
 	float end_vel;
 	float triangle;
-	int8_t back_flag;
+	int8_t back_rightturn_flag;
 	float acceldistance;
 	float deacceldistance;
 	int8_t run_flag;
@@ -94,8 +94,10 @@ extern float mode_select_dis;
 extern deviation_t run_right_deviation;
 extern deviation_t run_left_deviation;
 extern int8_t test_flag;
-
-
+extern run_t rotation_real;
+extern gain_t rotation_gain;
+extern deviation_t rotation_deviation;
+extern normal_para_t nomal_rotation;
 
 
 
