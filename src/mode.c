@@ -18,7 +18,7 @@
 #include "stdint.h"
 
 void mode_0(void) {
-	set_straight(180 * 2, nomal_run.accel, 400.0, nomal_run.vel_min,
+	set_straight(-180, nomal_run.accel, 400.0, nomal_run.vel_min,
 			nomal_run.vel_min);
 	wait_straight();
 	LEFTFRONT = 1;
@@ -67,7 +67,12 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-
+	test_flag=1;
+	translation_ideal.velocity=0;
+	translation_ideal.accel=0;
+	while(1){
+		myprintf("%d",duty.left);
+	}
 
 }
 

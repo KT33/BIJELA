@@ -28,11 +28,16 @@ void interrupt_cmt0(void) {
 					&duty);
 			integral(&translation_ideal);
 		}
-		duty_to_moter();
-
 		if (log_flag == 1) {
 			log_sampling();
 		}
+
+		if(test_flag==1){
+			PID_control(&translation_ideal, &left_real, &right_real,
+								&run_left_deviation, &run_right_deviation, &run_gain,
+								&duty);
+		}
+		duty_to_moter();
 	} else { //モード選択中
 		real_velocity_control();
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);

@@ -47,4 +47,6 @@ float mode_select_dis=0;
 deviation_t run_right_deviation={0.0,0.0,0.0};
 deviation_t run_left_deviation={0.0,0.0,0.0};
 
+int8_t test_flag=0;
+
 

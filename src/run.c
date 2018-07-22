@@ -26,6 +26,12 @@ void real_velocity_control(void) {
 
 void duty_to_moter(void) {
 	int duty_left=0,duty_right=0;
+
+	if(translation_parameter.back_flag==1){
+		duty.left=duty.left*-1;
+		duty.rghit=duty.rghit*-1;
+	}
+
 	if(duty.left>=0){
 		Moter_L_FRONT=1;
 		Moter_L_BACK=0;
@@ -45,8 +51,6 @@ void duty_to_moter(void) {
 		duty_right=(duty.rghit*-1);
 	}
 
-//	duty_left=duty.left;
-//	duty_right=duty.rghit;
 	MTU0.TGRB = (duty_right * 4); //MOTER_R
 	MTU0.TGRD = (duty_left * 4); //MOTER_L
 }
@@ -54,6 +58,10 @@ void duty_to_moter(void) {
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
 		duty_t *duty) {
+	if(translation_parameter.back_flag==1){
+		left->velocity=left->velocity*-1;
+		right->velocity=right->velocity*-1;
+	}
 	left_deviation->now = (ideal->velocity - left->velocity);
 	right_deviation->now = (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
@@ -88,6 +96,8 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 }
 
+
+
 void wait_straight(void) {
 	volatile int i;
 	LEFTEING = 1;
@@ -108,6 +118,13 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 		float accel, float max_vel, float strat_vel, float end_vel) {
 //任意のパラメータから台形加速の概要を計算
 //trapezoidはポインタでとってる
+
+	trapezoid->back_flag=0;
+
+	if(i_distance<0){
+		i_distance=i_distance*-1;
+		trapezoid->back_flag=1;
+	}
 
 	trapezoid->accel = accel;
 	trapezoid->end_vel = end_vel;

@@ -40,8 +40,6 @@ void main() {
 	init_ALL();
 	mode_flag = 0;
 	Moter_Stby=1;
-	Moter_L_FRONT=1;
-	Moter_R_FRONT=1;
 	while (1) {
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
