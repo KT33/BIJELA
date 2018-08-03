@@ -50,7 +50,7 @@ deviation_t run_left_deviation={0.0,0.0,0.0};
 int8_t test_flag=0;
 
 run_t rotation_real;
-gain_t rotation_gain={0.05,0.05,0.0};
+gain_t rotation_gain={0.0,0.05,0.0};
 deviation_t rotation_deviation={0.0,0.0,0.0};
 
 

@@ -23,30 +23,30 @@ void interrupt_cmt0(void) {
 	if (mode_flag & 0x80) { //モード内
 		real_velocity_control();
 		real_angle_control();
-		if (translation_parameter.run_flag == 1) {
-			control_accel(&translation_ideal, &translation_parameter);
-			PID_control(&translation_ideal, &left_real, &right_real,
-					&run_left_deviation, &run_right_deviation, &run_gain,
-					&duty);
-			integral(&translation_ideal);
-		}
-//		if (rotation_parameter.run_flag == 1) {
-//			CENTERFRONT = 1;
-//			control_accel(&rotation_ideal, &rotation_parameter);
-//			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-//					&rotation_deviation, &rotation_deviation, &rotation_gain,
+//		if (translation_parameter.run_flag == 1) {
+//			control_accel(&translation_ideal, &translation_parameter);
+//			PID_control(&translation_ideal, &left_real, &right_real,
+//					&run_left_deviation, &run_right_deviation, &run_gain,
 //					&duty);
-//			integral(&rotation_ideal);
+//			integral(&translation_ideal);
 //		}
-
-		if (log_flag == 1) {
-			log_sampling();
-		}
+////		if (rotation_parameter.run_flag == 1) {
+////			CENTERFRONT = 1;
+////			control_accel(&rotation_ideal, &rotation_parameter);
+////			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
+////					&rotation_deviation, &rotation_deviation, &rotation_gain,
+////					&duty);
+////			integral(&rotation_ideal);
+////		}
+//
+//		if (log_flag == 1) {
+//			log_sampling();
+//		}
 
 		if (test_flag == 1) {
 			RIGHTWING = 1;
-			rotation_ideal.accel = 0;
-			real_angle_control();
+			rotation_ideal.accel = 0.0;
+			rotation_ideal.velocity=0.0;
 			rotation_real.dis += rotation_real.velocity * 0.001;
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 					&rotation_deviation, &rotation_deviation, &rotation_gain,

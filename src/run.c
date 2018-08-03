@@ -49,10 +49,12 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 		left->velocity = left->velocity * -1;
 		right->velocity = right->velocity * -1;
 	}
+
 	left_deviation->now = (ideal->velocity - left->velocity);
 	right_deviation->now = (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
+
 	duty->left = (int) left_deviation->now * gain->Kp
 			+ left_deviation->cumulative * gain->Ki;
 	duty->rghit = (int) right_deviation->now * gain->Kp

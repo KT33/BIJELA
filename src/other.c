@@ -16,7 +16,7 @@
 
 
 void real_angle_control(void){
-	rotation_real.velocity=test_gyro2();
+	rotation_real.velocity=-0.2450+test_gyro2();
 }
 
 void real_velocity_control(void) {

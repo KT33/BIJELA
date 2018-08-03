@@ -44,7 +44,6 @@ void main() {
 	//gyro_flag=1;
 	while (1) {
 		//	myprintf("%6.2f\n", angle);
-
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;

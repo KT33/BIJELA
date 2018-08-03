@@ -65,7 +65,7 @@ void init_gyro(void) {
 
 	communicate_gyro(0, 0x7f, 0x20); //REG_BANK_SEL
 	wait_time(3);
-	communicate_gyro(0, 0x01, 0x06); //GYRO_CONFIG_1<=+-2000dps,nonfilter
+	communicate_gyro(0, 0x01, 0x07); //GYRO_CONFIG_1<=+-2000dps,nonfilter
 	wait_time(3);
 	communicate_gyro(0, 0x14, 0x02); //ACCEL_CONFIG
 	wait_time(3);

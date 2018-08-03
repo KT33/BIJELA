@@ -18,7 +18,7 @@
 #include "stdint.h"
 
 void mode_0(void) {
-	set_rotation(180, nomal_rotation.accel , nomal_rotation.vel_search);
+	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
 	wait_rotation();
 	LEFTFRONT = 1;
 	for (i = 0; i < LogMax; i++) {
@@ -39,7 +39,8 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	rotation_deviation.cumulative=0;
+	rotation_gain.Kp = 0.01;
+	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
 	rotation_ideal.accel = 0.0;
@@ -47,27 +48,28 @@ void mode_1(void) {
 	rotation_parameter.run_flag = 1;
 	test_flag = 1;
 	while (1) {
-		myprintf("%6.2f\n", rotation_real.velocity);
+		myprintf("%.2f\n", rotation_real.dis);
 	}
 }
 
 void mode_2(void) {
-	rotation_gain.Kp=1.3;
-	rotation_deviation.cumulative=0;
+	rotation_gain.Kp = 0.0;
+	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
 	rotation_ideal.accel = 0.0;
 	rotation_ideal.velocity = 0.0;
 	rotation_parameter.run_flag = 1;
+
 	test_flag = 1;
 	while (1) {
-		myprintf("%6.2f\n", rotation_real.velocity);
+		myprintf("%d\n", duty.left);
 	}
 }
 
 void mode_3(void) {
-	rotation_gain.Kp=1.6;
-	rotation_deviation.cumulative=0;
+	rotation_gain.Kp = 1.6;
+	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
 	rotation_ideal.accel = 0.0;
@@ -80,7 +82,7 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	rotation_gain.Kp=1.8;
+	rotation_gain.Kp = 1.8;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
 	rotation_ideal.accel = 0.0;
