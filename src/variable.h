@@ -54,7 +54,7 @@ typedef struct{
 
 typedef struct{
 	int left;
-	int rghit;
+	int right;
 } duty_t;
 
 typedef struct{

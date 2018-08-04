@@ -16,7 +16,7 @@ void duty_to_moter(void) {
 
 	if (translation_parameter.back_rightturn_flag == 1) {
 		duty.left = duty.left * -1;
-		duty.rghit = duty.rghit * -1;
+		duty.right = duty.right * -1;
 	}
 
 	if (duty.left >= 0) {
@@ -28,23 +28,34 @@ void duty_to_moter(void) {
 		Moter_L_BACK = 1;
 		duty_left = (duty.left * -1);
 	}
-	if (duty.rghit >= 0) {
+	if (duty.right >= 0) {
 		Moter_R_FRONT = 1;
 		Moter_R_BACK = 0;
-		duty_right = duty.rghit;
+		duty_right = duty.right;
 	} else {
 		Moter_R_FRONT = 0;
 		Moter_R_BACK = 1;
-		duty_right = (duty.rghit * -1);
+		duty_right = (duty.right * -1);
 	}
 
 	MTU0.TGRB = (duty_right * 4); //MOTER_R
 	MTU0.TGRD = (duty_left * 4); //MOTER_L
+
+	duty.left=0;
+	duty.right=0;
 }
 
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
-		duty_t *duty) {
+		duty_t *duty,int rotation_flag) {
+	int duty_left,duty_right;
+
+	if(rotation_flag==0){
+		left->velocity=(left->velocity+right->velocity)/2;
+		right->velocity=left->velocity;
+
+	}
+
 	if (translation_parameter.back_rightturn_flag == 1) {
 		left->velocity = left->velocity * -1;
 		right->velocity = right->velocity * -1;
@@ -55,27 +66,29 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
 
-	duty->left = (int) left_deviation->now * gain->Kp
+	duty_left = (int) left_deviation->now * gain->Kp
 			+ left_deviation->cumulative * gain->Ki;
-	duty->rghit = (int) right_deviation->now * gain->Kp
+	duty_right = (int) right_deviation->now * gain->Kp
 			+ right_deviation->cumulative * gain->Ki;
 
-	if (duty->left > 100) {
-		duty->left = 100;
+	if (duty_left > 100) {
+		duty_left = 100;
 	}
-	if (duty->rghit > 100) {
-		duty->rghit = 100;
+	if (duty_right > 100) {
+		duty_right = 100;
 	}
-	if (duty->left < -100) {
-		duty->left = -100;
+	if (duty_left < -100) {
+		duty_left = -100;
 	}
-	if (duty->rghit < -100) {
-		duty->rghit = -100;
+	if (duty_right < -100) {
+		duty_right = -100;
 	}
 
-	if (rotation_parameter.run_flag == 1) {
-		duty->left = duty->left * -1;
+	if (rotation_flag == 1) {
+		duty_left = duty_left * -1;
 	}
+	duty->left+=duty_left;
+	duty->right+=duty_right;
 }
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
@@ -108,7 +121,7 @@ void wait_straight(void) {
 	translation_ideal.dis = 0.0;
 	translation_ideal.velocity = 0.0;
 	duty.left = 0;
-	duty.rghit = 0;
+	duty.right = 0;
 	duty_to_moter();
 }
 
@@ -123,7 +136,7 @@ void wait_rotation(void) {
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
 	duty.left = 0;
-	duty.rghit = 0;
+	duty.right = 0;
 	duty_to_moter();
 }
 

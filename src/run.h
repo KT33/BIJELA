@@ -24,7 +24,7 @@ void integral(run_t *ideal);
 void wait_straight(void);
 
 void PID_control(run_t *ideal, run_t *left, run_t *right, deviation_t *,
-		deviation_t *, gain_t *, duty_t *duty);
+		deviation_t *, gain_t *, duty_t *duty,int);
 void duty_to_moter(void);
 
 void integral_vel_to_dis(float *velocity, float *distance);
