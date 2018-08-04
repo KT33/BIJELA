@@ -39,7 +39,7 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	rotation_gain.Kp = 0.01;
+	rotation_gain.Ki = 0.01;
 	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
@@ -53,7 +53,7 @@ void mode_1(void) {
 }
 
 void mode_2(void) {
-	rotation_gain.Kp = 0.0;
+	rotation_gain.Ki = 0.05;
 	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
@@ -68,7 +68,7 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-	rotation_gain.Kp = 1.6;
+	rotation_gain.Ki = 0.1;
 	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
