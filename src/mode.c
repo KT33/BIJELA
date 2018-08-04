@@ -48,12 +48,12 @@ void mode_1(void) {
 	rotation_parameter.run_flag = 1;
 	test_flag = 1;
 	while (1) {
-		myprintf("%.2f\n", rotation_real.dis);
+		myprintf("%d\n",duty.left);
 	}
 }
 
 void mode_2(void) {
-	rotation_gain.Ki = 0.05;
+	rotation_gain.Ki = 0.005;
 	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
@@ -77,7 +77,7 @@ void mode_3(void) {
 	rotation_parameter.run_flag = 1;
 	test_flag = 1;
 	while (1) {
-		myprintf("%6.2f\n", rotation_real.velocity);
+		myprintf("%d\n", duty.left);
 	}
 }
 

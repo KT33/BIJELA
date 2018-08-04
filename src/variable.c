@@ -9,6 +9,10 @@
 #include "iodefine.h"
 #include "stdint.h"
 
+
+gain_t rotation_gain={0.1,0.007,0.0};
+gain_t run_gain={0.2,0.1,0.0};//p,i,d
+
 volatile int16_t i;
 
 volatile float diameter = 23.15; //タイヤ径
@@ -29,7 +33,7 @@ int8_t log_flag=0,log_counter=0,log_how_often=0;
 uint16_t log_index=0;
 run_t left_real,right_real;
 duty_t duty={0,0};
-gain_t run_gain={0.2,0.1,0.0};//p,i,d
+
 volatile float log[LogMax];
 
 volatile int speacer_i;
@@ -50,7 +54,7 @@ deviation_t run_left_deviation={0.0,0.0,0.0};
 int8_t test_flag=0;
 
 run_t rotation_real;
-gain_t rotation_gain={0.0,0.00,0.0};
+
 deviation_t rotation_deviation={0.0,0.0,0.0};
 
 
