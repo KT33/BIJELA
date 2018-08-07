@@ -43,6 +43,7 @@ void mode_1(void) {
 //	rotation_gain.Kp=0.0;
 //	run_gain.Ki=0.0;
 //	run_gain.Kp=0.1;
+
 	rotation_deviation.cumulative = 0;
 	rotation_real.dis = 0.0;
 	rotation_real.velocity = 0.0;
@@ -51,7 +52,7 @@ void mode_1(void) {
 	rotation_parameter.run_flag = 1;
 	test_flag = 1;
 	while (1) {
-		myprintf("%d\n",duty.left);
+		myprintf("%.2f\n", rotation_real.velocity);
 	}
 }
 
@@ -85,33 +86,34 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	rotation_gain.Kp = 1.8;
-	rotation_real.dis = 0.0;
-	rotation_real.velocity = 0.0;
-	rotation_ideal.accel = 0.0;
-	rotation_ideal.velocity = 0.0;
-	rotation_parameter.run_flag = 1;
-	test_flag = 1;
-	while (1) {
-		myprintf("%6.2f\n", rotation_real.velocity);
-	}
+	set_rotation(180, 500, 500);
+	wait_rotation();
+
 }
 
 void mode_5(void) {
-
+	set_rotation(180, 700, 400);
+	wait_rotation();
 }
 
 void mode_6(void) {
-
+	set_rotation(180, 700, 3500);
+	wait_rotation();
 }
 
 void mode_7(void) {
-	Moter_L_BACK = 0;
-	Moter_L_FRONT = 0;
-	Moter_R_BACK = 0;
-	Moter_R_FRONT = 0;
-	while (1)
-		;
+	int i=0;
+	while (1) {
+//		real_angle_control();
+		myprintf("%.2f\n", rotation_real.velocity);
+//		ui_led_3bit(i);
+//		i++;
+//		if(i>=8){
+//			i=0;
+//		}
+//		wait_time(1);
+
+	}
 }
 
 void go_mode(uint8_t mode) {

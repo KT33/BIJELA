@@ -53,7 +53,6 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	if(rotation_flag==0){
 		left->velocity=(left->velocity+right->velocity)/2;
 		right->velocity=left->velocity;
-
 	}
 
 	if (translation_parameter.back_rightturn_flag == 1) {
@@ -114,7 +113,7 @@ void wait_straight(void) {
 	volatile int i;
 	//LEFTEING = 1;
 	while (translation_parameter.run_flag == 1) {
-		myprintf("%6.2f", rotation_ideal.velocity);
+	//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
 	//LEFTFRONT = 1;
 	translation_ideal.accel = 0.0;
@@ -129,7 +128,7 @@ void wait_rotation(void) {
 	volatile int i;
 	LEFTEING = 1;
 	while (rotation_parameter.run_flag == 1) {
-		i++;
+		myprintf("%.2f\n",rotation_ideal.velocity);
 	}
 	LEFTFRONT = 1;
 	rotation_ideal.accel = 0.0;

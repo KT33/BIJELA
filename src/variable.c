@@ -10,7 +10,7 @@
 #include "stdint.h"
 
 
-gain_t rotation_gain={0.1,0.007,0.0};
+gain_t rotation_gain={0.1,0.01,0.0};
 gain_t run_gain={0.2,0.1,0.0};//p,i,d
 
 volatile int16_t i;
