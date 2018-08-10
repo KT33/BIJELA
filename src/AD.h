@@ -9,5 +9,6 @@
 #define AD_H_
 
 void init_AD();
+void AD_SEN();
 
 #endif /* AD_H_ */

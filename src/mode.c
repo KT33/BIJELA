@@ -19,8 +19,10 @@
 
 void mode_0(void) {
 
-	while(1){
-		myprintf("%d,%d,%d,%d,%d,%d\n",SEN_L.now,SEN_LF.now,SEN_RF.now,SEN_R.now,SEN_L.diff,SEN_R.diff);
+	while (1) {
+		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now, SEN_RF.now,
+				SEN_R.now);
+		wait_time(100);
 	}
 
 //	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
@@ -107,7 +109,7 @@ void mode_6(void) {
 }
 
 void mode_7(void) {
-	int i=0;
+	int i = 0;
 	while (1) {
 //		real_angle_control();
 		myprintf("%.2f\n", rotation_real.velocity);

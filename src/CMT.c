@@ -13,7 +13,7 @@
 
 void interrupt_cmt0(void) {
 	g_count++;
-	AD_all();
+	AD_SEN();
 //	if (gyro_flag == 1) {
 //		angle += test_gyro2() / 1000;
 //	} else {

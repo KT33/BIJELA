@@ -103,7 +103,6 @@ void init_ALL(void) {
 	init_Encoder();
 	init_Moter_PWM();
 	wait_time(5);
-	AD_all();
 	Battery_Check();
 	FAN = 1;
 }
@@ -135,6 +134,14 @@ void log_sampling(void) {
 }
 
 void Battery_Check(void) {
+	S12AD.ADANS0.WORD = 0x0001; //AD変換(Batt)を設定
+	S12AD.ADCSR.BIT.ADST = 1;
+	while (S12AD.ADCSR.BIT.ADST == 1) {
+
+	}
+
+	Batt = S12AD.ADDR0;
+	Battery=(float)Batt*0.00248648;//(9.97+20.8)/9.97*3.3/4096
 	if (Battery < 7.7) {
 		while (1) {
 			UI_LED1 = 1;
