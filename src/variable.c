@@ -57,6 +57,8 @@ run_t rotation_real;
 
 deviation_t rotation_deviation={0.0,0.0,0.0};
 
+SENLOG_t SEN_L_log,SEN_R_log;
+
 
 
 

@@ -18,12 +18,17 @@
 #include "stdint.h"
 
 void mode_0(void) {
-	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
-	wait_rotation();
-	LEFTFRONT = 1;
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
+
+	while(1){
+		myprintf("%d,%d,%d,%d,%d,%d\n",SEN_L.now,SEN_LF.now,SEN_RF.now,SEN_R.now,SEN_L.diff,SEN_R.diff);
 	}
+
+//	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
+//	wait_rotation();
+//	LEFTFRONT = 1;
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.2f\n", log[i]);
+//	}
 
 //	set_straight(-180, nomal_run.accel, 400.0, nomal_run.vel_min,
 //			nomal_run.vel_min);

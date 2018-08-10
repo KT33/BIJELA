@@ -17,6 +17,7 @@ typedef struct {
 	int now;//今の値
 	int reference;//真ん中にいるときのセンサー値
 	int threshold;//閾値
+	int diff;//差分
 } sensor_t;
 
 typedef struct{
@@ -63,6 +64,15 @@ typedef struct{
 	float difference;//偏差の差分
 } deviation_t;//偏差
 
+typedef struct{
+	int before_1ms;
+	int before_2ms;
+	int before_3ms;
+	int before_4ms;
+	int before_5ms;
+	int now;
+}SENLOG_t;
+
 extern volatile int16_t i;
 extern volatile int g_count;
 extern volatile unsigned short Batt;
@@ -98,6 +108,7 @@ extern run_t rotation_real;
 extern gain_t rotation_gain;
 extern deviation_t rotation_deviation;
 extern normal_para_t nomal_rotation;
+extern SENLOG_t SEN_L_log,SEN_R_log;
 
 
 

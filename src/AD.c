@@ -57,5 +57,29 @@ void AD_all(void) {
 	SEN_LF.now=S12AD.ADDR2;
 	SEN_RF.now=S12AD.ADDR8;
 	SEN_L.now=S12AD.ADDR4;
+
+	SEN_L_log.before_5ms = SEN_L_log.before_4ms;
+	SEN_L_log.before_4ms = SEN_L_log.before_3ms;
+	SEN_L_log.before_3ms = SEN_L_log.before_2ms;
+	SEN_L_log.before_2ms = SEN_L_log.before_1ms;
+	SEN_L_log.before_1ms = SEN_L_log.now;
+	SEN_L_log.now = SEN_L.now;
+
+	SEN_L.diff = (SEN_L_log.now - SEN_L_log.before_5ms);
+	if (SEN_L.diff < 0) {
+		SEN_L.diff = -1 * SEN_L.diff;
+	}
+
+	SEN_R_log.before_5ms = SEN_R_log.before_4ms;
+	SEN_R_log.before_4ms = SEN_R_log.before_3ms;
+	SEN_R_log.before_3ms = SEN_R_log.before_2ms;
+	SEN_R_log.before_2ms = SEN_R_log.before_1ms;
+	SEN_R_log.before_1ms = SEN_R_log.now;
+	SEN_R_log.now = SEN_R.now;
+
+	SEN_R.diff = (SEN_R_log.now - SEN_R_log.before_5ms);
+	if (SEN_R.diff < 0) {
+		SEN_R.diff = -1 * SEN_R.diff;
+	}
 }
 
