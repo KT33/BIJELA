@@ -38,6 +38,9 @@ void interrupt_cmt0(void) {
 					&duty,1);
 			integral(&rotation_ideal);
 		}
+		if(wall_control_flag==1){
+			wall_control_to_duty(&duty);
+		}
 
 		if (log_flag == 1) {
 			log_sampling();

@@ -105,6 +105,8 @@ void init_ALL(void) {
 	wait_time(5);
 	Battery_Check();
 	FAN = 1;
+	SEN_F.threshold=(SEN_LF.threshold+SEN_RF.threshold)/2;
+	SEN_F.reference=(SEN_LF.reference+SEN_RF.reference)/2;
 }
 
 void wait_time(int ms) {
@@ -266,9 +268,9 @@ void LED_Setting(void) {
 	PORTC.PDR.BIT.B3 = 1; /////
 	PORTA.PMR.BIT.B0 = 0; /////
 	PORTA.PDR.BIT.B0 = 1;
-	PORT3.PMR.BIT.B1 = 0; //以下SENLED
-	PORT3.PDR.BIT.B1 = 0;
-	PORT4.PMR.BIT.B1 = 0;
+	PORT3.PMR.BIT.B1 = 0; //SW
+	PORT3.PDR.BIT.B1 = 0;//SW
+	PORT4.PMR.BIT.B1 = 0;//以下SENLED
 	PORT4.PDR.BIT.B1 = 1;
 	PORT4.PMR.BIT.B3 = 0;
 	PORT4.PDR.BIT.B3 = 1;

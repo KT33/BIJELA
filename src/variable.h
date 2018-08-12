@@ -81,7 +81,7 @@ extern char flag,gyro_flag;
 extern volatile float angle;
 //extern uint8_t  gyro_r;
 extern int16_t encoder_L,encoder_R;
-extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF;
+extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF,SEN_F;
 //#define LogMax 200
 extern volatile float log[LogMax];
 extern int8_t log_flag,log_counter,log_how_often;
@@ -109,6 +109,9 @@ extern gain_t rotation_gain;
 extern deviation_t rotation_deviation;
 extern normal_para_t nomal_rotation;
 extern SENLOG_t SEN_L_log,SEN_R_log;
+extern uint8_t wall_control_flag;
+extern gain_t wall_cntrol_gain;
+extern int test1,test2;
 
 
 

@@ -50,46 +50,46 @@ void AD_SEN(void) {
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_R.now=-1*S12AD.ADDR13;
-	SEN_LF.now=-1*S12AD.ADDR2;
-	SEN_RF.now=-1*S12AD.ADDR8;
-	SEN_L.now=-1*S12AD.ADDR4;
+	SEN_R.now = -1 * S12AD.ADDR13;
+	SEN_LF.now = -1 * S12AD.ADDR2;
+	SEN_RF.now = -1 * S12AD.ADDR8;
+	SEN_L.now = -1 * S12AD.ADDR4;
 
-	SENLED_L=1;
+	SENLED_L = 1;
 	S12AD.ADANS0.WORD = 0x0010; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_L.now+=S12AD.ADDR4;
-	SENLED_L=0;
+	SEN_L.now += S12AD.ADDR4;
+	SENLED_L = 0;
 ///////
-	SENLED_LF=1;
+	SENLED_LF = 1;
 	S12AD.ADANS0.WORD = 0x0004; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_LF.now+=S12AD.ADDR2;
-	SENLED_LF=0;
+	SEN_LF.now += S12AD.ADDR2;
+	SENLED_LF = 0;
 ///////
-	SENLED_R=1;
+	SENLED_R = 1;
 	S12AD.ADANS0.WORD = 0x2000; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_R.now+=S12AD.ADDR13;
-	SENLED_R=0;
+	SEN_R.now += S12AD.ADDR13;
+	SENLED_R = 0;
 ////////
-	SENLED_RF=1;
+	SENLED_RF = 1;
 	S12AD.ADANS0.WORD = 0x0100; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_RF.now+=S12AD.ADDR8;
-	SENLED_RF=0;
+	SEN_RF.now += S12AD.ADDR8;
+	SENLED_RF = 0;
 ///////
 
 	SEN_L_log.before_5ms = SEN_L_log.before_4ms;
@@ -115,5 +115,7 @@ void AD_SEN(void) {
 	if (SEN_R.diff < 0) {
 		SEN_R.diff = -1 * SEN_R.diff;
 	}
+
+	SEN_F.now = (SEN_LF.now + SEN_RF.now) / 2;
 }
 

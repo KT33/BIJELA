@@ -20,8 +20,9 @@
 void mode_0(void) {
 
 	while (1) {
-		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now, SEN_RF.now,
-				SEN_R.now);
+
+		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
+				SEN_RF.now, SEN_R.now);
 		wait_time(100);
 	}
 
@@ -50,57 +51,38 @@ void mode_1(void) {
 //	rotation_gain.Kp=0.0;
 //	run_gain.Ki=0.0;
 //	run_gain.Kp=0.1;
-
-	rotation_deviation.cumulative = 0;
-	rotation_real.dis = 0.0;
-	rotation_real.velocity = 0.0;
-	rotation_ideal.accel = 0.0;
-	rotation_ideal.velocity = 0.0;
-	rotation_parameter.run_flag = 1;
-	test_flag = 1;
-	while (1) {
-		myprintf("%.2f\n", rotation_real.velocity);
-	}
+	wall_control_flag = 1;
+	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
 }
 
 void mode_2(void) {
-//	rotation_gain.Ki = 0.005;
-	rotation_deviation.cumulative = 0;
-	rotation_real.dis = 0.0;
-	rotation_real.velocity = 0.0;
-	rotation_ideal.accel = 0.0;
-	rotation_ideal.velocity = 0.0;
-	rotation_parameter.run_flag = 1;
-
-	test_flag = 1;
-	while (1) {
-		myprintf("%d\n", duty.left);
-	}
+	wall_cntrol_gain.Kp = 0.01;
+	wall_control_flag = 1;
+	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
 }
 
 void mode_3(void) {
-	rotation_gain.Ki = 0.1;
-	rotation_deviation.cumulative = 0;
-	rotation_real.dis = 0.0;
-	rotation_real.velocity = 0.0;
-	rotation_ideal.accel = 0.0;
-	rotation_ideal.velocity = 0.0;
-	rotation_parameter.run_flag = 1;
-	test_flag = 1;
-	while (1) {
-		myprintf("%d\n", duty.left);
-	}
+	wall_cntrol_gain.Kp =0.00;
+	wall_control_flag = 1;
+	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
 }
 
 void mode_4(void) {
-	set_rotation(180, 500, 500);
-	wait_rotation();
+	wall_cntrol_gain.Kp = 0.04;
+	wall_control_flag = 1;
+	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
 
 }
 
 void mode_5(void) {
-	set_rotation(180, 700, 400);
-	wait_rotation();
+	wall_control_flag = 1;
+	wall_cntrol_gain.Kp = 0.01;
+	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
 }
 
 void mode_6(void) {

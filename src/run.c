@@ -11,6 +11,47 @@
 #include "other.h"
 #include "iodefine.h"
 
+void wall_control_to_duty(duty_t *duty) {
+	int duty_value;
+	if ((((left_real.velocity + right_real.velocity) / 2) > 30)
+			&& (SEN_L.diff < 20) && (SEN_R.diff < 20)
+			&& (SEN_F.now < SEN_F.threshold)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
+		if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
+			duty_value = wall_cntrol_gain.Kp
+					* ((SEN_L.now - SEN_L.reference)
+							- (SEN_R.now - SEN_R.reference));
+			RIGHTFRONT = 1;
+			LEFTFRONT = 1;
+			CENTERFRONT = 0;
+		} else if (SEN_L.now < SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
+			duty_value = -2 * wall_cntrol_gain.Kp
+					* (SEN_R.now - SEN_R.reference);
+			RIGHTFRONT = 1;
+			LEFTFRONT = 0;
+			CENTERFRONT = 0;
+		} else if (SEN_L.now > SEN_L.threshold && SEN_R.now < SEN_R.threshold) {
+			duty_value = 2 * wall_cntrol_gain.Kp
+					* (SEN_L.now - SEN_L.reference);
+			RIGHTFRONT = 0;
+			LEFTFRONT = 1;
+			CENTERFRONT = 0;
+		} else {
+			duty_value = 0;
+			RIGHTFRONT = 0;
+			LEFTFRONT = 0;
+			CENTERFRONT = 0;
+		}
+	} else {
+		duty_value = 0;
+		RIGHTFRONT = 0;
+		LEFTFRONT = 0;
+		CENTERFRONT = 1;
+	}
+	duty->left += duty_value;
+	duty->right += -1 * duty_value;
+
+}
+
 void duty_to_moter(void) {
 	int duty_left = 0, duty_right = 0;
 
@@ -38,21 +79,37 @@ void duty_to_moter(void) {
 		duty_right = (duty.right * -1);
 	}
 
+	if (duty_left > 100) {
+		duty_left = 100;
+	}
+	if (duty_right > 100) {
+		duty_right = 100;
+	}
+	if (duty_left < -100) {
+		duty_left = -100;
+	}
+	if (duty_right < -100) {
+		duty_right = -100;
+	}
+
+	test1 = duty_left;
+	test2 = duty_right;
+
 	MTU0.TGRB = (duty_right * 4); //MOTER_R
 	MTU0.TGRD = (duty_left * 4); //MOTER_L
 
-	duty.left=0;
-	duty.right=0;
+	duty.left = 0;
+	duty.right = 0;
 }
 
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
-		duty_t *duty,int rotation_flag) {
-	int duty_left,duty_right;
+		duty_t *duty, int rotation_flag) {
+	int duty_left, duty_right;
 
-	if(rotation_flag==0){
-		left->velocity=(left->velocity+right->velocity)/2;
-		right->velocity=left->velocity;
+	if (rotation_flag == 0) {
+		left->velocity = (left->velocity + right->velocity) / 2;
+		right->velocity = left->velocity;
 	}
 
 	if (translation_parameter.back_rightturn_flag == 1) {
@@ -70,24 +127,24 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	duty_right = (int) right_deviation->now * gain->Kp
 			+ right_deviation->cumulative * gain->Ki;
 
-	if (duty_left > 100) {
-		duty_left = 100;
-	}
-	if (duty_right > 100) {
-		duty_right = 100;
-	}
-	if (duty_left < -100) {
-		duty_left = -100;
-	}
-	if (duty_right < -100) {
-		duty_right = -100;
-	}
+//	if (duty_left > 100) {
+//		duty_left = 100;
+//	}
+//	if (duty_right > 100) {
+//		duty_right = 100;
+//	}
+//	if (duty_left < -100) {
+//		duty_left = -100;
+//	}
+//	if (duty_right < -100) {
+//		duty_right = -100;
+//	}
 
 	if (rotation_flag == 1) {
 		duty_left = duty_left * -1;
 	}
-	duty->left+=duty_left;
-	duty->right+=duty_right;
+	duty->left += duty_left;
+	duty->right += duty_right;
 }
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
@@ -113,7 +170,7 @@ void wait_straight(void) {
 	volatile int i;
 	//LEFTEING = 1;
 	while (translation_parameter.run_flag == 1) {
-	//	myprintf("%6.2f", rotation_ideal.velocity);
+		//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
 	//LEFTFRONT = 1;
 	translation_ideal.accel = 0.0;
@@ -128,7 +185,7 @@ void wait_rotation(void) {
 	volatile int i;
 	LEFTEING = 1;
 	while (rotation_parameter.run_flag == 1) {
-		myprintf("%.2f\n",rotation_ideal.velocity);
+		myprintf("%.2f\n", rotation_ideal.velocity);
 	}
 	LEFTFRONT = 1;
 	rotation_ideal.accel = 0.0;
