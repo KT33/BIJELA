@@ -79,17 +79,17 @@ void duty_to_moter(void) {
 		duty_right = (duty.right * -1);
 	}
 
-	if (duty_left > 18) {
-		duty_left = 18;
+	if (duty_left > 100) {
+		duty_left = 100;
 	}
-	if (duty_right > 18) {
-		duty_right = 18;
+	if (duty_right > 100) {
+		duty_right = 100;
 	}
-	if (duty_left < -18) {
-		duty_left = -18;
+	if (duty_left < -100) {
+		duty_left = -100;
 	}
-	if (duty_right < -18) {
-		duty_right = -18;
+	if (duty_right < -100) {
+		duty_right = -100;
 	}
 
 	test1 = duty_left;
@@ -111,11 +111,11 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 		left->velocity = (left->velocity + right->velocity) / 2;
 		right->velocity = left->velocity;
 	}
-
-	if (parameter->back_rightturn_flag == 1) {
-		left->velocity = left->velocity * -1;
-		right->velocity = right->velocity * -1;
-	}
+//
+//	if (parameter->back_rightturn_flag == 1) {
+//		left->velocity = left->velocity * -1;
+//		right->velocity = right->velocity * -1;
+//	}
 
 	left_deviation->now = (ideal->velocity - left->velocity);
 	right_deviation->now = (ideal->velocity - right->velocity);
@@ -155,7 +155,6 @@ void set_rotation(float i_angle, float accel, float max_vel) {
 			0.0);
 	rotation_parameter.run_flag=1;
 	rotation_ideal.velocity = rotation_parameter.strat_vel;
-	rotation_parameter.run_flag = 1;
 	log_start();
 }
 
@@ -179,7 +178,7 @@ void wait_rotation(void) {
 	volatile int i;
 	LEFTEING = 1;
 	while (rotation_parameter.run_flag == 1) {
-		myprintf("%.2f\n", rotation_ideal.velocity);
+
 	}
 	LEFTFRONT = 1;
 	rotation_ideal.accel = 0.0;

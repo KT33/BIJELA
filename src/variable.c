@@ -14,7 +14,7 @@ gain_t run_gain = { 0.2, 0.1, 0.0 }; //p,i,d
 gain_t wall_cntrol_gain = { 0.01, 0.0, 0.0 };
 
 normal_para_t nomal_run = { 450.0, 450.0, 20.0, 1000.0 }; //search,max,min,accel
-normal_para_t nomal_rotation = { 10.0, 10.0, 0.0, 100.0 }; //deg/sec
+normal_para_t nomal_rotation = { 400.0, 400.0, 0.0, 500.0 }; //deg/sec
 
 sensor_t SEN_R = { 0, 1116, 626, 0 }; //now,reference,threshold,diff
 sensor_t SEN_L = { 0, 1082, 450, 0 };

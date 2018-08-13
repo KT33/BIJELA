@@ -48,15 +48,25 @@ void mode_0(void) {
 
 void mode_1(void) {
 //	rotation_gain.Ki=0.0;
-	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_max);
+	int i=0;
+	set_rotation(360.0, nomal_rotation.accel, nomal_rotation.vel_max);
 	wait_rotation();
+	for (i = 0; i < LogMax; ++i) {
+		myprintf("%f\n",log[i]);
+	}
+//	while(1){
+//		myprintf("%d,%d\n",test1,test2);
+//	}
 }
 
 void mode_2(void) {
 //	rotation_gain.Ki=0.0;
-	rotation_gain.Ki=0.03;
+//	rotation_gain.Ki=0.03;
 	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_max);
 	wait_rotation();
+//	while(1){
+//		myprintf("%d,%d\n",test1,test2);
+//	}
 }
 
 void mode_3(void) {
@@ -86,7 +96,7 @@ void mode_6(void) {
 }
 
 void mode_7(void) {
-	int i = 0;
+//	int i = 0;
 	while (1) {
 //		real_angle_control();
 		myprintf("%.2f\n", rotation_real.velocity);

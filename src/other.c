@@ -17,6 +17,9 @@
 
 void real_angle_control(void){
 	rotation_real.velocity=-0.2450+test_gyro2();
+	if(rotation_parameter.back_rightturn_flag==1){
+		rotation_real.velocity=-1*rotation_real.velocity;
+	}
 }
 
 void real_velocity_control(void) {
@@ -30,6 +33,10 @@ void real_velocity_control(void) {
 
 	TPU1.TCNT = 0;
 	TPU2.TCNT = 0;
+	if(translation_parameter.back_rightturn_flag==1){
+		left_real.velocity=-1*left_real.velocity;
+		right_real.velocity=-1*right_real.velocity;
+	}
 }
 
 void ui_reset(void){
@@ -118,14 +125,14 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 3;
+	log_how_often = 2;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = duty.left;
+		log[log_index] = rotation_real.velocity;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {

@@ -31,7 +31,7 @@ void interrupt_cmt0(void) {
 			integral(&translation_ideal);
 		}
 		if (rotation_parameter.run_flag == 1) {
-			CENTERFRONT = 1;
+//			CENTERFRONT = 1;
 			control_accel(&rotation_ideal, &rotation_parameter);
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 					&rotation_deviation, &rotation_deviation, &rotation_gain,&rotation_parameter,
