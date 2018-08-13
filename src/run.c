@@ -129,7 +129,8 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 
 
 	if (rotation_flag == 1) {
-		duty_left = duty_left * -1;
+		duty_left = duty_left * -1;//*0.98
+//		duty_right=duty_right*1.07;
 	}
 	if (parameter->back_rightturn_flag == 1) {
 		duty_left = duty_left * -1;
@@ -144,17 +145,23 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 	trapezoid_preparation(&translation_parameter, i_distance, accel, max_vel,
 			strat_vel, end_vel);
+	wall_control_flag=1;
 	translation_parameter.run_flag=1;
 	translation_ideal.velocity = translation_parameter.strat_vel;
 	//log_start();
 
 }
 
-void set_rotation(float i_angle, float accel, float max_vel) {
+void set_rotation(float i_angle, float accel, float max_vel,float center_vel) {
 	trapezoid_preparation(&rotation_parameter, i_angle, accel, max_vel, 0.0,
 			0.0);
-	rotation_parameter.run_flag=1;
+
+	wall_control_flag=0;
 	rotation_ideal.velocity = rotation_parameter.strat_vel;
+	translation_ideal.accel=0.0;
+	translation_ideal.velocity=0.0;
+
+	rotation_parameter.run_flag=1;
 	log_start();
 }
 
@@ -169,6 +176,10 @@ void wait_straight(void) {
 	translation_ideal.dis = 0.0;
 	translation_ideal.velocity = 0.0;
 	translation_parameter.back_rightturn_flag = 0;
+	run_left_deviation.now=0.0;
+	run_left_deviation.difference=0.0;
+	run_right_deviation.now=0.0;
+	run_right_deviation.difference=0.0;
 	duty.left = 0;
 	duty.right = 0;
 	duty_to_moter();

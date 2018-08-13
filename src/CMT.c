@@ -36,6 +36,9 @@ void interrupt_cmt0(void) {
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 					&rotation_deviation, &rotation_deviation, &rotation_gain,&rotation_parameter,
 					&duty,1);
+			PID_control(&translation_ideal, &left_real, &right_real,
+					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
+					&duty,0);
 			integral(&rotation_ideal);
 		}
 		if(wall_control_flag==1){

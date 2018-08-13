@@ -29,7 +29,7 @@ void duty_to_moter(void);
 
 void integral_vel_to_dis(float *velocity, float *distance);
 
-void set_rotation(float i_angle, float accel, float max_vel);
+void set_rotation(float i_angle, float accel, float max_vel,float);
 void wait_rotation(void);
 void wall_control_to_duty(duty_t*);
 
