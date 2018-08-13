@@ -26,7 +26,7 @@ void interrupt_cmt0(void) {
 		if (translation_parameter.run_flag == 1) {
 			control_accel(&translation_ideal, &translation_parameter);
 			PID_control(&translation_ideal, &left_real, &right_real,
-					&run_left_deviation, &run_right_deviation, &run_gain,
+					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
 					&duty,0);
 			integral(&translation_ideal);
 		}
@@ -34,7 +34,7 @@ void interrupt_cmt0(void) {
 			CENTERFRONT = 1;
 			control_accel(&rotation_ideal, &rotation_parameter);
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-					&rotation_deviation, &rotation_deviation, &rotation_gain,
+					&rotation_deviation, &rotation_deviation, &rotation_gain,&rotation_parameter,
 					&duty,1);
 			integral(&rotation_ideal);
 		}
@@ -61,10 +61,10 @@ void interrupt_cmt0(void) {
 			rotation_real.dis += rotation_real.velocity * 0.001;
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 					&rotation_deviation, &rotation_deviation, &rotation_gain,
-					&duty,1);
+					&rotation_parameter,&duty,1);
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,
-					&duty,0);
+					&translation_parameter,&duty,0);
 
 		}
 		duty_to_moter();

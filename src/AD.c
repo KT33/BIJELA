@@ -99,7 +99,7 @@ void AD_SEN(void) {
 	SEN_L_log.before_1ms = SEN_L_log.now;
 	SEN_L_log.now = SEN_L.now;
 
-	SEN_L.diff = (SEN_L_log.now - SEN_L_log.before_5ms);
+	SEN_L.diff = (SEN_L_log.now - SEN_L_log.before_3ms);
 	if (SEN_L.diff < 0) {
 		SEN_L.diff = -1 * SEN_L.diff;
 	}
@@ -111,7 +111,7 @@ void AD_SEN(void) {
 	SEN_R_log.before_1ms = SEN_R_log.now;
 	SEN_R_log.now = SEN_R.now;
 
-	SEN_R.diff = (SEN_R_log.now - SEN_R_log.before_5ms);
+	SEN_R.diff = (SEN_R_log.now - SEN_R_log.before_3ms);
 	if (SEN_R.diff < 0) {
 		SEN_R.diff = -1 * SEN_R.diff;
 	}

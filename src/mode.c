@@ -47,35 +47,30 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-//	rotation_gain.Ki = 0.0;
-//	rotation_gain.Kp=0.0;
-//	run_gain.Ki=0.0;
-//	run_gain.Kp=0.1;
-	wall_control_flag = 1;
-	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
-	wait_straight();
+//	rotation_gain.Ki=0.0;
+	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_max);
+	wait_rotation();
 }
 
 void mode_2(void) {
-	wall_cntrol_gain.Kp = 0.01;
-	wall_control_flag = 1;
-	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
-	wait_straight();
+//	rotation_gain.Ki=0.0;
+	rotation_gain.Ki=0.03;
+	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_max);
+	wait_rotation();
 }
 
 void mode_3(void) {
-	wall_cntrol_gain.Kp =0.00;
-	wall_control_flag = 1;
+	wall_control_flag = 0;
 	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
+	wait_time(1000);
+	set_straight(-180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
 	wait_straight();
 }
 
 void mode_4(void) {
-	wall_cntrol_gain.Kp = 0.04;
-	wall_control_flag = 1;
-	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
-	wait_straight();
-
+	set_straight(-1800 * 3,200.0, 250.0, 0, 0);
+	myprintf("%d,%d\n",test1,test2);
 }
 
 void mode_5(void) {
