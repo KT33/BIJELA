@@ -129,7 +129,7 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = translation_ideal.velocity;
+		log[log_index] = left_real.dis;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {

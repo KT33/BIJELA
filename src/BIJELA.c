@@ -57,8 +57,8 @@ void main() {
 			ui_reset();
 			chattering();
 			go_mode(mode_flag);
-
 		}
+
 
 	}
 }

@@ -46,6 +46,7 @@ void interrupt_cmt0(void) {
 				&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
 				&duty,0);
 		integral(&translation_ideal);
+		integral_vel_to_dis(&left_real.velocity, &left_real.dis);
 
 
 		if(wall_control_flag==1){
