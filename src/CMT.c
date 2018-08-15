@@ -28,7 +28,7 @@ void interrupt_cmt0(void) {
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
 					&duty,0);
-			integral(&translation_ideal);
+//			integral(&translation_ideal);
 		}
 		if (rotation_parameter.run_flag == 1) {
 //			CENTERFRONT = 1;
@@ -41,6 +41,10 @@ void interrupt_cmt0(void) {
 					&duty,0);
 			integral(&rotation_ideal);
 		}
+
+		integral(&translation_ideal);
+
+
 		if(wall_control_flag==1){
 			wall_control_to_duty(&duty);
 		}

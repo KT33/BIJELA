@@ -145,7 +145,7 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 	trapezoid_preparation(&translation_parameter, i_distance, accel, max_vel,
 			strat_vel, end_vel);
-	wall_control_flag=1;
+//	wall_control_flag=1;
 	translation_parameter.run_flag=1;
 	translation_ideal.velocity = translation_parameter.strat_vel;
 	//log_start();
@@ -174,15 +174,15 @@ void wait_straight(void) {
 	//LEFTFRONT = 1;
 	translation_ideal.accel = 0.0;
 	translation_ideal.dis = 0.0;
-	translation_ideal.velocity = 0.0;
+	translation_ideal.velocity = translation_parameter.end_vel;
 	translation_parameter.back_rightturn_flag = 0;
 	run_left_deviation.now=0.0;
 	run_left_deviation.difference=0.0;
 	run_right_deviation.now=0.0;
 	run_right_deviation.difference=0.0;
-	duty.left = 0;
-	duty.right = 0;
-	duty_to_moter();
+//	duty.left = 0;
+//	duty.right = 0;
+//	duty_to_moter();
 }
 
 void wait_rotation(void) {
@@ -196,9 +196,9 @@ void wait_rotation(void) {
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
 	rotation_parameter.back_rightturn_flag = 0;
-	duty.left = 0;
-	duty.right = 0;
-	duty_to_moter();
+//	duty.left = 0;
+//	duty.right = 0;
+//	duty_to_moter();
 }
 
 void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,

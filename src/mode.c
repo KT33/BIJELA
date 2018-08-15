@@ -19,7 +19,8 @@
 
 void mode_0(void) {
 
-	right_hand();
+	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
+	wait_straight();
 //	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
 //	wait_rotation();
 //	LEFTFRONT = 1;
@@ -41,13 +42,22 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-//	rotation_gain.Ki=0.0;
-//	int i = 0;
-	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_max, 0.0);
-	wait_rotation();
-	wait_time(1000);
-	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_max, 0.0);
-	wait_rotation();
+	set_straight(180, nomal_run.accel, 300.0, 0.0, 200.0);
+	wait_straight();
+	while(1){
+		myprintf("%.2f\n",translation_ideal.velocity);
+	}
+//	wait_straight();
+//	CENTERFRONT=1;
+//	LEFTFRONT=1;
+//	RIGHTFRONT=1;
+//	wait_time(2000);
+//	CENTERFRONT=0;
+//	LEFTFRONT=0;
+//	RIGHTFRONT=0;
+//	Moter_L_FRONT=0;
+//	Moter_R_FRONT=0;
+//	Moter_Stby=0;
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
 //	}
@@ -111,6 +121,8 @@ void go_mode(uint8_t mode) {
 	mode_flag = mode_flag | 0x80;
 	Battery_Check();
 	wait_time(1000);
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
 	if (mode == 0) {
 		mode_0();
 	} else if (mode == 1) {
