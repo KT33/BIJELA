@@ -14,11 +14,10 @@
 #include "other.h"
 #include "SPI.h"
 
-
-void real_angle_control(void){
-	rotation_real.velocity=-0.2450+test_gyro2();
-	if(rotation_parameter.back_rightturn_flag==1){
-		rotation_real.velocity=-1*rotation_real.velocity;
+void real_angle_control(void) {
+	rotation_real.velocity = -0.2450 + test_gyro2();
+	if (rotation_parameter.back_rightturn_flag == 1) {
+		rotation_real.velocity = -1 * rotation_real.velocity;
 	}
 }
 
@@ -33,22 +32,20 @@ void real_velocity_control(void) {
 
 	TPU1.TCNT = 0;
 	TPU2.TCNT = 0;
-	if(translation_parameter.back_rightturn_flag==1){
-		left_real.velocity=-1*left_real.velocity;
-		right_real.velocity=-1*right_real.velocity;
+	if (translation_parameter.back_rightturn_flag == 1) {
+		left_real.velocity = -1 * left_real.velocity;
+		right_real.velocity = -1 * right_real.velocity;
 	}
 }
 
-void ui_reset(void){
+void ui_reset(void) {
 	ui_led_3bit(0);
-	LEFTEING=0;
-	LEFTFRONT=0;
-	CENTERFRONT=0;
-	RIGHTFRONT=0;
-	RIGHTWING=0;
+	LEFTEING = 0;
+	LEFTFRONT = 0;
+	CENTERFRONT = 0;
+	RIGHTFRONT = 0;
+	RIGHTWING = 0;
 }
-
-
 
 void ui_led_3bit(uint8_t value) {
 	if (value == 1) {
@@ -112,8 +109,8 @@ void init_ALL(void) {
 	wait_time(5);
 	Battery_Check();
 	FAN = 1;
-	SEN_F.threshold=(SEN_LF.threshold+SEN_RF.threshold)/2;
-	SEN_F.reference=(SEN_LF.reference+SEN_RF.reference)/2;
+	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
+	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
 }
 
 void wait_time(int ms) {
@@ -132,7 +129,7 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = rotation_real.velocity;
+		log[log_index] = translation_ideal.velocity;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -150,7 +147,7 @@ void Battery_Check(void) {
 	}
 
 	Batt = S12AD.ADDR0;
-	Battery=(float)Batt*0.00248648;//(9.97+20.8)/9.97*3.3/4096
+	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
 	if (Battery < 7.7) {
 		while (1) {
 			UI_LED1 = 1;
@@ -276,8 +273,8 @@ void LED_Setting(void) {
 	PORTA.PMR.BIT.B0 = 0; /////
 	PORTA.PDR.BIT.B0 = 1;
 	PORT3.PMR.BIT.B1 = 0; //SW
-	PORT3.PDR.BIT.B1 = 0;//SW
-	PORT4.PMR.BIT.B1 = 0;//以下SENLED
+	PORT3.PDR.BIT.B1 = 0; //SW
+	PORT4.PMR.BIT.B1 = 0; //以下SENLED
 	PORT4.PDR.BIT.B1 = 1;
 	PORT4.PMR.BIT.B3 = 0;
 	PORT4.PDR.BIT.B3 = 1;
@@ -309,6 +306,4 @@ void Clock_Settting(void) {
 	R_INIT_Clock(); /* ---- Initialization of the clock ---- */
 	setpsw_i();
 }
-
-
 

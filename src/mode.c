@@ -42,32 +42,38 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
+	wall_control_flag = 1;
 	set_straight(180, nomal_run.accel, 300.0, 0.0, 200.0);
+	log_start();
 	wait_straight();
-	while(1){
-		myprintf("%.2f\n",translation_ideal.velocity);
-	}
-//	wait_straight();
+	set_straight(180, nomal_run.accel, 300.0, 200.0, 0.0);
+	wait_straight();
+
+//	while (1) {
+//		myprintf("%.2f\n",translation_ideal.velocity);
+//	}
+
 //	CENTERFRONT=1;
+
 //	LEFTFRONT=1;
 //	RIGHTFRONT=1;
 //	wait_time(2000);
-//	CENTERFRONT=0;
-//	LEFTFRONT=0;
-//	RIGHTFRONT=0;
-//	Moter_L_FRONT=0;
-//	Moter_R_FRONT=0;
-//	Moter_Stby=0;
+//	CENTERFRONT = 0;
+//	LEFTFRONT = 0;
+//	RIGHTFRONT = 0;
+//	translation_ideal.velocity = 0.0;
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.2f\n", log[i]);
+//	}
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
 //	}
 }
 
 void mode_2(void) {
-//	rotation_gain.Ki=0.0;
-//	rotation_gain.Ki=0.03;
-	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_max, 0.0);
-	wait_rotation();
+	wall_control_flag = 1;
+	set_straight(180*2, nomal_run.accel, 300.0, 0.0, 0.0);
+	wait_straight();
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
 //	}
@@ -123,6 +129,7 @@ void go_mode(uint8_t mode) {
 	wait_time(1000);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
+	translation_ideal.dis=0.0;
 	if (mode == 0) {
 		mode_0();
 	} else if (mode == 1) {

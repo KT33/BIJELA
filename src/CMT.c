@@ -25,9 +25,9 @@ void interrupt_cmt0(void) {
 		real_angle_control();
 		if (translation_parameter.run_flag == 1) {
 			control_accel(&translation_ideal, &translation_parameter);
-			PID_control(&translation_ideal, &left_real, &right_real,
-					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
-					&duty,0);
+//			PID_control(&translation_ideal, &left_real, &right_real,
+//					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
+//					&duty,0);
 //			integral(&translation_ideal);
 		}
 		if (rotation_parameter.run_flag == 1) {
@@ -42,6 +42,9 @@ void interrupt_cmt0(void) {
 			integral(&rotation_ideal);
 		}
 
+		PID_control(&translation_ideal, &left_real, &right_real,
+				&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
+				&duty,0);
 		integral(&translation_ideal);
 
 

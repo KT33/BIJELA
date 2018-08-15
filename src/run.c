@@ -148,7 +148,7 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 //	wall_control_flag=1;
 	translation_parameter.run_flag=1;
 	translation_ideal.velocity = translation_parameter.strat_vel;
-	//log_start();
+//	log_start();
 
 }
 
@@ -162,7 +162,7 @@ void set_rotation(float i_angle, float accel, float max_vel,float center_vel) {
 	translation_ideal.velocity=0.0;
 
 	rotation_parameter.run_flag=1;
-	log_start();
+//	log_start();
 }
 
 void wait_straight(void) {
@@ -172,6 +172,7 @@ void wait_straight(void) {
 		//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
 	//LEFTFRONT = 1;
+	//translation_parameter.run_flag=1;
 	translation_ideal.accel = 0.0;
 	translation_ideal.dis = 0.0;
 	translation_ideal.velocity = translation_parameter.end_vel;
@@ -180,6 +181,7 @@ void wait_straight(void) {
 	run_left_deviation.difference=0.0;
 	run_right_deviation.now=0.0;
 	run_right_deviation.difference=0.0;
+
 //	duty.left = 0;
 //	duty.right = 0;
 //	duty_to_moter();
@@ -245,7 +247,7 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 }
 
 void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
-	if (ideal->dis < trapezoid->deacceldistance) {
+	if (ideal->dis < trapezoid->acceldistance) {
 		UI_LED1 = 1;
 		if (ideal->velocity < trapezoid->max_vel) {
 			ideal->accel = trapezoid->accel;
