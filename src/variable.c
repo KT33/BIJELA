@@ -67,3 +67,6 @@ SENLOG_t SEN_L_log, SEN_R_log;
 uint8_t wall_control_flag = 0;
 
 int test1,test2;
+
+uint8_t direction=0;
+XY_t x,y;

@@ -19,8 +19,10 @@
 
 void mode_0(void) {
 
-	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
-	wait_straight();
+	right_hand();
+
+//	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
+//	wait_straight();
 //	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
 //	wait_rotation();
 //	LEFTFRONT = 1;
@@ -51,7 +53,7 @@ void mode_1(void) {
 	set_straight(180, nomal_run.accel, 300.0, 300.0, 0.0);
 	wait_straight();
 
-		for (i = 0; i < LogMax; i++) {
+	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
 	}
 
@@ -78,7 +80,7 @@ void mode_1(void) {
 
 void mode_2(void) {
 	wall_control_flag = 1;
-	set_straight(180*2, nomal_run.accel, 300.0, 0.0, 0.0);
+	set_straight(180 * 2, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
@@ -95,8 +97,11 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	set_straight(-1800 * 3, 200.0, 250.0, 0, 0);
-	myprintf("%d,%d\n", test1, test2);
+	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.2f\n", log[i]);
+	}
 }
 
 void mode_5(void) {
@@ -135,7 +140,7 @@ void go_mode(uint8_t mode) {
 	wait_time(1000);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
-	translation_ideal.dis=0.0;
+	translation_ideal.dis = 0.0;
 	if (mode == 0) {
 		mode_0();
 	} else if (mode == 1) {
@@ -197,8 +202,8 @@ void go_mode(uint8_t mode) {
 	}
 	ui_reset();
 	wait_time(200);
-	translation_ideal.accel=0.0;
-	translation_ideal.velocity=0.0;
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
 	mode_flag = mode_flag & 0x7f;
 }
 

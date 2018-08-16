@@ -73,6 +73,12 @@ typedef struct{
 	int now;
 }SENLOG_t;
 
+typedef struct{
+	uint8_t now;
+	uint8_t goal;
+	uint8_t adachi_map;
+}XY_t;
+
 extern volatile int16_t i;
 extern volatile int g_count;
 extern volatile unsigned short Batt;
@@ -112,7 +118,8 @@ extern SENLOG_t SEN_L_log,SEN_R_log;
 extern uint8_t wall_control_flag;
 extern gain_t wall_cntrol_gain;
 extern int test1,test2;
-
+extern uint8_t direction;
+extern XY_t x,y;
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7
@@ -135,6 +142,10 @@ extern int test1,test2;
 #define Moter_Stby PORTB.PODR.BIT.B0
 #define Moter_R_FRONT PORTB.PODR.BIT.B5
 #define Moter_R_BACK PORTB.PODR.BIT.B6
+#define North 0
+#define West 1
+#define South 2
+#define East 4
 
 
 #endif /* VARIABLE_H_ */

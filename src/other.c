@@ -111,6 +111,8 @@ void init_ALL(void) {
 	FAN = 1;
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
+	x.now=0;
+	y.now=0;
 }
 
 void wait_time(int ms) {
@@ -129,7 +131,7 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = left_real.dis;
+		log[log_index] = (float)test1;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
