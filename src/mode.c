@@ -47,16 +47,11 @@ void mode_1(void) {
 
 	wall_control_flag = 1;
 	set_straight(180, nomal_run.accel, 300.0, 0.0, 300.0);
-//	log_start();
 	wait_straight();
 	set_straight(180, nomal_run.accel, 300.0, 300.0, 300.0);
 	wait_straight();
 	set_straight(180, nomal_run.accel, 300.0, 300.0, 0.0);
 	wait_straight();
-
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
-	}
 
 //	while (1) {
 //		myprintf("%.2f\n",translation_ideal.velocity);
@@ -80,8 +75,7 @@ void mode_1(void) {
 }
 
 void mode_2(void) {
-	wall_control_flag = 1;
-	set_straight(180 * 2, nomal_run.accel, 300.0, 0.0, 0.0);
+	set_straight(180*3, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);

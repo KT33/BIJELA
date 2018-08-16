@@ -145,7 +145,7 @@ extern XY_t x,y;
 #define North 0
 #define West 1
 #define South 2
-#define East 4
+#define East 3
 
 
 #endif /* VARIABLE_H_ */

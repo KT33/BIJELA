@@ -14,8 +14,8 @@
 void wall_control_to_duty(duty_t *duty) {
 	int duty_value;
 	if ((((left_real.velocity + right_real.velocity) / 2) > 30)
-			&& (SEN_L.diff < 30) && (SEN_R.diff < 30)
-			&& (SEN_F.now < SEN_F.threshold)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
+			&& (SEN_L.diff < 15) && (SEN_R.diff < 15)
+			&& (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
 		if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
 			duty_value = wall_cntrol_gain.Kp
 					* ((SEN_L.now - SEN_L.reference)
@@ -158,17 +158,19 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 	rotation_ideal.velocity = 0.0;
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = center_vel;
-//	if((i_angle>80.0)||(i_angle<100.0)){
-//		direction++;
-//		if(direction==4){
-//			direction=North;
-//		}
-//	}else if((i_angle<-80.0)||(i_angle>-100.0)){
-//		if(direction==0){
-//			direction=4;
-//		}
-//		direction--;
-//	}
+	if((i_angle>80.0)&&(i_angle<100.0)){
+		direction++;
+		if(direction==4){
+			direction=North;
+		}
+	}else if((i_angle<-80.0)&&(i_angle>-100.0)){
+		direction+=3;
+	}else if(((i_angle>170.0)&&(i_angle<190.0))||((i_angle<-170.0)&&(i_angle>-190.0))){
+		direction+=2;
+	}
+	if(direction>3){
+		direction-=4;
+	}
 	rotation_parameter.run_flag = 1;
 	log_start();
 }

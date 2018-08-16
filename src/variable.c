@@ -16,15 +16,15 @@ gain_t wall_cntrol_gain = { 0.01, 0.0, 0.0 };
 normal_para_t nomal_run = { 450.0, 450.0, 20.0, 1000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 400.0, 400.0, 0.0, 500.0 }; //deg/sec
 
-sensor_t SEN_R = { 0, 1067, 520, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 904, 380, 0 };
-sensor_t SEN_RF = { 0, 0, 425, 0 };
-sensor_t SEN_LF = { 0, 0, 377, 0 };
+sensor_t SEN_R = { 0, 1052, 520, 0 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 1164, 380, 0 };
+sensor_t SEN_RF = { 0, 945, 425, 0 };
+sensor_t SEN_LF = { 0, 941, 377, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 volatile int16_t i;
 
-volatile float diameter = 23.15; //タイヤ径
+volatile float diameter = 23.6; //タイヤ径
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
