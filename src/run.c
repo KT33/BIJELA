@@ -128,8 +128,7 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 			+ right_deviation->cumulative * gain->Ki;
 
 	if (rotation_flag == 1) {
-		duty_left = duty_left * -1; //*0.98
-//		duty_right=duty_right*1.07;
+		duty_left = duty_left * -1;
 	}
 	if (parameter->back_rightturn_flag == 1) {
 		duty_left = duty_left * -1;
@@ -144,7 +143,7 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 
 	trapezoid_preparation(&translation_parameter, i_distance, accel, max_vel,
 			strat_vel, end_vel);
-	wall_control_flag=1;
+	wall_control_flag = 1;
 	translation_parameter.run_flag = 1;
 	translation_ideal.velocity = translation_parameter.strat_vel;
 //	log_start();
@@ -156,20 +155,20 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 			0.0);
 
 	wall_control_flag = 0;
-	rotation_ideal.velocity = rotation_parameter.strat_vel;
+	rotation_ideal.velocity = 0.0;
 	translation_ideal.accel = 0.0;
-	translation_ideal.velocity = 0.0;
-	if((i_angle>80.0)||(i_angle<100.0)){
-		direction++;
-		if(direction==4){
-			direction=North;
-		}
-	}else if((i_angle<-80.0)||(i_angle>-100.0)){
-		if(direction==0){
-			direction=4;
-		}
-		direction--;
-	}
+	translation_ideal.velocity = center_vel;
+//	if((i_angle>80.0)||(i_angle<100.0)){
+//		direction++;
+//		if(direction==4){
+//			direction=North;
+//		}
+//	}else if((i_angle<-80.0)||(i_angle>-100.0)){
+//		if(direction==0){
+//			direction=4;
+//		}
+//		direction--;
+//	}
 	rotation_parameter.run_flag = 1;
 	log_start();
 }
@@ -198,11 +197,11 @@ void wait_straight(void) {
 
 void wait_rotation(void) {
 	volatile int i;
-	LEFTEING = 1;
+//	LEFTEING = 1;
 	while (rotation_parameter.run_flag == 1) {
 
 	}
-	LEFTFRONT = 1;
+//	LEFTFRONT = 1;
 	rotation_ideal.accel = 0.0;
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
@@ -293,11 +292,11 @@ void integral_vel_to_dis(float *velocity, float *distance) {
 void coordinate(void) {
 	if (direction == North) {
 		y.now++;
-	}else if(direction==West){
+	} else if (direction == West) {
 		x.now--;
-	}else if(direction==South){
+	} else if (direction == South) {
 		y.now--;
-	}else if(direction==East){
+	} else if (direction == East) {
 		x.now++;
 	}
 }

@@ -44,6 +44,7 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
+
 	wall_control_flag = 1;
 	set_straight(180, nomal_run.accel, 300.0, 0.0, 300.0);
 //	log_start();
@@ -97,7 +98,7 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
@@ -204,6 +205,9 @@ void go_mode(uint8_t mode) {
 	wait_time(200);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
+	duty.left=0;
+	duty.right=0;
+	duty_to_moter();
 	mode_flag = mode_flag & 0x7f;
 }
 
