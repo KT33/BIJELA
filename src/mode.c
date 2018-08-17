@@ -19,7 +19,7 @@
 
 void mode_0(void) {
 
-	right_hand();
+	right_hand(nomal_run.accel,nomal_run.vel_search);
 
 //	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
 //	wait_straight();
@@ -44,8 +44,17 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-
-	set_straight(180 * 1, nomal_run.accel, 300.0, 0.0, 0.0);
+	set_straight(141.4, nomal_run.accel, nomal_run.vel_search, 0.0, nomal_run.vel_search);
+	wait_straight();
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	wait_straight();
+	wait_time(100);
+	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,0.0);
+	wait_rotation();
+	wait_time(100);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, 0.0, nomal_run.vel_search);
+	wait_straight();
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
 	wait_straight();
 
 //	while (1) {
@@ -54,8 +63,11 @@ void mode_1(void) {
 }
 void mode_2(void) {
 //	diameter = 23.75;
-	set_straight(180 * 2, nomal_run.accel, 300.0, 0.0, 0.0);
+	right_real.dis = 0.0;
+	set_straight(90, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
+
+
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
 //	}
@@ -63,15 +75,9 @@ void mode_2(void) {
 
 void mode_3(void) {
 //	wall_control_flag=0;
+	right_real.dis = 0.0;
 	set_straight(180 * 3, nomal_run.accel, 300.0, 0.0, 0.0);
-	log_start();
 	wait_straight();
-	while(SWITCH==1){
-
-	}
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.2f\n", log[i]);
-	}
 
 }
 

@@ -114,10 +114,10 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 		trapezoid_t *parameter, duty_t *duty, int rotation_flag) {
 	int duty_left, duty_right;
 
-	if (rotation_flag == 0) {
+//	if (rotation_flag == 0) {
 		left->velocity = (left->velocity + right->velocity) / 2;
 		right->velocity = left->velocity;
-	}
+//	}
 //
 //	if (parameter->back_rightturn_flag == 1) {
 //		left->velocity = left->velocity * -1;
@@ -216,6 +216,8 @@ void wait_rotation(void) {
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
 	rotation_parameter.back_rightturn_flag = 0;
+	rotation_deviation.now=0.0;
+	rotation_deviation.cumulative=0.0;
 //	duty.left = 0;
 //	duty.right = 0;
 //	duty_to_moter();

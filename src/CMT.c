@@ -73,27 +73,28 @@ void interrupt_cmt0(void) {
 			LEFTFRONT = 1;
 		}
 
-		if (test_flag == 1) {	//enkaigei
-			rotation_deviation.cumulative = 0;
-			rotation_real.dis = 0.0;
-			//		rotation_real.velocity = 0.0;
-			rotation_ideal.accel = 0.0;
-			rotation_ideal.velocity = 0.0;
-			rotation_parameter.run_flag = 1;
-			RIGHTWING = 1;
-			rotation_ideal.accel = 0.0;
-			rotation_ideal.velocity = 0.0;
-			translation_ideal.velocity = 0.0;
-			translation_ideal.accel = 0;
-			rotation_real.dis += rotation_real.velocity * 0.001;
-			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-					&rotation_deviation, &rotation_deviation, &rotation_gain,
-					&rotation_parameter, &duty, 1);
-			PID_control(&translation_ideal, &left_real, &right_real,
-					&run_left_deviation, &run_right_deviation, &run_gain,
-					&translation_parameter, &duty, 0);
-
-		}
+//		if (test_flag == 1) {	//enkaigei
+//			rotation_deviation.cumulative = 0;
+//			rotation_real.dis = 0.0;
+//			//		rotation_real.velocity = 0.0;
+//			rotation_ideal.accel = 0.0;
+//			rotation_ideal.velocity = 0.0;
+//			rotation_parameter.run_flag = 1;
+//			RIGHTWING = 1;
+//			rotation_ideal.accel = 0.0;
+//			rotation_ideal.velocity = 0.0;
+//			translation_ideal.velocity = 0.0;
+//			translation_ideal.accel = 0;
+//			rotation_real.dis += rotation_real.velocity * 0.001;
+//			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
+//					&rotation_deviation, &rotation_deviation, &rotation_gain,
+//					&rotation_parameter, &duty, 1);
+//			PID_control(&translation_ideal, &left_real, &right_real,
+//					&run_left_deviation, &run_right_deviation, &run_gain,
+//					&translation_parameter, &duty, 0);
+//
+//		}
+		integral_vel_to_dis(&right_real.velocity, &right_real.dis);;
 		duty_to_moter();
 	} else { //モード選択中
 //		real_velocity_control();
