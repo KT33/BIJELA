@@ -60,7 +60,6 @@ void main() {
 		}
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
-
 	}
 }
 ///////////////////

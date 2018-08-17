@@ -9,9 +9,9 @@
 #include "iodefine.h"
 #include "stdint.h"
 
-gain_t rotation_gain = { 0.1, 0.01, 0.0 };
-gain_t run_gain = { 0.2, 0.1, 0.0 }; //p,i,d
-gain_t wall_cntrol_gain = { 0.01, 0.0, 0.0 };
+gain_t rotation_gain = { 0.4, 0.04, 0.0 };
+gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
+gain_t wall_cntrol_gain = { 0.04, 0.0, 0.0 };
 
 normal_para_t nomal_run = { 450.0, 450.0, 20.0, 1000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 400.0, 400.0, 0.0, 500.0 }; //deg/sec
@@ -22,9 +22,11 @@ sensor_t SEN_RF = { 0, 945, 425, 0 };
 sensor_t SEN_LF = { 0, 941, 377, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
+int wall_control_offset=-2;
+
 volatile int16_t i;
 
-volatile float diameter = 23.6; //タイヤ径
+volatile float diameter = 23.75; //タイヤ径
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;

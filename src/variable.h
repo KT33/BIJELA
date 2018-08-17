@@ -120,6 +120,7 @@ extern gain_t wall_cntrol_gain;
 extern int test1,test2;
 extern uint8_t direction;
 extern XY_t x,y;
+extern int wall_control_offset;
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

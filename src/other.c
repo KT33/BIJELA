@@ -151,6 +151,7 @@ void Battery_Check(void) {
 	Batt = S12AD.ADDR0;
 	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
 	if (Battery < 7.7) {
+		Moter_Stby=0;
 		while (1) {
 			UI_LED1 = 1;
 			UI_LED2 = 0;

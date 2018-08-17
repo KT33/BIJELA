@@ -21,7 +21,7 @@ void interrupt_cmt0(void) {
 //	}
 	real_velocity_control();
 	if (mode_flag & 0x80) { //モード内
-	//	real_velocity_control();
+		//	real_velocity_control();
 		real_angle_control();
 		if (translation_parameter.run_flag == 1) {
 			control_accel(&translation_ideal, &translation_parameter);
@@ -34,8 +34,8 @@ void interrupt_cmt0(void) {
 //			CENTERFRONT = 1;
 			control_accel(&rotation_ideal, &rotation_parameter);
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-					&rotation_deviation, &rotation_deviation, &rotation_gain,&rotation_parameter,
-					&duty,1);
+					&rotation_deviation, &rotation_deviation, &rotation_gain,
+					&rotation_parameter, &duty, 1);
 //			PID_control(&translation_ideal, &left_real, &right_real,
 //					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
 //					&duty,0);
@@ -43,59 +43,55 @@ void interrupt_cmt0(void) {
 		}
 
 		PID_control(&translation_ideal, &left_real, &right_real,
-				&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
-				&duty,0);
+				&run_left_deviation, &run_right_deviation, &run_gain,
+				&translation_parameter, &duty, 0);
 		integral(&translation_ideal);
 
-
-
-		if(wall_control_flag==1){
-			wall_control_to_duty(&duty);
-		}
+		wall_control_to_duty(&duty);
 
 		if (log_flag == 1) {
 			log_sampling();
 		}
 
-		if(direction==North){
+		if (direction == North) {
 			ui_reset();
-			CENTERFRONT=1;
-			LEFTFRONT=1;
-			RIGHTFRONT=1;
-		}else if(direction==West){
+			CENTERFRONT = 1;
+			LEFTFRONT = 1;
+			RIGHTFRONT = 1;
+		} else if (direction == West) {
 			ui_reset();
-			RIGHTFRONT=1;
-			RIGHTWING=1;
-		}else if(direction==South){
+			RIGHTFRONT = 1;
+			RIGHTWING = 1;
+		} else if (direction == South) {
 			ui_reset();
-			RIGHTWING=1;
-			LEFTEING=1;
+			RIGHTWING = 1;
+			LEFTEING = 1;
 			ui_led_3bit(7);
-		}else if(direction==East){
+		} else if (direction == East) {
 			ui_reset();
-			LEFTEING=1;
-			LEFTFRONT=1;
+			LEFTEING = 1;
+			LEFTFRONT = 1;
 		}
 
-		if (test_flag == 1) {//enkaigei
+		if (test_flag == 1) {	//enkaigei
 			rotation_deviation.cumulative = 0;
 			rotation_real.dis = 0.0;
-	//		rotation_real.velocity = 0.0;
+			//		rotation_real.velocity = 0.0;
 			rotation_ideal.accel = 0.0;
 			rotation_ideal.velocity = 0.0;
 			rotation_parameter.run_flag = 1;
 			RIGHTWING = 1;
 			rotation_ideal.accel = 0.0;
-			rotation_ideal.velocity=0.0;
-			translation_ideal.velocity=0.0;
-			translation_ideal.accel=0;
+			rotation_ideal.velocity = 0.0;
+			translation_ideal.velocity = 0.0;
+			translation_ideal.accel = 0;
 			rotation_real.dis += rotation_real.velocity * 0.001;
 			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 					&rotation_deviation, &rotation_deviation, &rotation_gain,
-					&rotation_parameter,&duty,1);
+					&rotation_parameter, &duty, 1);
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,
-					&translation_parameter,&duty,0);
+					&translation_parameter, &duty, 0);
 
 		}
 		duty_to_moter();

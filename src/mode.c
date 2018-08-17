@@ -45,37 +45,16 @@ void mode_0(void) {
 
 void mode_1(void) {
 
-	wall_control_flag = 1;
-	set_straight(180, nomal_run.accel, 300.0, 0.0, 300.0);
-	wait_straight();
-	set_straight(180, nomal_run.accel, 300.0, 300.0, 300.0);
-	wait_straight();
-	set_straight(180, nomal_run.accel, 300.0, 300.0, 0.0);
+	set_straight(180 * 1, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
 
 //	while (1) {
 //		myprintf("%.2f\n",translation_ideal.velocity);
 //	}
-
-//	CENTERFRONT=1;
-
-//	LEFTFRONT=1;
-//	RIGHTFRONT=1;
-//	wait_time(2000);
-//	CENTERFRONT = 0;
-//	LEFTFRONT = 0;
-//	RIGHTFRONT = 0;
-//	translation_ideal.velocity = 0.0;
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.2f\n", log[i]);
-//	}
-//	while(1){
-//		myprintf("%d,%d\n",test1,test2);
-//	}
 }
-
 void mode_2(void) {
-	set_straight(180*3, nomal_run.accel, 300.0, 0.0, 0.0);
+//	diameter = 23.75;
+	set_straight(180 * 2, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
@@ -83,20 +62,21 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-	wall_control_flag = 0;
-	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+//	wall_control_flag=0;
+	set_straight(180 * 3, nomal_run.accel, 300.0, 0.0, 0.0);
+	log_start();
 	wait_straight();
-	wait_time(1000);
-	set_straight(-180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
-	wait_straight();
-}
+	while(SWITCH==1){
 
-void mode_4(void) {
-	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
-	wait_rotation();
+	}
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.2f\n", log[i]);
 	}
+
+}
+
+void mode_4(void) {
+
 }
 
 void mode_5(void) {
@@ -199,8 +179,8 @@ void go_mode(uint8_t mode) {
 	wait_time(200);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
-	duty.left=0;
-	duty.right=0;
+	duty.left = 0;
+	duty.right = 0;
 	duty_to_moter();
 	mode_flag = mode_flag & 0x7f;
 }
