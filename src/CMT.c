@@ -53,25 +53,7 @@ void interrupt_cmt0(void) {
 			log_sampling();
 		}
 
-		if (direction == North) {
-			ui_reset();
-			CENTERFRONT = 1;
-			LEFTFRONT = 1;
-			RIGHTFRONT = 1;
-		} else if (direction == West) {
-			ui_reset();
-			RIGHTFRONT = 1;
-			RIGHTWING = 1;
-		} else if (direction == South) {
-			ui_reset();
-			RIGHTWING = 1;
-			LEFTEING = 1;
-			ui_led_3bit(7);
-		} else if (direction == East) {
-			ui_reset();
-			LEFTEING = 1;
-			LEFTFRONT = 1;
-		}
+		ui_led_3bit(y.now);
 
 //		if (test_flag == 1) {	//enkaigei
 //			rotation_deviation.cumulative = 0;

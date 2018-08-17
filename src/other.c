@@ -13,6 +13,7 @@
 #include "mode.h"
 #include "other.h"
 #include "SPI.h"
+#include "walldate.h"
 
 void real_angle_control(void) {
 	rotation_real.velocity = -0.2450 + test_gyro2();
@@ -109,6 +110,8 @@ void init_ALL(void) {
 	wait_time(5);
 	Battery_Check();
 	FAN = 1;
+	clear_Map(&walldate_real);
+	clear_Map(&walldate_checked);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
 	x.now=0;

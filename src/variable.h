@@ -79,6 +79,11 @@ typedef struct{
 	uint8_t adachi_map;
 }XY_t;
 
+typedef struct{
+	uint16_t row[17];
+	uint16_t column[17	];
+}walldate_t;
+
 extern volatile int16_t i;
 extern volatile int g_count;
 extern volatile unsigned short Batt;
@@ -121,6 +126,7 @@ extern int test1,test2;
 extern uint8_t direction;
 extern XY_t x,y;
 extern int wall_control_offset;
+extern walldate_t walldate_real,walldate_checked;
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

@@ -16,10 +16,11 @@
 #include "Clock.h"
 #include "speaker.h"
 #include "stdint.h"
+#include "walldate.h"
 
 void mode_0(void) {
 
-	right_hand(nomal_run.accel,nomal_run.vel_search);
+	right_hand(nomal_run.accel, nomal_run.vel_search);
 
 //	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
 //	wait_straight();
@@ -44,17 +45,21 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	set_straight(141.4, nomal_run.accel, nomal_run.vel_search, 0.0, nomal_run.vel_search);
+	set_straight(141.4, nomal_run.accel, nomal_run.vel_search, 0.0,
+			nomal_run.vel_search);
 	wait_straight();
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
 	wait_straight();
 	wait_time(100);
-	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,0.0);
+	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
 	wait_time(100);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, 0.0, nomal_run.vel_search);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, 0.0,
+			nomal_run.vel_search);
 	wait_straight();
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
 	wait_straight();
 
 //	while (1) {
@@ -66,7 +71,6 @@ void mode_2(void) {
 	right_real.dis = 0.0;
 	set_straight(90, nomal_run.accel, 300.0, 0.0, 0.0);
 	wait_straight();
-
 
 //	while(1){
 //		myprintf("%d,%d\n",test1,test2);
@@ -93,8 +97,7 @@ void mode_5(void) {
 }
 
 void mode_6(void) {
-	set_rotation(180, 700, 350, 0.0);
-	wait_rotation();
+	output_Walldate(&walldate_real);
 }
 
 void mode_7(void) {

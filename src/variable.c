@@ -72,3 +72,6 @@ int test1,test2;
 
 uint8_t direction=0;
 XY_t x,y;
+
+walldate_t walldate_real,walldate_checked;
+

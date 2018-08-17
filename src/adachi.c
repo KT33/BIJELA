@@ -13,7 +13,9 @@
 #include "other.h"
 
 void right_hand(float accel, float vel) {
+	int i=0;
 	go_entrance(accel, vel);
+	coordinate();
 	while (1) {
 		if (SEN_L.now < SEN_L.threshold) {
 			turn_left(accel, vel);
@@ -23,6 +25,11 @@ void right_hand(float accel, float vel) {
 			turn_right(accel, vel);
 		} else {
 			ketuate_right(accel, vel);
+		}
+		coordinate();
+		i++;
+		if(i==20){
+			break;
 		}
 	}
 }
