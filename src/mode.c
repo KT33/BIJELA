@@ -21,7 +21,11 @@
 void mode_0(void) {
 
 	right_hand(nomal_run.accel, nomal_run.vel_search);
-
+	while(SWITCH==1){
+		output_Walldate(&walldate_real);
+		myprintf("\n");
+		output_Walldate(&walldate_checked);
+	}
 //	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
 //	wait_straight();
 //	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);

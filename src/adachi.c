@@ -16,6 +16,7 @@ void right_hand(float accel, float vel) {
 	int i=0;
 	go_entrance(accel, vel);
 	coordinate();
+	addWall();
 	while (1) {
 		if (SEN_L.now < SEN_L.threshold) {
 			turn_left(accel, vel);
@@ -27,6 +28,7 @@ void right_hand(float accel, float vel) {
 			ketuate_right(accel, vel);
 		}
 		coordinate();
+		addWall();
 		i++;
 		if(i==20){
 			break;

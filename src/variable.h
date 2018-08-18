@@ -81,7 +81,7 @@ typedef struct{
 
 typedef struct{
 	uint16_t row[17];
-	uint16_t column[17	];
+	uint16_t column[17];
 }walldate_t;
 
 extern volatile int16_t i;

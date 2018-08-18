@@ -13,8 +13,89 @@
 #include "machine.h"
 #include "other.h"
 
-void addWall(void) {
+void add_West_wall(walldate_t *walldate){
+	uint16_t new;
+	new = 1;
+	new <<= y.now;
+	walldate->column[x.now] |= new;
+}
 
+void add_South_wall(walldate_t *walldate){
+	uint16_t new;
+	new = 1;
+	new <<= x.now;
+	walldate->row[y.now] |= new;
+}
+
+void add_East_wall(walldate_t *walldate){
+	uint16_t new;
+	new = 1;
+	new <<= y.now;
+	walldate->column[x.now+1] |= new;
+}
+
+void add_North_wall(walldate_t *walldate){
+	uint16_t new;
+	new = 1;
+	new <<= x.now;
+	walldate->row[y.now+1] |= new;
+}
+
+void addWall(void) {
+//	uint16_t new;
+	if (direction == North) {
+		if (SEN_L.now > SEN_L.threshold) {
+			add_West_wall(&walldate_real);
+		}
+		if(SEN_R.now>SEN_R.threshold){
+			add_East_wall(&walldate_real);
+		}
+		if(SEN_F.now>SEN_F.threshold){
+			add_North_wall(&walldate_real);
+		}
+		add_West_wall(&walldate_checked);
+		add_East_wall(&walldate_checked);
+		add_North_wall(&walldate_checked);
+	}else if(direction==West){
+		if (SEN_L.now > SEN_L.threshold) {
+			add_South_wall(&walldate_real);
+		}
+		if(SEN_R.now>SEN_R.threshold){
+			add_North_wall(&walldate_real);
+		}
+		if(SEN_F.now>SEN_F.threshold){
+			add_West_wall(&walldate_real);
+		}
+		add_West_wall(&walldate_checked);
+		add_South_wall(&walldate_checked);
+		add_North_wall(&walldate_checked);
+	}else if(direction==South){
+		if (SEN_L.now > SEN_L.threshold) {
+			add_East_wall(&walldate_real);
+		}
+		if(SEN_R.now>SEN_R.threshold){
+			add_West_wall(&walldate_real);
+		}
+		if(SEN_F.now>SEN_F.threshold){
+			add_South_wall(&walldate_real);
+		}
+		add_West_wall(&walldate_checked);
+		add_South_wall(&walldate_checked);
+		add_East_wall(&walldate_checked);
+	}else if(direction==East){
+		if (SEN_L.now > SEN_L.threshold) {
+			add_North_wall(&walldate_real);
+		}
+		if(SEN_R.now>SEN_R.threshold){
+			add_South_wall(&walldate_real);
+		}
+		if(SEN_F.now>SEN_F.threshold){
+			add_East_wall(&walldate_real);
+		}
+		add_North_wall(&walldate_checked);
+		add_South_wall(&walldate_checked);
+		add_East_wall(&walldate_checked);
+		}
 }
 
 void clear_Map(walldate_t *walldate) {
@@ -27,7 +108,6 @@ void clear_Map(walldate_t *walldate) {
 	walldate->row[0] = 0xffff;
 	walldate->column[16] = 0xffff;
 	walldate->row[16] = 0xffff;
-	walldate->column[5]=0x0ff0;
 }
 
 void output_Walldate(walldate_t *walldate) {
@@ -36,7 +116,7 @@ void output_Walldate(walldate_t *walldate) {
 	for (y_check = 15; y_check >= 0; y_check--) {
 		myprintf("+");
 		for (x_check = 0; x_check < 16; x_check++) {
-			if (getWall(x_check, y_check, 1, walldate) == 1) {
+			if (getWall(x_check, y_check, North, walldate) == 1) {
 				myprintf("-----");
 			} else {
 				myprintf("     ");
@@ -45,14 +125,14 @@ void output_Walldate(walldate_t *walldate) {
 		}
 		myprintf("\n");
 		for (x_check = 0; x_check < 16; x_check++) {
-			if (getWall(x_check, y_check, 4, walldate) == 1) {
+			if (getWall(x_check, y_check, West, walldate) == 1) {
 				myprintf("|");
 			} else {
 				myprintf(" ");
 			}
 			myprintf(" %3d ", 0); //step_Map[x_check][y_check]
 		}
-		if (getWall(15, y_check, 2, walldate) == 1) {
+		if (getWall(15, y_check, East, walldate) == 1) {
 			myprintf("|");
 		} else {
 			myprintf(" ");
@@ -60,8 +140,9 @@ void output_Walldate(walldate_t *walldate) {
 		myprintf("\n");
 	}
 	myprintf("+");
+	y_check = 0;
 	for (x_check = 0; x_check < 16; x_check++) {
-		if (getWall(x_check, y_check, 1, walldate) == 1) {
+		if (getWall(x_check, y_check, South, walldate) == 1) {
 			myprintf("-----");
 		} else {
 			myprintf("     ");
@@ -73,25 +154,25 @@ void output_Walldate(walldate_t *walldate) {
 
 int getWall(int x_check, int y_check, int direction_check, walldate_t *walldate) { //(見たい座標のx,y,とその座標からの方角１～４壁があれば１
 	int check_wall = 1;
-	if (direction_check == 1) {
+	if (direction_check == North) {
 		check_wall <<= x_check;
 		check_wall &= walldate->row[y_check + 1];
 		if (check_wall != 0) {
 			check_wall = 1;
 		}
-	} else if (direction_check == 2) {
+	} else if (direction_check == East) {
 		check_wall <<= y_check;
 		check_wall &= walldate->column[x_check + 1];
 		if (check_wall != 0) {
 			check_wall = 1;
 		}
-	} else if (direction_check == 3) {
+	} else if (direction_check == South) {
 		check_wall <<= x_check;
 		check_wall &= walldate->row[y_check];
 		if (check_wall != 0) {
 			check_wall = 1;
 		}
-	} else if (direction_check == 4) {
+	} else if (direction_check == West) {
 		check_wall <<= y_check;
 		check_wall &= walldate->column[x_check];
 		if (check_wall != 0) {
