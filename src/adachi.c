@@ -11,9 +11,94 @@
 #include "CMT.h"
 #include "run.h"
 #include "other.h"
+#include "stdint.h"
+
+#define QUEUE_SIZE 255
+
+typedef struct {
+	uint16_t queue[QUEUE_SIZE];
+	uint8_t head; //先頭位置
+	uint8_t tail; //末尾位置
+} queue_t;
+
+void queue_pop(queue_t *q, uint8_t *x, uint8_t *y) {
+	uint16_t box;
+	box = q->queue[q->head];
+	q->head++;
+	if (q->head == QUEUE_SIZE) {
+		q->head = 0;
+	}
+	*y = (uint8_t) box / 16;
+	*x = (uint8_t) box % 16;
+}
+
+void queue_push(queue_t *q, uint8_t x, uint8_t y) {
+	uint16_t box;
+	box = (uint16_t) (y * 16 + x);
+	q->queue[q->tail] = box;
+	q->tail++;
+	if (q->tail == QUEUE_SIZE) {
+		q->tail = 0;
+	}
+}
+
+void adachi_map(uint8_t goal_x, uint8_t goal_y) {
+	uint8_t x_adachi, y_adachi, step, flag = 1;
+	queue_t q;
+
+	q.head = 0;
+	q.tail = 0;
+
+	for (x_adachi = 0; x_adachi < 16; x_adachi++) {
+		for (y_adachi = 0; y_adachi < 16; y_adachi++) {
+			step_map[x_adachi][y_adachi] = 255;
+		}
+	}
+
+	step_map[goal_x][goal_y] = 0;
+	x_adachi = goal_x;
+	y_adachi = goal_y;
+	step = 0;
+
+	do {
+		flag = 0;
+		if ((getWall(x_adachi, y_adachi, North, &walldate_adachi) == 0)
+				&& (step_map[x_adachi][y_adachi + 1] > step)
+				&& ((y_adachi + 1) < 16)) {
+			step_map[x_adachi][y_adachi + 1] = step + 1;
+			queue_push(&q, x_adachi, y_adachi + 1);
+			flag = 1;
+		}
+		if ((getWall(x_adachi, y_adachi, West, &walldate_adachi) == 0)
+				&& (step_map[x_adachi - 1][y_adachi] > step)
+				&& ((x_adachi - 1) >= 0)) {
+			step_map[x_adachi - 1][y_adachi] = step + 1;
+			queue_push(&q, x_adachi - 1, y_adachi);
+			flag = 1;
+		}
+		if ((getWall(x_adachi, y_adachi, South, &walldate_adachi) == 0)
+				&& (step_map[x_adachi][y_adachi - 1] > step)
+				&& ((y_adachi - 1) >= 0)) {
+			step_map[x_adachi][y_adachi - 1] = step + 1;
+			queue_push(&q, x_adachi, y_adachi - 1);
+			flag = 1;
+		}
+		if ((getWall(x_adachi, y_adachi, East, &walldate_adachi) == 0)
+				&& (step_map[x_adachi + 1][y_adachi] > step)
+				&& ((x_adachi + 1) < 16)) {
+			step_map[x_adachi + 1][y_adachi] = step + 1;
+			queue_push(&q, x_adachi + 1, y_adachi);
+			flag = 1;
+		}
+		queue_pop(&q, &x_adachi, &y_adachi);
+		step = step_map[x_adachi][y_adachi];
+		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+	} while (q.tail != q.head);
+
+}
 
 void right_hand(float accel, float vel) {
-	int i=0;
+	int i = 0;
 	go_entrance(accel, vel);
 	coordinate();
 	addWall();
@@ -30,7 +115,9 @@ void right_hand(float accel, float vel) {
 		coordinate();
 		addWall();
 		i++;
-		if(i==20){
+		if (i == 20) {
+			set_straight(90.0, accel, vel, vel, 0.0);
+			wait_straight();
 			break;
 		}
 	}
@@ -45,7 +132,6 @@ void go_center(float accel, float vel) {
 	set_straight(50.0, accel, vel, 0.0, 0.0);
 	wait_straight();
 }
-
 
 void turn_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);

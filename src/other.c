@@ -112,6 +112,8 @@ void init_ALL(void) {
 	FAN = 1;
 	clear_Map(&walldate_real);
 	clear_Map(&walldate_checked);
+	clear_adachiMap(&walldate_adachi);
+	clear_Map(&walldate_adachi);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
 	x.now=0;
@@ -134,7 +136,7 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		log[log_index] = right_real.dis;
+		Log[log_index] = right_real.dis;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {

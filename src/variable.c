@@ -44,7 +44,7 @@ uint16_t log_index = 0;
 run_t left_real, right_real;
 duty_t duty = { 0, 0 };
 
-volatile float log[LogMax];
+volatile float Log[LogMax];
 
 volatile int speacer_i;
 volatile float triangle;
@@ -73,5 +73,6 @@ int test1,test2;
 uint8_t direction=0;
 XY_t x,y;
 
-walldate_t walldate_real,walldate_checked;
+walldate_t walldate_real,walldate_checked,walldate_adachi;
+uint8_t step_map[16][16];
 

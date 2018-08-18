@@ -19,32 +19,19 @@
 #include "walldate.h"
 
 void mode_0(void) {
-
-	right_hand(nomal_run.accel, nomal_run.vel_search);
-	while(SWITCH==1){
-		output_Walldate(&walldate_real);
-		myprintf("\n");
-		output_Walldate(&walldate_checked);
-	}
-//	set_straight(180, nomal_run.accel, 300.0, 0.0, 0.0);
-//	wait_straight();
-//	set_rotation(180, nomal_rotation.accel, nomal_rotation.vel_search);
-//	wait_rotation();
-//	LEFTFRONT = 1;
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.2f\n", log[i]);
+//	x.goal = 7;
+//	y.goal = 7;
+//	right_hand(nomal_run.accel, nomal_run.vel_search);
+//	while (SWITCH == 1) {
+//
 //	}
-
-//	set_straight(-180, nomal_run.accel, 400.0, nomal_run.vel_min,
-//			nomal_run.vel_min);
-//	wait_straight();
-//	LEFTFRONT = 1;
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.2f\n", log[i]);
-//	}
-
-//	translation_parameter.run_flag =0;
-//	duty.left=10;
+	adachi_map(7, 7);
+	output_Walldate(&walldate_adachi);
+	myprintf("\n");
+//	output_Walldate(&walldate_checked);
+//	myprintf("\n");
+//	output_Walldate(&walldate_adachi);
+//	myprintf("\n");
 
 }
 

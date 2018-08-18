@@ -13,32 +13,60 @@
 #include "machine.h"
 #include "other.h"
 
-void add_West_wall(walldate_t *walldate){
+void add_West_wall(walldate_t *walldate) {
 	uint16_t new;
 	new = 1;
 	new <<= y.now;
 	walldate->column[x.now] |= new;
 }
 
-void add_South_wall(walldate_t *walldate){
+void add_South_wall(walldate_t *walldate) {
 	uint16_t new;
 	new = 1;
 	new <<= x.now;
 	walldate->row[y.now] |= new;
 }
 
-void add_East_wall(walldate_t *walldate){
+void add_East_wall(walldate_t *walldate) {
 	uint16_t new;
 	new = 1;
 	new <<= y.now;
-	walldate->column[x.now+1] |= new;
+	walldate->column[x.now + 1] |= new;
 }
 
-void add_North_wall(walldate_t *walldate){
+void add_North_wall(walldate_t *walldate) {
 	uint16_t new;
 	new = 1;
 	new <<= x.now;
-	walldate->row[y.now+1] |= new;
+	walldate->row[y.now + 1] |= new;
+}
+
+void pull_West_wall(walldate_t *walldate) {
+	uint16_t new;
+	new = 1;
+	new <<= y.now;
+	walldate->column[x.now] &= ~new;
+}
+
+void pull_South_wall(walldate_t *walldate) {
+	uint16_t new;
+	new = 1;
+	new <<= x.now;
+	walldate->row[y.now] &= ~new;
+}
+
+void pull_East_wall(walldate_t *walldate) {
+	uint16_t new;
+	new = 1;
+	new <<= y.now;
+	walldate->column[x.now + 1] &= ~new;
+}
+
+void pull_North_wall(walldate_t *walldate) {
+	uint16_t new;
+	new = 1;
+	new <<= x.now;
+	walldate->row[y.now + 1] &= ~new;
 }
 
 void addWall(void) {
@@ -46,56 +74,80 @@ void addWall(void) {
 	if (direction == North) {
 		if (SEN_L.now > SEN_L.threshold) {
 			add_West_wall(&walldate_real);
+		} else {
+			pull_West_wall(&walldate_adachi);
 		}
-		if(SEN_R.now>SEN_R.threshold){
+		if (SEN_R.now > SEN_R.threshold) {
 			add_East_wall(&walldate_real);
+		} else {
+			pull_East_wall(&walldate_adachi);
 		}
-		if(SEN_F.now>SEN_F.threshold){
+		if (SEN_F.now > SEN_F.threshold) {
 			add_North_wall(&walldate_real);
+		} else {
+			pull_North_wall(&walldate_adachi);
 		}
 		add_West_wall(&walldate_checked);
 		add_East_wall(&walldate_checked);
 		add_North_wall(&walldate_checked);
-	}else if(direction==West){
+	} else if (direction == West) {
 		if (SEN_L.now > SEN_L.threshold) {
 			add_South_wall(&walldate_real);
+		} else {
+			pull_South_wall(&walldate_adachi);
 		}
-		if(SEN_R.now>SEN_R.threshold){
+		if (SEN_R.now > SEN_R.threshold) {
 			add_North_wall(&walldate_real);
+		} else {
+			pull_North_wall(&walldate_adachi);
 		}
-		if(SEN_F.now>SEN_F.threshold){
+		if (SEN_F.now > SEN_F.threshold) {
 			add_West_wall(&walldate_real);
+		} else {
+			pull_West_wall(&walldate_adachi);
 		}
 		add_West_wall(&walldate_checked);
 		add_South_wall(&walldate_checked);
 		add_North_wall(&walldate_checked);
-	}else if(direction==South){
+	} else if (direction == South) {
 		if (SEN_L.now > SEN_L.threshold) {
 			add_East_wall(&walldate_real);
+		} else {
+			pull_East_wall(&walldate_adachi);
 		}
-		if(SEN_R.now>SEN_R.threshold){
+		if (SEN_R.now > SEN_R.threshold) {
 			add_West_wall(&walldate_real);
+		} else {
+			pull_West_wall(&walldate_adachi);
 		}
-		if(SEN_F.now>SEN_F.threshold){
+		if (SEN_F.now > SEN_F.threshold) {
 			add_South_wall(&walldate_real);
+		} else {
+			pull_South_wall(&walldate_adachi);
 		}
 		add_West_wall(&walldate_checked);
 		add_South_wall(&walldate_checked);
 		add_East_wall(&walldate_checked);
-	}else if(direction==East){
+	} else if (direction == East) {
 		if (SEN_L.now > SEN_L.threshold) {
 			add_North_wall(&walldate_real);
+		} else {
+			pull_North_wall(&walldate_adachi);
 		}
-		if(SEN_R.now>SEN_R.threshold){
+		if (SEN_R.now > SEN_R.threshold) {
 			add_South_wall(&walldate_real);
+		} else {
+			pull_South_wall(&walldate_adachi);
 		}
-		if(SEN_F.now>SEN_F.threshold){
+		if (SEN_F.now > SEN_F.threshold) {
 			add_East_wall(&walldate_real);
+		} else {
+			pull_East_wall(&walldate_adachi);
 		}
 		add_North_wall(&walldate_checked);
 		add_South_wall(&walldate_checked);
 		add_East_wall(&walldate_checked);
-		}
+	}
 }
 
 void clear_Map(walldate_t *walldate) {
@@ -108,6 +160,14 @@ void clear_Map(walldate_t *walldate) {
 	walldate->row[0] = 0xffff;
 	walldate->column[16] = 0xffff;
 	walldate->row[16] = 0xffff;
+}
+
+void clear_adachiMap(walldate_t *walldate) {
+	uint8_t i;
+	for (i = 0; i < 17; i++) {
+		walldate->column[i] = 0xffff;
+		walldate->row[i] = 0xffff;
+	}
 }
 
 void output_Walldate(walldate_t *walldate) {
@@ -130,7 +190,7 @@ void output_Walldate(walldate_t *walldate) {
 			} else {
 				myprintf(" ");
 			}
-			myprintf(" %3d ", 0); //step_Map[x_check][y_check]
+			myprintf(" %3d ",step_map[x_check][y_check]); //step_Map[x_check][y_check]
 		}
 		if (getWall(15, y_check, East, walldate) == 1) {
 			myprintf("|");
