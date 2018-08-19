@@ -19,15 +19,18 @@
 #include "walldate.h"
 
 void mode_0(void) {
-//	x.goal = 7;
-//	y.goal = 7;
-//	right_hand(nomal_run.accel, nomal_run.vel_search);
-//	while (SWITCH == 1) {
-//
-//	}
-	adachi_map(7, 7);
-	output_Walldate(&walldate_adachi);
+	uint8_t flag;
+	x.goal = 7;
+	y.goal = 7;
+	right_hand(nomal_run.accel, nomal_run.vel_search);
+	while (SWITCH == 1) {
+
+	}
+	adachi_map(2, 3, walldate_real);
+	flag=how_to_move(direction, x.now, y.now);
+	output_Walldate(&walldate_real);
 	myprintf("\n");
+	myprintf("%d\n",flag);
 //	output_Walldate(&walldate_checked);
 //	myprintf("\n");
 //	output_Walldate(&walldate_adachi);
@@ -36,26 +39,15 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	set_straight(141.4, nomal_run.accel, nomal_run.vel_search, 0.0,
-			nomal_run.vel_search);
-	wait_straight();
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, 0.0);
-	wait_straight();
-	wait_time(100);
-	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
-	wait_rotation();
-	wait_time(100);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, 0.0,
-			nomal_run.vel_search);
-	wait_straight();
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, 0.0);
-	wait_straight();
+	adachi_search_run(0, 2, nomal_run.accel, nomal_run.vel_search);
+	while (SWITCH == 1) {
 
-//	while (1) {
-//		myprintf("%.2f\n",translation_ideal.velocity);
-//	}
+	}
+	adachi_map(2, 3, walldate_real);
+	flag=how_to_move(direction, x.now, y.now);
+	output_Walldate(&walldate_real);
+	myprintf("\n");
+	myprintf("%d\n",flag);
 }
 void mode_2(void) {
 //	diameter = 23.75;

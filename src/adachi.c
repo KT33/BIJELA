@@ -42,8 +42,8 @@ void queue_push(queue_t *q, uint8_t x, uint8_t y) {
 	}
 }
 
-void adachi_map(uint8_t goal_x, uint8_t goal_y) {
-	uint8_t x_adachi, y_adachi, step, flag = 1;
+void adachi_map(uint8_t goal_x, uint8_t goal_y, walldate_t walldate) {
+	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
 
 	q.head = 0;
@@ -62,28 +62,28 @@ void adachi_map(uint8_t goal_x, uint8_t goal_y) {
 
 	do {
 		flag = 0;
-		if ((getWall(x_adachi, y_adachi, North, &walldate_adachi) == 0)
+		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
 				&& (step_map[x_adachi][y_adachi + 1] > step)
 				&& ((y_adachi + 1) < 16)) {
 			step_map[x_adachi][y_adachi + 1] = step + 1;
 			queue_push(&q, x_adachi, y_adachi + 1);
 			flag = 1;
 		}
-		if ((getWall(x_adachi, y_adachi, West, &walldate_adachi) == 0)
+		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
 				&& (step_map[x_adachi - 1][y_adachi] > step)
 				&& ((x_adachi - 1) >= 0)) {
 			step_map[x_adachi - 1][y_adachi] = step + 1;
 			queue_push(&q, x_adachi - 1, y_adachi);
 			flag = 1;
 		}
-		if ((getWall(x_adachi, y_adachi, South, &walldate_adachi) == 0)
+		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
 				&& (step_map[x_adachi][y_adachi - 1] > step)
 				&& ((y_adachi - 1) >= 0)) {
 			step_map[x_adachi][y_adachi - 1] = step + 1;
 			queue_push(&q, x_adachi, y_adachi - 1);
 			flag = 1;
 		}
-		if ((getWall(x_adachi, y_adachi, East, &walldate_adachi) == 0)
+		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
 				&& (step_map[x_adachi + 1][y_adachi] > step)
 				&& ((x_adachi + 1) < 16)) {
 			step_map[x_adachi + 1][y_adachi] = step + 1;
@@ -92,9 +92,99 @@ void adachi_map(uint8_t goal_x, uint8_t goal_y) {
 		}
 		queue_pop(&q, &x_adachi, &y_adachi);
 		step = step_map[x_adachi][y_adachi];
-		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+//		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
 	} while (q.tail != q.head);
+}
 
+void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel) {
+	uint8_t flag; //flag 0:前,1:左折2:Uターン(けつあて)3:右折4:Uターン
+	go_entrance(accel, vel);
+	coordinate();
+	addWall();
+	ketuate_goal(accel, vel);
+	while (1) {
+
+	}
+//		adachi_map(goal_x, goal_y, walldate_real);
+//		if ((x.now == goal_x && y.now == goal_y)) {
+//			ketuate_goal(accel, vel);
+//			break;
+//		}
+//
+//		flag=how_to_move(direction, x.now, y.now);
+//	}
+//	if(flag==0){
+//		pass(accel, vel);
+//	}
+//	if(flag==1){
+//		turn_left(accel, vel);
+//	}
+//	if(flag==2){
+//		ketuate_right(accel, vel);
+//	}
+//	if(flag==3){
+//		turn_right(accel, vel);
+//	}
+//	if(flag==4){
+//		turn_180(accel, vel);
+//	}
+//	coordinate();
+//	addWall();
+
+}
+
+uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y) {
+	uint8_t step, flag, i;
+	int8_t a, b;
+	if (direction == North) {
+		i = 0;
+		a = 1;
+		b = 0;
+	} else if (direction == West) {
+		i = 1;
+		a = 0;
+		b = 1;
+	} else if (direction == South) {
+		i = 2;
+		a = -1;
+		b = 0;
+	} else if (direction == East) {
+		i = 3;
+		a = 0;
+		b = -1;
+	}
+	if ((y - a >= 0) && (x + b < 16)) {
+		if ((getWall(x, y, (North + i) % 4, walldate_real) == 1)
+				&& (getWall(x, y, (East + i) % 4, walldate_real) == 1)
+				&& (getWall(x, y, (West + i) % 4, walldate_real) == 1)) {
+			flag = 2;
+		} else {
+			flag = 4;
+		}
+		step = step_map[x + b][y - a];
+	}
+	if ((x - a >= 0) && (y - b >= 0)
+			&& (getWall(x, y, (West + i) % 4, walldate_real) == 0)) {
+		if (step_map[x - a][y - b] < step) {
+			flag = 1;
+			step = step_map[x - a][y - b];
+		}
+	}
+	if ((x + a <= 15) && (y + b <= 15)
+			&& (getWall(x, y, (East + i) % 4, walldate_real) == 0)) {
+		if (step_map[x + a][y + b] < step) {
+			flag = 3;
+			step = step_map[x + a][y + b];
+		}
+	}
+	if ((y + a <= 15) && (x - b >= 0)
+			&& (getWall(x, y, (North + i) % 4, walldate_real) == 0)) {
+		if (step_map[x - b][y + a] < step) {
+			flag = 0;
+			step = step_map[x - b][y + a];
+		}
+	}
+	return flag;
 }
 
 void right_hand(float accel, float vel) {
@@ -115,7 +205,7 @@ void right_hand(float accel, float vel) {
 		coordinate();
 		addWall();
 		i++;
-		if (i == 20) {
+		if (i == 2) {
 			set_straight(90.0, accel, vel, vel, 0.0);
 			wait_straight();
 			break;
@@ -210,7 +300,25 @@ void ketuate_left(float accel, float vel) {
 }
 
 void back_100(void) {
-	set_straight(-60.0, 1000, 200, 0.0, 0.0);
+	set_straight(-65.0, 1000, 200, 0.0, 0.0);
 	wait_straight();
+}
+
+void ketuate_goal(float accel, float vel) {
+	set_straight(90.0, accel, vel, vel, 0.0);
+	wait_straight();
+	wait_time(100);
+	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	wait_time(100);
+	back_100();
+	wait_time(100);
+	go_center(accel, vel);
+	wait_time(100);
+	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	wait_time(100);
+	back_100();
+	wait_time(100);
 }
 

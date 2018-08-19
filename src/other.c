@@ -113,7 +113,7 @@ void init_ALL(void) {
 	clear_Map(&walldate_real);
 	clear_Map(&walldate_checked);
 	clear_adachiMap(&walldate_adachi);
-	clear_Map(&walldate_adachi);
+//	clear_Map(&walldate_adachi);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
 	x.now=0;
