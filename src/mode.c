@@ -27,10 +27,10 @@ void mode_0(void) {
 
 	}
 	adachi_map(2, 3, walldate_real);
-	flag=how_to_move(direction, x.now, y.now);
+	flag = how_to_move(direction, x.now, y.now);
 	output_Walldate(&walldate_real);
 	myprintf("\n");
-	myprintf("%d\n",flag);
+	myprintf("%d\n", flag);
 //	output_Walldate(&walldate_checked);
 //	myprintf("\n");
 //	output_Walldate(&walldate_adachi);
@@ -39,15 +39,19 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	adachi_search_run(0, 2, nomal_run.accel, nomal_run.vel_search);
+	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
 	while (SWITCH == 1) {
 
 	}
 	adachi_map(2, 3, walldate_real);
-	flag=how_to_move(direction, x.now, y.now);
+	flag = how_to_move(direction, x.now, y.now);
 	output_Walldate(&walldate_real);
 	myprintf("\n");
-	myprintf("%d\n",flag);
+	myprintf("%d\n", flag);
+	myprintf("\n");
+	myprintf("getwall(%d,%d,East+%d)%4,walldate_real)=%d\n", x.now, y.now,
+			direction,
+			getWall(x.now, y.now, (West + direction) % 4, &walldate_real));
 }
 void mode_2(void) {
 //	diameter = 23.75;
@@ -80,6 +84,7 @@ void mode_5(void) {
 }
 
 void mode_6(void) {
+	adachi_map(7, 7, walldate_real);
 	output_Walldate(&walldate_real);
 }
 

@@ -18,8 +18,8 @@ normal_para_t nomal_rotation = { 400.0, 400.0, 0.0, 500.0 }; //deg/sec
 
 sensor_t SEN_R = { 0, 1052, 520, 0 }; //now,reference,threshold,diff
 sensor_t SEN_L = { 0, 1164, 380, 0 };
-sensor_t SEN_RF = { 0, 945, 425, 0 };
-sensor_t SEN_LF = { 0, 941, 377, 0 };
+sensor_t SEN_RF = { 0, 945, 350, 0 };
+sensor_t SEN_LF = { 0, 941, 300, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 int wall_control_offset=-2;

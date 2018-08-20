@@ -53,7 +53,7 @@ void interrupt_cmt0(void) {
 			log_sampling();
 		}
 
-		ui_led_3bit(x.now);
+		ui_led_3bit(y.now);
 
 //		if (test_flag == 1) {	//enkaigei
 //			rotation_deviation.cumulative = 0;
