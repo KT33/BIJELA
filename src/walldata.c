@@ -160,6 +160,7 @@ void clear_Map(walldate_t *walldate) {
 	walldate->row[0] = 0xffff;
 	walldate->column[16] = 0xffff;
 	walldate->row[16] = 0xffff;
+	walldate->column[1] = 0x0001;
 }
 
 void clear_adachiMap(walldate_t *walldate) {
@@ -190,7 +191,7 @@ void output_Walldate(walldate_t *walldate) {
 			} else {
 				myprintf(" ");
 			}
-			myprintf(" %3d ",step_map[x_check][y_check]); //step_Map[x_check][y_check]
+			myprintf(" %3d ", step_map[x_check][y_check]); //step_Map[x_check][y_check]
 		}
 		if (getWall(15, y_check, East, walldate) == 1) {
 			myprintf("|");

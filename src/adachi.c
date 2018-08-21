@@ -43,7 +43,7 @@ void queue_push(queue_t *q, uint8_t x, uint8_t y) {
 }
 
 void adachi_map(uint8_t goal_x, uint8_t goal_y, walldate_t walldate) {
-	uint8_t x_adachi, y_adachi, step;
+	uint8_t x_adachi, y_adachi, step,flag;
 	queue_t q;
 
 	q.head = 0;
@@ -59,41 +59,43 @@ void adachi_map(uint8_t goal_x, uint8_t goal_y, walldate_t walldate) {
 	x_adachi = goal_x;
 	y_adachi = goal_y;
 	step = 0;
-
+	queue_push(&q, x_adachi, y_adachi);
 	do {
 		flag = 0;
+		queue_pop(&q, &x_adachi, &y_adachi);
+		step = step_map[x_adachi][y_adachi];
 		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
 				&& (step_map[x_adachi][y_adachi + 1] == 255)
 				&& ((y_adachi + 1) < 16)) {
 			step_map[x_adachi][y_adachi + 1] = step + 1;
 			queue_push(&q, x_adachi, y_adachi + 1);
-			flag = 1;
+			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
 				&& (step_map[x_adachi - 1][y_adachi] == 255)
 				&& ((x_adachi - 1) >= 0)) {
 			step_map[x_adachi - 1][y_adachi] = step + 1;
 			queue_push(&q, x_adachi - 1, y_adachi);
-			flag = 1;
+			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
 				&& (step_map[x_adachi][y_adachi - 1] == 255)
 				&& ((y_adachi - 1) >= 0)) {
 			step_map[x_adachi][y_adachi - 1] = step + 1;
 			queue_push(&q, x_adachi, y_adachi - 1);
-			flag = 1;
+			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
 				&& (step_map[x_adachi + 1][y_adachi] == 255)
 				&& ((x_adachi + 1) < 16)) {
 			step_map[x_adachi + 1][y_adachi] = step + 1;
 			queue_push(&q, x_adachi + 1, y_adachi);
-			flag = 1;
+			flag = 10;
 		}
-		queue_pop(&q, &x_adachi, &y_adachi);
-		step = step_map[x_adachi][y_adachi];
+
+
 //		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
-	} while (q.tail != q.head||(step<4));
+	} while (q.tail != q.head);
 }
 
 void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel) {
