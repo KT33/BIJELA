@@ -313,3 +313,15 @@ void coordinate(void) {
 	}
 }
 
+void coordinate_pass(void) {
+	if (direction_pass == North) {
+		y.pass++;
+	} else if (direction_pass == West) {
+		x.pass--;
+	} else if (direction_pass == South) {
+		y.pass--;
+	} else if (direction_pass == East) {
+		x.pass++;
+	}
+}
+

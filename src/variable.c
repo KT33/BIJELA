@@ -70,9 +70,10 @@ uint8_t wall_control_flag = 0;
 
 int test1,test2;
 
-uint8_t direction=0;
+uint8_t direction=0,direction_pass=0;
 XY_t x,y;
 
 walldate_t walldate_real,walldate_checked,walldate_adachi;
 uint8_t step_map[16][16];
+uint8_t pass[500];
 

@@ -17,9 +17,10 @@
 #include "speaker.h"
 #include "stdint.h"
 #include "walldate.h"
+#include "pass.h"
 
 void mode_0(void) {
-	uint8_t flag;
+//	uint8_t flag;
 	x.goal = 7;
 	y.goal = 7;
 	right_hand(nomal_run.accel, nomal_run.vel_search);
@@ -39,13 +40,60 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
-	wait_time(2000);
-	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
-	wait_time(2000);
-	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
+	uint16_t i, j;
+//	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
+//	wait_time(2000);
+//	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
+//	wait_time(2000);
+//	while (SWITCH == 1) {
+//
+//	}
+	Moter_Stby=0;
+	walldate_real.column[0] = 65535;
+	walldate_real.column[1] = 1;
+	walldate_real.column[2] = 8;
+	walldate_real.column[3] = 4;
+	walldate_real.column[4] = 6;
+	walldate_real.column[5] = 2;
+	walldate_real.column[6] = 14;
+	walldate_real.row[1] = 44;
+	walldate_real.row[2] = 5;
+	walldate_real.row[3] = 30;
+	walldate_real.row[4] = 63;
+	walldate_real.row[5] = 0;
+	walldate_real.row[6] = 0;
+
+	walldate_adachi.column[0] = 65535;
+	walldate_adachi.column[1] = 1;
+	walldate_adachi.column[2] = 8;
+	walldate_adachi.column[3] = 4;
+	walldate_adachi.column[4] = 6;
+	walldate_adachi.column[5] = 2;
+	walldate_adachi.column[6] = 14;
+	walldate_adachi.row[1] = 44;
+	walldate_adachi.row[2] = 5;
+	walldate_adachi.row[3] = 30;
+	walldate_adachi.row[4] = 63;
+	walldate_adachi.row[5] = 0;
+	walldate_adachi.row[6] = 0;
+
+//	make_pass(2, 3);
+	adachi_map(2, 3, walldate_adachi);
+	output_Walldate(&walldate_adachi);
+	ui_led_3bit(1);
+	make_pass(2, 3);
+	ui_led_3bit(3);
+	for (i = 0; i<100; i++) {
+		myprintf("%d,%d\n", i, pass[i]);
+	}
 
 
+//	for (i = 0; i < 17; i++) {
+//		myprintf("column[i]=%d\n",walldate_real.column[i]);
+//	}
+//	for (i = 0; i < 17; i++) {
+//		myprintf("row[i]=%d\n",walldate_real.row[i]);
+//	}
 	//	while (SWITCH == 1) {
 //
 //	}
@@ -60,14 +108,10 @@ void mode_1(void) {
 //	getWall(x.now, y.now, (West + direction) % 4, &walldate_real));
 }
 void mode_2(void) {
-//	diameter = 23.75;
-	right_real.dis = 0.0;
-	set_straight(90, nomal_run.accel, 300.0, 0.0, 0.0);
-	wait_straight();
-
-//	while(1){
-//		myprintf("%d,%d\n",test1,test2);
-//	}
+	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
+	wait_time(2000);
+	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
+	wait_time(2000);
 }
 
 void mode_3(void) {

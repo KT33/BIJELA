@@ -76,7 +76,7 @@ typedef struct{
 typedef struct{
 	uint8_t now;
 	uint8_t goal;
-	uint8_t adachi_map;
+	uint8_t pass;
 }XY_t;
 
 typedef struct{
@@ -123,12 +123,12 @@ extern SENLOG_t SEN_L_log,SEN_R_log;
 extern uint8_t wall_control_flag;
 extern gain_t wall_cntrol_gain;
 extern int test1,test2;
-extern uint8_t direction;
+extern uint8_t direction,direction_pass;
 extern XY_t x,y;
 extern int wall_control_offset;
 extern walldate_t walldate_real,walldate_checked,walldate_adachi;
 extern uint8_t step_map[16][16];
-
+extern uint8_t pass[500];
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4
