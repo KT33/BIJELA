@@ -21,72 +21,74 @@
 
 void mode_0(void) {
 //	uint8_t flag;
-	x.goal = 7;
-	y.goal = 7;
-	right_hand(nomal_run.accel, nomal_run.vel_search);
-//	while (SWITCH == 1) {
-//
-//	}
-//	adachi_map(2, 3, walldate_real);
-//	flag = how_to_move(direction, x.now, y.now);
-//	output_Walldate(&walldate_real);
-//	myprintf("\n");
-//	myprintf("%d\n", flag);
-//	output_Walldate(&walldate_checked);
-//	myprintf("\n");
-//	output_Walldate(&walldate_adachi);
-//	myprintf("\n");
+
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	turn_left(nomal_run.accel, nomal_run.vel_search);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	wait_straight();
+//	nomal_rotation.accel=1000.0;
+//	nomal_rotation.vel_search=700.0;
+//	ui_led_3bit(1);
+//	go_entrance(nomal_run.accel, nomal_run.vel_search);
+//	ui_led_3bit(3);
+//	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+//			nomal_run.vel_search);
+//	wait_rotation();
+//	ui_led_3bit(7);
+//	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+//			nomal_run.vel_search, 0.0);
+//	wait_straight();
 
 }
 
 void mode_1(void) {
-	uint16_t i, j;
-//	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
-//	wait_time(2000);
-//	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
-//	wait_time(2000);
+//	uint16_t i, j;
+	adachi_search_run(6, 6, nomal_run.accel, nomal_run.vel_search);
+	wait_time(2000);
+	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
+	wait_time(2000);
 //	while (SWITCH == 1) {
 //
 //	}
-	Moter_Stby=0;
-	walldate_real.column[0] = 65535;
-	walldate_real.column[1] = 1;
-	walldate_real.column[2] = 8;
-	walldate_real.column[3] = 4;
-	walldate_real.column[4] = 6;
-	walldate_real.column[5] = 2;
-	walldate_real.column[6] = 14;
-	walldate_real.row[1] = 44;
-	walldate_real.row[2] = 5;
-	walldate_real.row[3] = 30;
-	walldate_real.row[4] = 63;
-	walldate_real.row[5] = 0;
-	walldate_real.row[6] = 0;
-
-	walldate_adachi.column[0] = 65535;
-	walldate_adachi.column[1] = 1;
-	walldate_adachi.column[2] = 8;
-	walldate_adachi.column[3] = 4;
-	walldate_adachi.column[4] = 6;
-	walldate_adachi.column[5] = 2;
-	walldate_adachi.column[6] = 14;
-	walldate_adachi.row[1] = 44;
-	walldate_adachi.row[2] = 5;
-	walldate_adachi.row[3] = 30;
-	walldate_adachi.row[4] = 63;
-	walldate_adachi.row[5] = 0;
-	walldate_adachi.row[6] = 0;
+//	Moter_Stby=0;
+//	walldate_real.column[0] = 65535;
+//	walldate_real.column[1] = 1;
+//	walldate_real.column[2] = 8;
+//	walldate_real.column[3] = 4;
+//	walldate_real.column[4] = 6;
+//	walldate_real.column[5] = 2;
+//	walldate_real.column[6] = 14;
+//	walldate_real.row[1] = 44;
+//	walldate_real.row[2] = 5;
+//	walldate_real.row[3] = 30;
+//	walldate_real.row[4] = 63;
+//	walldate_real.row[5] = 0;
+//	walldate_real.row[6] = 0;
+//
+//	walldate_adachi.column[0] = 65535;
+//	walldate_adachi.column[1] = 1;
+//	walldate_adachi.column[2] = 8;
+//	walldate_adachi.column[3] = 4;
+//	walldate_adachi.column[4] = 6;
+//	walldate_adachi.column[5] = 2;
+//	walldate_adachi.column[6] = 14;
+//	walldate_adachi.row[1] = 44;
+//	walldate_adachi.row[2] = 5;
+//	walldate_adachi.row[3] = 30;
+//	walldate_adachi.row[4] = 63;
+//	walldate_adachi.row[5] = 0;
+//	walldate_adachi.row[6] = 0;
+//
 
 //	make_pass(2, 3);
-	adachi_map(2, 3, walldate_adachi);
-	output_Walldate(&walldate_adachi);
-	ui_led_3bit(1);
-	make_pass(2, 3);
-	ui_led_3bit(3);
-	for (i = 0; i<100; i++) {
-		myprintf("%d,%d\n", i, pass[i]);
-	}
-
+//	adachi_map(2, 3, walldate_adachi);
+//	output_Walldate(&walldate_adachi);
+//	ui_led_3bit(1);
+//	make_pass(2, 3);
+//	ui_led_3bit(3);
+//	for (i = 0; i<100; i++) {
+//		myprintf("%d,%d\n", i, pass[i]);
+//	}
 
 //	for (i = 0; i < 17; i++) {
 //		myprintf("column[i]=%d\n",walldate_real.column[i]);
@@ -108,16 +110,32 @@ void mode_1(void) {
 //	getWall(x.now, y.now, (West + direction) % 4, &walldate_real));
 }
 void mode_2(void) {
-	adachi_search_run(2, 3, nomal_run.accel, nomal_run.vel_search);
-	wait_time(2000);
-	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
-	wait_time(2000);
+	nomal_rotation.accel = 1000.0;
+	nomal_rotation.vel_search = 800.0;
+	ui_led_3bit(1);
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	ui_led_3bit(3);
+	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+			nomal_run.vel_search);
+	wait_rotation();
+	ui_led_3bit(7);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
+	wait_straight();
 }
 
 void mode_3(void) {
-//	wall_control_flag=0;
-	right_real.dis = 0.0;
-	set_straight(180 * 3, nomal_run.accel, 300.0, 0.0, 0.0);
+	nomal_rotation.accel = 1000.0;
+	nomal_rotation.vel_search = 900.0;
+	ui_led_3bit(1);
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	ui_led_3bit(3);
+	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+			nomal_run.vel_search);
+	wait_rotation();
+	ui_led_3bit(7);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
 	wait_straight();
 
 }
@@ -127,9 +145,8 @@ void mode_4(void) {
 }
 
 void mode_5(void) {
-	wall_control_flag = 1;
-	wall_cntrol_gain.Kp = 0.01;
-	set_straight(180 * 3, nomal_run.accel, nomal_run.vel_max, 0, 0);
+
+	set_straight(180 * 4, nomal_run.accel, nomal_run.vel_max, 0, 0);
 	wait_straight();
 }
 
@@ -163,6 +180,12 @@ void go_mode(uint8_t mode) {
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
 	translation_ideal.dis = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.dis = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.back_rightturn_flag = 0;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
 	if (mode == 0) {
 		mode_0();
 	} else if (mode == 1) {

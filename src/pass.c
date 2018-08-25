@@ -13,7 +13,7 @@
 #include "other.h"
 
 void make_pass(uint8_t goal_x,uint8_t goal_y){
-	uint16_t i=0;
+	uint8_t i=0;
 	uint8_t flag;
 	for(i=0;i<500;i++){
 		pass[i]=0x0;

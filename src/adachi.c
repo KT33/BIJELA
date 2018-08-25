@@ -107,7 +107,6 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel) {
 			ketuate_goal(accel, vel);
 			break;
 		}
-
 		flag = how_to_move(direction, (int8_t) x.now, (int8_t) y.now,
 				walldate_real);
 		if (flag == 0) {

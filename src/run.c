@@ -21,37 +21,22 @@ void wall_control_to_duty(duty_t *duty) {
 				duty_value = wall_cntrol_gain.Kp
 						* ((SEN_L.now - SEN_L.reference)
 								- (SEN_R.now - SEN_R.reference));
-//			RIGHTFRONT = 1;
-//			LEFTFRONT = 1;
-//			CENTERFRONT = 0;
 			} else if (SEN_L.now < SEN_L.threshold
 					&& SEN_R.now > SEN_R.threshold) {
 				duty_value = -2 * wall_cntrol_gain.Kp
 						* (SEN_R.now - SEN_R.reference);
-//			RIGHTFRONT = 1;
-//			LEFTFRONT = 0;
-//			CENTERFRONT = 0;
 			} else if (SEN_L.now > SEN_L.threshold
 					&& SEN_R.now < SEN_R.threshold) {
 				duty_value = 2 * wall_cntrol_gain.Kp
 						* (SEN_L.now - SEN_L.reference);
-//			RIGHTFRONT = 0;
-//			LEFTFRONT = 1;
-//			CENTERFRONT = 0;
 			} else {
 				duty_value = wall_control_offset;
-//			RIGHTFRONT = 0;
-//			LEFTFRONT = 0;
-//			CENTERFRONT = 0;
 			}
 		} else {
 			duty_value = wall_control_offset;
-//		RIGHTFRONT = 0;
-//		LEFTFRONT = 0;
-//		CENTERFRONT = 1;
 		}
-	}else{
-		duty_value=wall_control_offset;
+	} else {
+		duty_value = wall_control_offset;
 	}
 	test1 = duty_value;
 	duty->left += duty_value;
@@ -115,8 +100,8 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	int duty_left, duty_right;
 
 //	if (rotation_flag == 0) {
-		left->velocity = (left->velocity + right->velocity) / 2;
-		right->velocity = left->velocity;
+	left->velocity = (left->velocity + right->velocity) / 2;
+	right->velocity = left->velocity;
 //	}
 //
 //	if (parameter->back_rightturn_flag == 1) {
@@ -165,6 +150,9 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 	rotation_ideal.velocity = 0.0;
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = center_vel;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
+	rotation_gain.Ki=0.04;
 	if ((i_angle > 80.0) && (i_angle < 100.0)) {
 		direction++;
 		if (direction == 4) {
@@ -212,12 +200,13 @@ void wait_rotation(void) {
 
 	}
 //	LEFTFRONT = 1;
+	rotation_gain.Ki=0.0;
 	rotation_ideal.accel = 0.0;
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
 	rotation_parameter.back_rightturn_flag = 0;
-	rotation_deviation.now=0.0;
-	rotation_deviation.cumulative=0.0;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
 //	duty.left = 0;
 //	duty.right = 0;
 //	duty_to_moter();
