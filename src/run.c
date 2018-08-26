@@ -11,113 +11,89 @@
 #include "other.h"
 #include "iodefine.h"
 
-void wall_control_to_duty(duty_t *duty) {
-	int duty_value;
+void wall_control(void) {
 	if (wall_control_flag == 1) {
-		if ((((left_real.velocity + right_real.velocity) / 2) > 30)
-				&& (SEN_L.diff < 15) && (SEN_R.diff < 15)
-				&& (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
+		if (((translation_ideal.velocity) > 350) && (SEN_L.diff < 15)
+				&& (SEN_R.diff < 15) && (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
 			if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
-				duty_value = wall_cntrol_gain.Kp
-						* ((SEN_L.now - SEN_L.reference)
-								- (SEN_R.now - SEN_R.reference));
+				wallcontrol_value =
+						wall_cntrol_gain.Kp
+								* (((float) SEN_L.now - (float) SEN_L.reference)
+										- ((float) SEN_R.now
+												- (float) SEN_R.reference));
+				LEFTFRONT = 1;
+				RIGHTFRONT = 1;
+				CENTERFRONT = 1;
 			} else if (SEN_L.now < SEN_L.threshold
 					&& SEN_R.now > SEN_R.threshold) {
-				duty_value = -2 * wall_cntrol_gain.Kp
-						* (SEN_R.now - SEN_R.reference);
+				wallcontrol_value = -2.0 * wall_cntrol_gain.Kp
+						* ((float) SEN_R.now - (float) SEN_R.reference);
+				LEFTFRONT = 0;
+				RIGHTFRONT = 1;
+				CENTERFRONT = 1;
 			} else if (SEN_L.now > SEN_L.threshold
 					&& SEN_R.now < SEN_R.threshold) {
-				duty_value = 2 * wall_cntrol_gain.Kp
-						* (SEN_L.now - SEN_L.reference);
+				wallcontrol_value = 2.0 * wall_cntrol_gain.Kp
+						* ((float) SEN_L.now - (float) SEN_L.reference);
+				LEFTFRONT = 1;
+				RIGHTFRONT = 0;
+				CENTERFRONT = 1;
 			} else {
-				duty_value = wall_control_offset;
+				wallcontrol_value = 0.0;
+				LEFTFRONT = 0;
+				RIGHTFRONT = 0;
+				CENTERFRONT = 1;
 			}
 		} else {
-			duty_value = wall_control_offset;
+			wallcontrol_value = 0.0;
+			LEFTFRONT = 0;
+			RIGHTFRONT = 0;
+			CENTERFRONT = 0;
 		}
 	} else {
-		duty_value = wall_control_offset;
-	}
-	test1 = duty_value;
-	duty->left += duty_value;
-	duty->right += -1 * duty_value;
-
-}
-
-void duty_to_moter(void) {
-	int duty_left = 0, duty_right = 0;
-
-//	if (translation_parameter.back_rightturn_flag == 1) {
-//		duty.left = duty.left * -1;
-//		duty.right = duty.right * -1;
-//	}
-
-	if (duty.left >= 0) {
-		Moter_L_FRONT = 1;
-		Moter_L_BACK = 0;
-		duty_left = duty.left;
-	} else {
-		Moter_L_FRONT = 0;
-		Moter_L_BACK = 1;
-		duty_left = (duty.left * -1);
-	}
-	if (duty.right >= 0) {
-		Moter_R_FRONT = 1;
-		Moter_R_BACK = 0;
-		duty_right = duty.right;
-	} else {
-		Moter_R_FRONT = 0;
-		Moter_R_BACK = 1;
-		duty_right = (duty.right * -1);
+		wallcontrol_value = 0.0;
 	}
 
-	if (duty_left > 400) {
-		duty_left = 400;
-	}
-	if (duty_right > 400) {
-		duty_right = 400;
-	}
-	if (duty_left < -400) {
-		duty_left = -400;
-	}
-	if (duty_right < -400) {
-		duty_right = -400;
-	}
+//	rotation_ideal.velocity+=wallcontrol_value;
 
-//	test1 = duty_left;
-//	test2 = duty_right;
+//	duty->left += duty_value;
+//	duty->right += -1 * duty_value;
 
-	MTU0.TGRB = (duty_right); //MOTER_R
-	MTU0.TGRD = (duty_left); //MOTER_L
-
-	duty.left = 0;
-	duty.right = 0;
 }
 
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
 		trapezoid_t *parameter, duty_t *duty, int rotation_flag) {
 	int duty_left, duty_right;
+	float Kp, Ki;
 
-//	if (rotation_flag == 0) {
+	Ki = gain->Ki;
+	Kp = gain->Kp;
+
 	left->velocity = (left->velocity + right->velocity) / 2;
 	right->velocity = left->velocity;
-//	}
-//
-//	if (parameter->back_rightturn_flag == 1) {
-//		left->velocity = left->velocity * -1;
-//		right->velocity = right->velocity * -1;
-//	}
+
+	if (rotation_flag == 1) {
+		right->velocity += wallcontrol_value;
+		left->velocity += wallcontrol_value;
+//		if(translation_ideal.velocity<250){
+//			Ki=Ki/2;
+////			Kp=Kp/2;
+//		}else if(translation_ideal.velocity<150){
+//			Ki=0.0;
+////			Kp=0.0;
+//		}
+	}
 
 	left_deviation->now = (ideal->velocity - left->velocity);
 	right_deviation->now = (ideal->velocity - right->velocity);
 	left_deviation->cumulative += left_deviation->now;
 	right_deviation->cumulative += right_deviation->now;
 
-	duty_left = (int) left_deviation->now * gain->Kp
-			+ left_deviation->cumulative * gain->Ki;
-	duty_right = (int) right_deviation->now * gain->Kp
-			+ right_deviation->cumulative * gain->Ki;
+	duty_left = (int) left_deviation->now * Kp
+			+ left_deviation->cumulative * Ki;
+	duty_right = (int) right_deviation->now * Kp
+			+ right_deviation->cumulative * Ki;
 
 	if (rotation_flag == 1) {
 		duty_left = duty_left * -1;
@@ -136,6 +112,9 @@ void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
 	trapezoid_preparation(&translation_parameter, i_distance, accel, max_vel,
 			strat_vel, end_vel);
 	wall_control_flag = 1;
+	if (i_distance < 0) {
+		wall_control_flag = 0;
+	}
 	translation_parameter.run_flag = 1;
 	translation_ideal.velocity = translation_parameter.strat_vel;
 //	log_start();
@@ -152,7 +131,7 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 	translation_ideal.velocity = center_vel;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
-	rotation_gain.Ki=0.04;
+//	rotation_gain.Ki = 0.04;
 	if ((i_angle > 80.0) && (i_angle < 100.0)) {
 		direction++;
 		if (direction == 4) {
@@ -187,6 +166,9 @@ void wait_straight(void) {
 	run_left_deviation.difference = 0.0;
 	run_right_deviation.now = 0.0;
 	run_right_deviation.difference = 0.0;
+	rotation_parameter.back_rightturn_flag = 0;
+//	rotation_deviation.now = 0.0;
+//	rotation_deviation.cumulative = 0.0;
 
 //	duty.left = 0;
 //	duty.right = 0;
@@ -200,7 +182,7 @@ void wait_rotation(void) {
 
 	}
 //	LEFTFRONT = 1;
-	rotation_gain.Ki=0.0;
+//	rotation_gain.Ki = 0.0;
 	rotation_ideal.accel = 0.0;
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
@@ -255,7 +237,7 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 
 }
 
-void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
+void control_accel(run_t *ideal, trapezoid_t *trapezoid, uint8_t rotation_flag) {
 	if (ideal->dis < trapezoid->acceldistance) {
 //		UI_LED1 = 1;
 		if (ideal->velocity < trapezoid->max_vel) {
@@ -272,6 +254,9 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid) {
 
 	} else if (ideal->velocity > trapezoid->end_vel) {
 //		UI_LED3 = 1;
+//		if (rotation_flag == 0) {
+//			rotation_gain.Ki = 0.0;
+//		}
 		ideal->accel = -trapezoid->accel;
 
 	} else {
@@ -314,3 +299,52 @@ void coordinate_pass(void) {
 	}
 }
 
+void duty_to_moter(void) {
+	int duty_left = 0, duty_right = 0;
+
+//	if (translation_parameter.back_rightturn_flag == 1) {
+//		duty.left = duty.left * -1;
+//		duty.right = duty.right * -1;
+//	}
+
+	if (duty.left >= 0) {
+		Moter_L_FRONT = 1;
+		Moter_L_BACK = 0;
+		duty_left = duty.left;
+	} else {
+		Moter_L_FRONT = 0;
+		Moter_L_BACK = 1;
+		duty_left = (duty.left * -1);
+	}
+	if (duty.right >= 0) {
+		Moter_R_FRONT = 1;
+		Moter_R_BACK = 0;
+		duty_right = duty.right;
+	} else {
+		Moter_R_FRONT = 0;
+		Moter_R_BACK = 1;
+		duty_right = (duty.right * -1);
+	}
+
+	if (duty_left > 400) {
+		duty_left = 400;
+	}
+	if (duty_right > 400) {
+		duty_right = 400;
+	}
+	if (duty_left < -400) {
+		duty_left = -400;
+	}
+	if (duty_right < -400) {
+		duty_right = -400;
+	}
+
+//	test1 = duty_left;
+//	test2 = duty_right;
+
+	MTU0.TGRB = (duty_right); //MOTER_R
+	MTU0.TGRD = (duty_left); //MOTER_L
+
+	duty.left = 0;
+	duty.right = 0;
+}

@@ -24,7 +24,8 @@ void mode_0(void) {
 
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	turn_left(nomal_run.accel, nomal_run.vel_search);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
 	wait_straight();
 //	nomal_rotation.accel=1000.0;
 //	nomal_rotation.vel_search=700.0;
@@ -43,7 +44,8 @@ void mode_0(void) {
 
 void mode_1(void) {
 //	uint16_t i, j;
-	adachi_search_run(6, 6, nomal_run.accel, nomal_run.vel_search);
+	moter_flag=1;
+	adachi_search_run(1, 0, nomal_run.accel, nomal_run.vel_search);
 	wait_time(2000);
 	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
 	wait_time(2000);
@@ -141,18 +143,25 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-
-}
-
-void mode_5(void) {
-
+	moter_flag=1;
 	set_straight(180 * 4, nomal_run.accel, nomal_run.vel_max, 0, 0);
 	wait_straight();
 }
 
+void mode_5(void) {
+	moter_flag=1;
+	set_straight(180 * 6, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
+	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	set_straight(180 * 6, nomal_run.accel, nomal_run.vel_max, 0, 0);
+	wait_straight();
+}
+
 void mode_6(void) {
-	adachi_map(7, 7, walldate_real);
-	output_Walldate(&walldate_real);
+	moter_flag=1;
+	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
 }
 
 void mode_7(void) {
@@ -166,7 +175,7 @@ void mode_7(void) {
 //			i=0;
 //		}
 //		wait_time(1);
-
+		AD_SEN();
 		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
 				SEN_RF.now, SEN_R.now);
 		wait_time(100);
@@ -253,5 +262,6 @@ void go_mode(uint8_t mode) {
 	duty.right = 0;
 	duty_to_moter();
 	mode_flag = mode_flag & 0x7f;
+	moter_flag=0;
 }
 

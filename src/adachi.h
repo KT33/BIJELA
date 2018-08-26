@@ -19,6 +19,8 @@ void turn_right(float accel, float vel);
 void pass_180(float accel, float vel);
 void turn_180(float accel, float vel);
 void back_100(void);
+void ketuate_goal_left(float accel, float vel);
+void ketuate_goal_right(float accel, float vel);
 void ketuate_goal(float accel, float vel);
 void ketuate_right(float accel, float vel);
 void ketuate_left(float accel, float vel);

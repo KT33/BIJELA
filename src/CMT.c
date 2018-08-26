@@ -13,73 +13,40 @@
 
 void interrupt_cmt0(void) {
 	g_count++;
-	AD_SEN();
-//	if (gyro_flag == 1) {
-//		angle += test_gyro2() / 1000;
-//	} else {
-//		angle = 0;
-//	}
+
 	real_velocity_control();
 	if (mode_flag & 0x80) { //モード内
-		//	real_velocity_control();
-		real_angle_control();
-		if (translation_parameter.run_flag == 1) {
-			control_accel(&translation_ideal, &translation_parameter);
-//			PID_control(&translation_ideal, &left_real, &right_real,
-//					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
-//					&duty,0);
-//			integral(&translation_ideal);
-		}
-		if (rotation_parameter.run_flag == 1) {
+		if (moter_flag == 1) {
+			//	real_velocity_control();
+			Moter_Stby = 1;
+			AD_SEN();
+			wall_control();
+			real_angle_control();
+			if (translation_parameter.run_flag == 1) {
+				control_accel(&translation_ideal, &translation_parameter,0);
+
+			}
+			if (rotation_parameter.run_flag == 1) {
 //			CENTERFRONT = 1;
-			control_accel(&rotation_ideal, &rotation_parameter);
-//			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-//					&rotation_deviation, &rotation_deviation, &rotation_gain,
-//					&rotation_parameter, &duty, 1);
-//			PID_control(&translation_ideal, &left_real, &right_real,
-//					&run_left_deviation, &run_right_deviation, &run_gain,&translation_parameter,
-//					&duty,0);
-			integral(&rotation_ideal);
+				control_accel(&rotation_ideal, &rotation_parameter,1);
+				integral(&rotation_ideal);
+			}
+
+			PID_control(&translation_ideal, &left_real, &right_real,
+					&run_left_deviation, &run_right_deviation, &run_gain,
+					&translation_parameter, &duty, 0);
+			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
+					&rotation_deviation, &rotation_deviation, &rotation_gain,
+					&rotation_parameter, &duty, 1);
+			integral(&translation_ideal);
+			if (log_flag == 1) {
+				log_sampling();
+			}
+			integral_vel_to_dis(&right_real.velocity, &right_real.dis);
+			duty_to_moter();
+		} else {
+			Moter_Stby = 0;
 		}
-
-		PID_control(&translation_ideal, &left_real, &right_real,
-				&run_left_deviation, &run_right_deviation, &run_gain,
-				&translation_parameter, &duty, 0);
-		PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-				&rotation_deviation, &rotation_deviation, &rotation_gain,
-				&rotation_parameter, &duty, 1);
-		integral(&translation_ideal);
-
-		wall_control_to_duty(&duty);
-
-		if (log_flag == 1) {
-			log_sampling();
-		}
-
-
-//		if (test_flag == 1) {	//enkaigei
-//			rotation_deviation.cumulative = 0;
-//			rotation_real.dis = 0.0;
-//			//		rotation_real.velocity = 0.0;
-//			rotation_ideal.accel = 0.0;
-//			rotation_ideal.velocity = 0.0;
-//			rotation_parameter.run_flag = 1;
-//			RIGHTWING = 1;
-//			rotation_ideal.accel = 0.0;
-//			rotation_ideal.velocity = 0.0;
-//			translation_ideal.velocity = 0.0;
-//			translation_ideal.accel = 0;
-//			rotation_real.dis += rotation_real.velocity * 0.001;
-//			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-//					&rotation_deviation, &rotation_deviation, &rotation_gain,
-//					&rotation_parameter, &duty, 1);
-//			PID_control(&translation_ideal, &left_real, &right_real,
-//					&run_left_deviation, &run_right_deviation, &run_gain,
-//					&translation_parameter, &duty, 0);
-//
-//		}
-		integral_vel_to_dis(&right_real.velocity, &right_real.dis);;
-		duty_to_moter();
 	} else { //モード選択中
 //		real_velocity_control();
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
@@ -103,3 +70,25 @@ void init_cmt0(void) {
 	CMT.CMSTR0.BIT.STR0 = 1; //カウントスタート
 
 }
+
+//		if (test_flag == 1) {	//enkaigei
+//			rotation_deviation.cumulative = 0;
+//			rotation_real.dis = 0.0;
+//			//		rotation_real.velocity = 0.0;
+//			rotation_ideal.accel = 0.0;
+//			rotation_ideal.velocity = 0.0;
+//			rotation_parameter.run_flag = 1;
+//			RIGHTWING = 1;
+//			rotation_ideal.accel = 0.0;
+//			rotation_ideal.velocity = 0.0;
+//			translation_ideal.velocity = 0.0;
+//			translation_ideal.accel = 0;
+//			rotation_real.dis += rotation_real.velocity * 0.001;
+//			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
+//					&rotation_deviation, &rotation_deviation, &rotation_gain,
+//					&rotation_parameter, &duty, 1);
+//			PID_control(&translation_ideal, &left_real, &right_real,
+//					&run_left_deviation, &run_right_deviation, &run_gain,
+//					&translation_parameter, &duty, 0);
+//
+//		}

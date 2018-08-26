@@ -125,10 +125,11 @@ extern gain_t wall_cntrol_gain;
 extern int test1,test2;
 extern uint8_t direction,direction_pass;
 extern XY_t x,y;
-extern int wall_control_offset;
+extern float wallcontrol_value;
 extern walldate_t walldate_real,walldate_checked,walldate_adachi;
 extern uint8_t step_map[16][16];
 extern uint8_t pass[255];
+extern uint8_t moter_flag;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

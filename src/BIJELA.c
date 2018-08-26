@@ -55,6 +55,7 @@ void main() {
 		}
 		if (SWITCH == 0) {
 			ui_reset();
+			mode_select_speaker(mode_flag);
 			chattering();
 			go_mode(mode_flag);
 		}

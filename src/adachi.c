@@ -104,7 +104,15 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel) {
 	while (1) {
 		adachi_map(goal_x, goal_y, walldate_real);
 		if (((x.now == goal_x && y.now == goal_y))) {
-			ketuate_goal(accel, vel);
+			if ((getWall(goal_x, goal_y, direction + 1, walldate_real))
+					&& (getWall(goal_x, goal_y, direction, walldate_real))) {
+				ketuate_goal_left(accel, vel);
+			} else if ((getWall(goal_x, goal_y, direction + 3, walldate_real))
+					&& (getWall(goal_x, goal_y, direction, walldate_real))) {
+				ketuate_goal_right(accel, vel);
+			} else {
+				ketuate_goal(accel, vel);
+			}
 			break;
 		}
 		flag = how_to_move(direction, (int8_t) x.now, (int8_t) y.now,
@@ -300,7 +308,7 @@ void back_100(void) {
 	wait_straight();
 }
 
-void ketuate_goal(float accel, float vel) {
+void ketuate_goal_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
 	wait_time(100);
@@ -318,3 +326,31 @@ void ketuate_goal(float accel, float vel) {
 	wait_time(100);
 }
 
+void ketuate_goal_right(float accel, float vel) {
+	set_straight(90.0, accel, vel, vel, 0.0);
+	wait_straight();
+	wait_time(100);
+	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	wait_time(100);
+	back_100();
+	wait_time(100);
+	go_center(accel, vel);
+	wait_time(100);
+	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	wait_time(100);
+	back_100();
+	wait_time(100);
+}
+
+void ketuate_goal(float accel, float vel) {
+	set_straight(90.0, accel, vel, vel, 0.0);
+	wait_straight();
+	wait_time(100);
+	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	wait_time(100);
+	back_100();
+	wait_time(100);
+}

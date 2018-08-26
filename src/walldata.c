@@ -215,6 +215,9 @@ void output_Walldate(walldate_t *walldate) {
 
 int getWall(int x_check, int y_check, int direction_check, walldate_t *walldate) { //(見たい座標のx,y,とその座標からの方角１～４壁があれば１
 	int check_wall = 1;
+	if(direction_check>3){
+		direction_check=direction_check-4;
+	}
 	if (direction_check == North) {
 		check_wall <<= x_check;
 		check_wall &= walldate->row[y_check + 1];
