@@ -46,6 +46,7 @@ void interrupt_cmt0(void) {
 			duty_to_moter();
 		} else {
 			Moter_Stby = 0;
+			real_angle_control();
 		}
 	} else { //モード選択中
 //		real_velocity_control();

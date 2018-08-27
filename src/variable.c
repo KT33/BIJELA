@@ -9,12 +9,12 @@
 #include "iodefine.h"
 #include "stdint.h"
 
-gain_t rotation_gain = { 0.4, 0.04, 0.0 };//0.4, 0.04, 0.0
+gain_t rotation_gain = { 0.52, 0.027, 0.0 };//0.38, 0.038, 0.0
 gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
 gain_t wall_cntrol_gain = { 0.04, 0.0, 0.0 };//0.05
 
-normal_para_t nomal_run = { 500.0, 450.0, 20.0, 1500.0 }; //search,max,min,accel
-normal_para_t nomal_rotation = { 400.0, 400.0, 0.0, 500.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
+normal_para_t nomal_run = { 500.0, 500.0, 20.0, 1500.0 }; //search,max,min,accel
+normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 7000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
 
 sensor_t SEN_R = { 0, 954, 450, 0 }; //now,reference,threshold,diff
 sensor_t SEN_L = { 0, 909, 380, 0 };
@@ -78,4 +78,6 @@ uint8_t step_map[16][16];
 uint8_t pass[255];
 
 uint8_t moter_flag=0;
+
+float test_float;
 

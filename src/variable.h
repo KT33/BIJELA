@@ -130,6 +130,7 @@ extern walldate_t walldate_real,walldate_checked,walldate_adachi;
 extern uint8_t step_map[16][16];
 extern uint8_t pass[255];
 extern uint8_t moter_flag;
+extern float test_float;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

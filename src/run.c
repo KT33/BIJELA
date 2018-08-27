@@ -63,7 +63,7 @@ void wall_control(void) {
 
 void PID_control(run_t *ideal, run_t *left, run_t *right,
 		deviation_t *left_deviation, deviation_t *right_deviation, gain_t *gain,
-		trapezoid_t *parameter, duty_t *duty, int rotation_flag) {
+		trapezoid_t *parameter, duty_t *duty, uint8_t rotation_flag) {
 	int duty_left, duty_right;
 	float Kp, Ki;
 
@@ -76,13 +76,6 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	if (rotation_flag == 1) {
 		right->velocity += wallcontrol_value;
 		left->velocity += wallcontrol_value;
-//		if(translation_ideal.velocity<250){
-//			Ki=Ki/2;
-////			Kp=Kp/2;
-//		}else if(translation_ideal.velocity<150){
-//			Ki=0.0;
-////			Kp=0.0;
-//		}
 	}
 
 	left_deviation->now = (ideal->velocity - left->velocity);
@@ -97,6 +90,7 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 
 	if (rotation_flag == 1) {
 		duty_left = duty_left * -1;
+//		test_float=left_deviation->now;
 	}
 	if (parameter->back_rightturn_flag == 1) {
 		duty_left = duty_left * -1;
@@ -104,6 +98,7 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	}
 	duty->left += duty_left;
 	duty->right += duty_right;
+
 }
 
 void set_straight(float i_distance, float accel, float max_vel, float strat_vel,
@@ -251,7 +246,22 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid, uint8_t rotation_flag) 
 			< (trapezoid->i_distance - trapezoid->deacceldistance)) {
 //		UI_LED2 = 1;
 		ideal->accel = 0;
-
+////////////////////////////////////////////////
+///
+///
+/////
+///
+///
+///
+///
+//		ideal->velocity = trapezoid->max_vel;
+/////////////////////////////////////////
+///
+///
+///
+///
+///
+//////////
 	} else if (ideal->velocity > trapezoid->end_vel) {
 //		UI_LED3 = 1;
 //		if (rotation_flag == 0) {
@@ -261,7 +271,24 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid, uint8_t rotation_flag) 
 
 	} else {
 		trapezoid->run_flag = 0;
-//		RIGHTWING = 1;
+////////////////////////////
+///
+///
+///
+///
+///
+///
+///
+/// //////////
+		ideal->accel=0;
+		ideal->velocity=trapezoid->end_vel;
+////////////////////////////
+///
+///
+///
+///
+/////////////
+		//		RIGHTWING = 1;
 	}
 
 }

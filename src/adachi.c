@@ -218,11 +218,15 @@ void right_hand(float accel, float vel) {
 }
 
 void go_entrance(float accel, float vel) {
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
 	set_straight(140.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
 
 void go_center(float accel, float vel) {
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
 	set_straight(50.0, accel, vel, 0.0, 0.0);
 	wait_straight();
 }
@@ -230,10 +234,10 @@ void go_center(float accel, float vel) {
 void turn_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	set_straight(90.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
@@ -241,10 +245,10 @@ void turn_left(float accel, float vel) {
 void turn_right(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	set_straight(90.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
@@ -257,10 +261,10 @@ void pass_180(float accel, float vel) {
 void turn_180(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	set_straight(90.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
@@ -268,38 +272,38 @@ void turn_180(float accel, float vel) {
 void ketuate_right(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_center(accel, vel);
-	wait_time(100);
+	wait_time(50);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_entrance(accel, vel);
 }
 
 void ketuate_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_center(accel, vel);
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_entrance(accel, vel);
 }
 
@@ -311,46 +315,46 @@ void back_100(void) {
 void ketuate_goal_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_center(accel, vel);
-	wait_time(100);
+	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 }
 
 void ketuate_goal_right(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 	go_center(accel, vel);
-	wait_time(100);
+	wait_time(50);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 }
 
 void ketuate_goal(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(100);
+	wait_time(50);
 	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(100);
+	wait_time(50);
 	back_100();
-	wait_time(100);
+	wait_time(50);
 }

@@ -16,7 +16,7 @@
 #include "walldate.h"
 
 void real_angle_control(void) {
-	rotation_real.velocity = -0.2450 + test_gyro2();
+	rotation_real.velocity = -0.263156 + test_gyro2(); //-0.2450 +
 	if (rotation_parameter.back_rightturn_flag == 1) {
 		rotation_real.velocity = -1 * rotation_real.velocity;
 	}
@@ -116,8 +116,8 @@ void init_ALL(void) {
 //	clear_Map(&walldate_adachi);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
-	x.now=0;
-	y.now=0;
+	x.now = 0;
+	y.now = 0;
 }
 
 void wait_time(int ms) {
@@ -129,20 +129,27 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 2;
+	log_how_often = 1;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = right_real.dis;
+		Log[log_index] = rotation_real.velocity;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
 			log_flag = 0;
 			log_index = 0;
 		}
+	}
+}
+
+void log_output(void) {
+	int i;
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", Log[i]);
 	}
 }
 
@@ -156,7 +163,7 @@ void Battery_Check(void) {
 	Batt = S12AD.ADDR0;
 	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
 	if (Battery < 7.7) {
-		Moter_Stby=0;
+		Moter_Stby = 0;
 		while (1) {
 			UI_LED1 = 1;
 			UI_LED2 = 0;
