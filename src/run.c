@@ -178,6 +178,7 @@ void wait_rotation(void) {
 	}
 //	LEFTFRONT = 1;
 //	rotation_gain.Ki = 0.0;
+	translation_ideal.dis = 0.0;
 	rotation_ideal.accel = 0.0;
 	rotation_ideal.dis = 0.0;
 	rotation_ideal.velocity = 0.0;
@@ -224,7 +225,7 @@ void trapezoid_preparation(trapezoid_t *trapezoid, float i_distance,
 			trapezoid->deacceldistance = (max_vel * max_vel - end_vel * end_vel)
 					/ (2.0 * accel);
 		}
-
+		trapezoid->max_vel = max_vel;
 	} else {
 		trapezoid->acceldistance = 0.0;
 		trapezoid->deacceldistance = 0.0;
@@ -254,7 +255,7 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid, uint8_t rotation_flag) 
 ///
 ///
 ///
-//		ideal->velocity = trapezoid->max_vel;
+		ideal->velocity = trapezoid->max_vel;
 /////////////////////////////////////////
 ///
 ///
@@ -280,8 +281,8 @@ void control_accel(run_t *ideal, trapezoid_t *trapezoid, uint8_t rotation_flag) 
 ///
 ///
 /// //////////
-		ideal->accel=0;
-		ideal->velocity=trapezoid->end_vel;
+		ideal->accel = 0;
+		ideal->velocity = trapezoid->end_vel;
 ////////////////////////////
 ///
 ///

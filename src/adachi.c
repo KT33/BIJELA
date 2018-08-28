@@ -111,7 +111,7 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel) {
 					&& (getWall(goal_x, goal_y, direction, walldate_real))) {
 				ketuate_goal_right(accel, vel);
 			} else {
-				ketuate_goal(accel, vel);
+				non_ketuate_goal(accel, vel);
 			}
 			break;
 		}
@@ -227,7 +227,7 @@ void go_entrance(float accel, float vel) {
 void go_center(float accel, float vel) {
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
-	set_straight(50.0, accel, vel, 0.0, 0.0);
+	set_straight(54.0, accel, vel, 0.0, 0.0);
 	wait_straight();
 }
 
@@ -308,7 +308,8 @@ void ketuate_left(float accel, float vel) {
 }
 
 void back_100(void) {
-	set_straight(-65.0, 1000, 200, 0.0, 0.0);
+	set_straight(-65.0, 500, 150, 0.0, 0.0);
+	wall_control_flag = 0;
 	wait_straight();
 }
 
@@ -348,13 +349,55 @@ void ketuate_goal_right(float accel, float vel) {
 	wait_time(50);
 }
 
-void ketuate_goal(float accel, float vel) {
+void non_ketuate_goal(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
 	wait_time(50);
 	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
 	wait_time(50);
-	back_100();
+	set_straight(-54.0, 500, 150, 0.0, 0.0);
+	wall_control_flag = 0;
+	wait_straight();
 	wait_time(50);
+}
+
+void slalom_left90(float run_accel, float run_vel, float rota_accel,
+		float rota_vel) {
+	ui_led_3bit(1);
+	go_entrance(run_accel, run_vel);
+	ui_led_3bit(3);
+	set_straight(15.0, run_accel, run_vel,
+			run_vel, run_vel);
+	wait_straight();
+	set_rotation(90.0, rota_accel, rota_vel,
+			run_vel);
+	wait_rotation();
+	set_straight(30.0, run_accel, run_vel,
+			run_vel, run_vel);
+	wait_straight();
+	ui_led_3bit(7);
+	set_straight(90.0, run_accel, run_vel,
+			run_vel, 0.0);
+	wait_straight();
+}
+
+void slalom_right90(float run_accel, float run_vel, float rota_accel,
+		float rota_vel) {
+	ui_led_3bit(1);
+	go_entrance(run_accel, run_vel);
+	ui_led_3bit(3);
+	set_straight(15.0, run_accel, run_vel,
+			run_vel, run_vel);
+	wait_straight();
+	set_rotation(-90.0, rota_accel, rota_vel,
+			run_vel);
+	wait_rotation();
+	set_straight(20.0, run_accel, run_vel,
+			run_vel, run_vel);
+	wait_straight();
+	ui_led_3bit(7);
+	set_straight(90.0, run_accel, run_vel,
+			run_vel, 0.0);
+	wait_straight();
 }

@@ -22,68 +22,28 @@
 void mode_0(void) {
 //	uint8_t flag;
 	moter_flag = 1;
-	adachi_search_run(1, 0, nomal_run.accel, nomal_run.vel_search);
+	adachi_search_run(1, 1, nomal_run.accel, nomal_run.vel_search);
 	wait_time(2000);
 	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
 	wait_time(2000);
-
-//	nomal_rotation.accel=1000.0;
-//	nomal_rotation.vel_search=700.0;
-//	ui_led_3bit(1);
-//	go_entrance(nomal_run.accel, nomal_run.vel_search);
-//	ui_led_3bit(3);
-//	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-//			nomal_run.vel_search);
-//	wait_rotation();
-//	ui_led_3bit(7);
-//	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-//			nomal_run.vel_search, 0.0);
-//	wait_straight();
 
 }
 
 void mode_1(void) {
 //	uint16_t i, j;
 	moter_flag = 1;
-	rotation_gain.Kp = 0.35;
-	rotation_gain.Ki = 0.035;
-
-	nomal_rotation.accel = 7000.0;
-	nomal_rotation.vel_search = 600.0;
-	ui_led_3bit(1);
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	ui_led_3bit(3);
-	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-			nomal_run.vel_search);
-	wait_rotation();
-	ui_led_3bit(7);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, 0.0);
-	wait_straight();
+	slalom_left90(nomal_run.accel, nomal_run.vel_search, nomal_rotation.accel,
+			nomal_rotation.vel_search);
 
 }
 void mode_2(void) {
 	moter_flag = 1;
-	rotation_gain.Kp = 0.38;
-	rotation_gain.Ki = 0.035;
-	nomal_rotation.accel = 7000.0;
-	nomal_rotation.vel_search = 600.0;
-	ui_led_3bit(1);
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	ui_led_3bit(3);
-	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-			nomal_run.vel_search);
-	wait_rotation();
-	ui_led_3bit(7);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, 0.0);
-	wait_straight();
+	slalom_right90(nomal_run.accel, nomal_run.vel_search, nomal_rotation.accel,
+			nomal_rotation.vel_search);
 }
 
 void mode_3(void) {
 	moter_flag = 1;
-	rotation_gain.Kp = 0.35;
-	rotation_gain.Ki = 0.03;
 	nomal_rotation.accel = 7000.0;
 	nomal_rotation.vel_search = 600.0;
 	ui_led_3bit(1);
@@ -121,17 +81,8 @@ void mode_5(void) {
 
 void mode_6(void) {
 	moter_flag = 1;
-	rotation_gain.Kp = 0.52; //54
-	rotation_gain.Ki = 0.027; //36
-	nomal_rotation.accel = 7000.0;
-	nomal_rotation.vel_search = 600.0;
-	set_rotation(-360.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
-	wait_rotation();
-	moter_flag = 0;
-	while (SWITCH == 1) {
-
-	}
-	log_output();
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	non_ketuate_goal(nomal_run.accel, nomal_run.vel_search);
 }
 
 void mode_7(void) {

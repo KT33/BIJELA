@@ -23,21 +23,23 @@ void interrupt_cmt0(void) {
 			wall_control();
 			real_angle_control();
 			if (translation_parameter.run_flag == 1) {
-				control_accel(&translation_ideal, &translation_parameter,0);
+				control_accel(&translation_ideal, &translation_parameter, 0);
 
 			}
 			if (rotation_parameter.run_flag == 1) {
 //			CENTERFRONT = 1;
-				control_accel(&rotation_ideal, &rotation_parameter,1);
+				control_accel(&rotation_ideal, &rotation_parameter, 1);
 				integral(&rotation_ideal);
 			}
 
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,
 					&translation_parameter, &duty, 0);
-			PID_control(&rotation_ideal, &rotation_real, &rotation_real,
-					&rotation_deviation, &rotation_deviation, &rotation_gain,
-					&rotation_parameter, &duty, 1);
+			if (translation_parameter.back_rightturn_flag == 0) {
+				PID_control(&rotation_ideal, &rotation_real, &rotation_real,
+						&rotation_deviation, &rotation_deviation,
+						&rotation_gain, &rotation_parameter, &duty, 1);
+			}
 			integral(&translation_ideal);
 			if (log_flag == 1) {
 				log_sampling();
