@@ -22,10 +22,12 @@
 void mode_0(void) {
 //	uint8_t flag;
 	moter_flag = 1;
-	adachi_search_run(1, 1, nomal_run.accel, nomal_run.vel_search);
+	adachi_search_run(1, 1, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
-	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search);
+	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
+	make_pass(1, 1);
+	move_pass(nomal_run.accel, nomal_run.vel_max);
 
 }
 
@@ -80,9 +82,42 @@ void mode_5(void) {
 }
 
 void mode_6(void) {
-	moter_flag = 1;
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	non_ketuate_goal(nomal_run.accel, nomal_run.vel_search);
+	walldate_real.column[0] = 65535;
+	walldate_real.column[1] = 1;
+	walldate_real.column[2] = 8;
+	walldate_real.column[3] = 4;
+	walldate_real.column[4] = 6;
+	walldate_real.column[5] = 2;
+	walldate_real.column[6] = 14;
+	walldate_real.row[1] = 44;
+	walldate_real.row[2] = 5;
+	walldate_real.row[3] = 30;
+	walldate_real.row[4] = 63;
+	walldate_real.row[5] = 0;
+	walldate_real.row[6] = 0;
+
+	walldate_adachi.column[0] = 65535;
+	walldate_adachi.column[1] = 1;
+	walldate_adachi.column[2] = 8;
+	walldate_adachi.column[3] = 4;
+	walldate_adachi.column[4] = 6;
+	walldate_adachi.column[5] = 2;
+	walldate_adachi.column[6] = 14;
+	walldate_adachi.row[1] = 44;
+	walldate_adachi.row[2] = 5;
+	walldate_adachi.row[3] = 30;
+	walldate_adachi.row[4] = 63;
+	walldate_adachi.row[5] = 0;
+	walldate_adachi.row[6] = 0;
+	ui_led_3bit(1);
+	make_pass(2, 3);
+//	ui_led_3bit(2);
+	for (i = 0; pass[i] != 0xff; i++) {
+		myprintf("pass[%d]=%d\n", i, pass[i]);
+	}
+	for (i = 0; pass_compression[i] != 0xff; i++) {
+		myprintf("pass_compression[%d]=%d\n", i, pass_compression[i]);
+	}
 }
 
 void mode_7(void) {

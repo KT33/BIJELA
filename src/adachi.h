@@ -25,7 +25,7 @@ void non_ketuate_goal(float accel, float vel);
 void ketuate_right(float accel, float vel);
 void ketuate_left(float accel, float vel);
 void adachi_map(uint8_t goal_x, uint8_t goal_y, walldate_t);
-void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel);
+void adachi_search_run(uint8_t goal_x, uint8_t goal_y, float accel, float vel,uint8_t);
 uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y,walldate_t);
 void make_pass(uint8_t,uint8_t);
 void slalom_left90(float run_accel, float run_vel, float rota_accel,
