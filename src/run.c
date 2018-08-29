@@ -125,7 +125,7 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = center_vel;
 	rotation_deviation.now = 0.0;
-	rotation_deviation.cumulative = 0.0;
+//	rotation_deviation.cumulative = 0.0;
 //	rotation_gain.Ki = 0.04;
 	if ((i_angle > 80.0) && (i_angle < 100.0)) {
 		direction++;
@@ -142,7 +142,7 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 		direction -= 4;
 	}
 	rotation_parameter.run_flag = 1;
-	log_start();
+//	log_start();
 }
 
 void wait_straight(void) {
@@ -184,7 +184,7 @@ void wait_rotation(void) {
 	rotation_ideal.velocity = 0.0;
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
-	rotation_deviation.cumulative = 0.0;
+//	rotation_deviation.cumulative = 0.0;
 //	duty.left = 0;
 //	duty.right = 0;
 //	duty_to_moter();
@@ -355,16 +355,16 @@ void duty_to_moter(void) {
 	}
 
 	if (duty_left > 400) {
-		duty_left = 400;
+		duty_left = 400-1;
 	}
 	if (duty_right > 400) {
-		duty_right = 400;
+		duty_right = 400-1;
 	}
 	if (duty_left < -400) {
-		duty_left = -400;
+		duty_left = -400+1;
 	}
 	if (duty_right < -400) {
-		duty_right = -400;
+		duty_right = -400+1;
 	}
 
 //	test1 = duty_left;

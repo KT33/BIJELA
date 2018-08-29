@@ -12,7 +12,7 @@
 #include "walldate.h"
 #include "other.h"
 
-void make_pass(uint8_t goal_x, uint8_t goal_y) {
+void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	uint8_t i = 0, j = 0, straight_count = 0;
 	uint8_t flag;
 	for (i = 0; i < 255; i++) {
@@ -22,12 +22,12 @@ void make_pass(uint8_t goal_x, uint8_t goal_y) {
 	x.pass = x.now;
 	y.pass = y.now;
 	direction_pass = direction;
-	adachi_map(goal_x, goal_y, walldate_adachi);
+	adachi_map(goal_x, goal_y, goal_scale, walldate_adachi);
 	coordinate_pass();
 	i = 0;
 	while (1) {
 
-		if (x.pass == goal_x && y.pass == goal_y) {
+		if (step_map[x.pass][y.pass] == 0) {
 			direction_pass += 2;
 			pass[i] = 0xff;
 			break;
@@ -37,19 +37,19 @@ void make_pass(uint8_t goal_x, uint8_t goal_y) {
 				walldate_adachi);
 		myprintf("flag:%d,%d,%d\n", flag, x.pass, y.pass);
 		if (flag == 0) {
-			pass[i] = 0;
+			pass[i] = 0; //直進
 		}
 		if (flag == 1) {
 			direction_pass += 1;
-			pass[i] = 1;
+			pass[i] = 1; //右折
 		}
 		if (flag == 3) {
 			direction_pass += 3;
-			pass[i] = 3;
+			pass[i] = 3; //左折
 		}
 		if (flag == 2 || flag == 4) {
 			direction_pass += 2;
-			pass[i] = 2;
+			pass[i] = 2; //ターン(使わない)
 		}
 
 		if (direction_pass > 3) {
@@ -64,24 +64,34 @@ void make_pass(uint8_t goal_x, uint8_t goal_y) {
 		if (pass[i] == 0) {
 			straight_count++;
 		} else if (straight_count != 0) {
-			pass_compression[j] = straight_count;
-			straight_count = 0;
+			pass_compression[j] = straight_count * 2;
 			j++;
-			pass_compression[j] = pass[i] * 20;
+			straight_count = 0;
+			if (pass[i] == 1) {
+				pass_compression[j] = 40;
+			} else if (pass[i] == 3) {
+				pass_compression[j] = 50;
+			}
 			j++;
 		} else {
-			pass_compression[j] = pass[i] * 20;
+			if (pass[i] == 1) {
+				pass_compression[j] = 40;
+			} else if (pass[i] == 3) {
+				pass_compression[j] = 50;
+			}
 			j++;
 		}
 	}
+	straight_count++;
 	if (straight_count != 0) {
-		pass_compression[j] = straight_count;
+		pass_compression[j] = straight_count * 2;
 		j++;
+		straight_count = 0;
 	}
 	pass_compression[j] = 0xff;
 }
 
-void move_pass_compression(float accel, float vel) {
+void move_pass(float accel, float vel) {
 	uint8_t i = 0;
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	for (i = 0; pass[i] != 0xff; i++) {
@@ -98,21 +108,75 @@ void move_pass_compression(float accel, float vel) {
 	non_ketuate_goal(accel, vel);
 }
 
-void move_pass(float accel, float vel) {
-	uint8_t i = 0;
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
+void move_pass_compression(float accel, float vel) {
+	uint8_t i = 0, j, first_turn_flag = 0;
+	if (pass[i] == 0) {
+		first_turn_flag = 0;
+	} else {
+		first_turn_flag = 1;
+	}
 	for (i = 0; pass_compression[i] != 0xff; i++) {
-		if (pass_compression[i] < 20) {
-			set_straight(180.0 * pass_compression[i], accel, vel,
-					nomal_run.vel_search, nomal_run.vel_search);
-			wait_straight();
-		} else if (pass_compression[i] == 20) {
+		if (pass_compression[i] < 35) { //直進の途中
+			if (first_turn_flag == 0) {
+				set_straight(90.0 * pass_compression[i] + 140.0, accel, vel,
+						0.0, nomal_run.vel_search);
+				wait_straight();
+				first_turn_flag = 0xff;
+				for (j = 0; j < 1 + (pass_compression[i] / 2); j++) {
+					coordinate();
+				}
+			} else {
+				set_straight(90.0 * pass_compression[i], accel, vel,
+						nomal_run.vel_search, nomal_run.vel_search);
+				wait_straight();
+				for (j = 0; j < pass_compression[i] / 2; j++) {
+					coordinate();
+				}
+			}
+		} else if (pass_compression[i] == 40) { //左折
+			if (first_turn_flag == 1) {
+				go_center(accel, nomal_run.vel_search);
+				first_turn_flag = 0xff;
+				coordinate();
+			}
 			slalom_left90(nomal_run.accel, nomal_run.vel_search,
 					nomal_rotation.accel, nomal_rotation.vel_search);
-		} else if (pass_compression[i] == 60) {
+			coordinate();
+		} else if (pass_compression[i] == 50) { //右折
+			if (first_turn_flag == 1) {
+				go_center(accel, nomal_run.vel_search);
+				first_turn_flag = 0xff;
+				coordinate();
+			}
 			slalom_right90(nomal_run.accel, nomal_run.vel_search,
 					nomal_rotation.accel, nomal_rotation.vel_search);
+			coordinate();
 		}
 	}
-	non_ketuate_goal(nomal_run.accel, nomal_run.vel_search);
+	set_straight(90.0, accel, nomal_run.vel_search, nomal_run.vel_search, 0.0);
+	wait_straight();
+	wait_time(50);
+	if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
+		set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+				0.0);
+		wait_rotation();
+		wait_time(50);
+		back_100();
+		wait_time(50);
+	} else if (getWall(x.now, y.now, direction + 3, &walldate_real)) {
+		set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+				0.0);
+		wait_rotation();
+		wait_time(50);
+		back_100();
+		wait_time(50);
+	} else {
+		set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+		wait_rotation();
+		wait_time(50);
+		set_straight(-50.0, 500, 150, 0.0, 0.0);
+		wall_control_flag = 0;
+		wait_straight();
+		wait_time(50);
+	}
 }

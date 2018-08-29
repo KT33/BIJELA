@@ -21,55 +21,112 @@
 
 void mode_0(void) {
 //	uint8_t flag;
+	x.goal = 7;
+	y.goal = 0;
 	moter_flag = 1;
-	adachi_search_run(1, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
+			1);
 	wait_time(2000);
-	adachi_search_run(0, 0, nomal_run.accel, nomal_run.vel_search, 1);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
-	make_pass(1, 1);
-	move_pass(nomal_run.accel, nomal_run.vel_max);
+	make_pass(x.goal, y.goal, 4);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+	wait_time(2000);
+//	moter_flag=0;
+//	while (SWITCH == 1) {
+//
+//	}
+//	myprintf("x:%d,y:%d,directon:%d\n",x.now,y.now,direction);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+
+//	for (i = 0; pass[i] != 0xff; i++) {
+//		myprintf("pass[%d]=%d\n", i, pass[i]);
+//	}
+//	for (i = 0; pass_compression[i] != 0xff; i++) {
+//		myprintf("pass_compression[%d]=%d\n", i, pass_compression[i]);
+//	}
 
 }
 
 void mode_1(void) {
-//	uint16_t i, j;
 	moter_flag = 1;
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	slalom_left90(nomal_run.accel, nomal_run.vel_search, nomal_rotation.accel,
 			nomal_rotation.vel_search);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
+	wait_straight();
+	moter_flag = 0;
+	while (SWITCH == 1) {
+
+	}
+	log_output();
 
 }
 void mode_2(void) {
 	moter_flag = 1;
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	log_start();
 	slalom_right90(nomal_run.accel, nomal_run.vel_search, nomal_rotation.accel,
 			nomal_rotation.vel_search);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0.0);
+	wait_straight();
+	moter_flag = 0;
+	while (SWITCH == 1) {
+
+	}
+	log_output();
 }
 
 void mode_3(void) {
 	moter_flag = 1;
 	nomal_rotation.accel = 7000.0;
 	nomal_rotation.vel_search = 600.0;
+	rotation_gain.Ki = 0.005;
 	ui_led_3bit(1);
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	ui_led_3bit(3);
-	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-			nomal_run.vel_search);
-	wait_rotation();
+	slalom_right90(nomal_run.accel, nomal_run.vel_search, nomal_rotation.accel,
+			nomal_rotation.vel_search);
 	ui_led_3bit(7);
 	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
 			nomal_run.vel_search, 0.0);
 	wait_straight();
 
+//	moter_flag = 1;
+//	rotation_gain.Kp = 0.56;
+//	rotation_gain.Ki = 0.02; //36
+//	nomal_rotation.accel = 7000.0;
+//	nomal_rotation.vel_search = 600.0;
+//	set_rotation(-360.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+//	wait_rotation();
+//	moter_flag = 0;
+//	while (SWITCH == 1) {
+//
+//	}
+//	log_output();
 }
 
 void mode_4(void) {
 	moter_flag = 1;
-	go_center(nomal_run.accel, nomal_run.vel_search);
+	rotation_gain.Kp = 0.62;
+	rotation_gain.Ki = 0.010; //36
+	nomal_rotation.accel = 7000.0;
+	nomal_rotation.vel_search = 600.0;
+	set_rotation(-360.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	moter_flag = 0;
+	while (SWITCH == 1) {
+
+	}
+	log_output();
 }
 
 void mode_5(void) {
 	moter_flag = 1;
-	rotation_gain.Kp = 0.50;
-	rotation_gain.Ki = 0.03; //36
+	rotation_gain.Kp = 0.62;
+	rotation_gain.Ki = 0.009; //36
 	nomal_rotation.accel = 7000.0;
 	nomal_rotation.vel_search = 600.0;
 	set_rotation(-360.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
@@ -110,8 +167,9 @@ void mode_6(void) {
 	walldate_adachi.row[5] = 0;
 	walldate_adachi.row[6] = 0;
 	ui_led_3bit(1);
-	make_pass(2, 3);
+	make_pass(2, 2, 4);
 //	ui_led_3bit(2);
+	output_Walldate(&walldate_adachi);
 	for (i = 0; pass[i] != 0xff; i++) {
 		myprintf("pass[%d]=%d\n", i, pass[i]);
 	}
@@ -131,12 +189,14 @@ void mode_7(void) {
 //			i=0;
 //		}
 //		wait_time(1);
-		AD_SEN();
-		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
-				SEN_RF.now, SEN_R.now);
-		wait_time(10);
+//		AD_SEN();
+//		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
+//				SEN_RF.now, SEN_R.now);
+//		wait_time(10);
 //		myprintf("%.8f\n",rotation_real.velocity);
-
+		while (1) {
+			myprintf("%.4f\n", rotation_real.velocity);
+		}
 	}
 }
 

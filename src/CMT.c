@@ -10,14 +10,27 @@
 #include "SPI.h"
 #include "run.h"
 #include "other.h"
+#include "speaker.h"
 
 void interrupt_cmt0(void) {
 	g_count++;
+	if(right_real.velocity>2500.0||left_real.velocity>2500.0||rotation_real.velocity>1500.0){
+		translation_ideal.accel = 0.0;
+		translation_ideal.velocity = 0.0;
+		duty.left = 0;
+		duty.right = 0;
+		duty_to_moter();
+		mode_flag = mode_flag & 0x7f;
+		moter_flag = 0;
+		Moter_Stby = 0;
+		speaker_on(C_5,6.0, 240);
+	}
 
 	real_velocity_control();
 	if (mode_flag & 0x80) { //モード内
 		if (moter_flag == 1) {
 			//	real_velocity_control();
+			ui_led_3bit(y.now);
 			Moter_Stby = 1;
 			AD_SEN();
 			wall_control();
@@ -35,7 +48,8 @@ void interrupt_cmt0(void) {
 			PID_control(&translation_ideal, &left_real, &right_real,
 					&run_left_deviation, &run_right_deviation, &run_gain,
 					&translation_parameter, &duty, 0);
-			if (translation_parameter.back_rightturn_flag == 0) {
+			if (translation_parameter.back_rightturn_flag == 0
+					|| rotation_ideal.velocity > 0.0) {
 				PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 						&rotation_deviation, &rotation_deviation,
 						&rotation_gain, &rotation_parameter, &duty, 1);

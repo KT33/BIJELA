@@ -16,7 +16,7 @@
 #include "walldate.h"
 
 void real_angle_control(void) {
-	rotation_real.velocity = -0.263156 + test_gyro2(); //-0.2450 +
+	rotation_real.velocity = -0.263156+0.19 + test_gyro2(); //-0.2450 +
 	if (rotation_parameter.back_rightturn_flag == 1) {
 		rotation_real.velocity = -1 * rotation_real.velocity;
 	}
