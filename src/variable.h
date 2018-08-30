@@ -132,6 +132,7 @@ extern uint8_t pass[255];
 extern uint8_t pass_compression[255];
 extern uint8_t moter_flag;
 extern float test_float;
+extern uint8_t failsafe_flag;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

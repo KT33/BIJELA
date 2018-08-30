@@ -83,3 +83,5 @@ uint8_t moter_flag = 0;
 
 float test_float;
 
+uint8_t failsafe_flag=0;
+

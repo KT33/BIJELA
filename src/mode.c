@@ -180,7 +180,7 @@ void mode_6(void) {
 
 void mode_7(void) {
 //	int i = 0;
-	while (1) {
+	while (failsafe_flag==0) {
 //		real_angle_control();
 //	myprintf("%.2f\n", rotation_real.velocity);
 //		ui_led_3bit(i);
@@ -194,15 +194,16 @@ void mode_7(void) {
 //				SEN_RF.now, SEN_R.now);
 //		wait_time(10);
 //		myprintf("%.8f\n",rotation_real.velocity);
-		while (1) {
-			myprintf("%.4f\n", rotation_real.velocity);
-		}
+		moter_flag = 1;
+		myprintf("%.3f\n", rotation_deviation.cumulative);
+
 	}
 }
 
 void go_mode(uint8_t mode) {
 	mode_flag = mode_flag | 0x80;
 	Battery_Check();
+	failsafe_flag=0;
 	wait_time(1000);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
@@ -279,8 +280,12 @@ void go_mode(uint8_t mode) {
 	duty.left = 0;
 	duty.right = 0;
 	duty_to_moter();
+	x.now = 0;
+	y.now = 0;
+	direction = 0;
 	mode_flag = mode_flag & 0x7f;
 	moter_flag = 0;
+	failsafe_flag=0;
 }
 
 //	walldate_real.column[0] = 65535;
