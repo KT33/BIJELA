@@ -34,6 +34,13 @@
 
 //PCKBは50Mhz
 
+//600の時
+//nomal_rotation.accel=9000.0
+//nomal_rotation.vel_search=750.0
+
+//left 10→25
+//right 11→20
+
 void main() {
 	volatile int i;
 	init_ALL();
@@ -44,6 +51,8 @@ void main() {
 	//gyro_flag=1;
 	while (1) {
 		//	myprintf("%6.2f\n", angle);
+		x.goal = 1;
+		y.goal = 0;
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;

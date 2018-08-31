@@ -9,17 +9,17 @@
 #include "iodefine.h"
 #include "stdint.h"
 
-gain_t rotation_gain = { 0.62, 0.009, 0.0 };
+gain_t rotation_gain = { 0.62, 0.010, 0.0 };
 //0.56, 0.015:安定感あり・段差弱し
 //0.62,0.009:段差対策・安定感薄し
 gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
-gain_t wall_cntrol_gain = { 0.04, 0.0, 0.0 }; //0.05
+gain_t wall_cntrol_gain = { 0.041, 0.0, 0.0 }; //0.05
 
-normal_para_t nomal_run = { 500.0, 1500.0, 20.0, 5000.0 }; //search,max,min,accel
+normal_para_t nomal_run = { 500.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 7000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
 
-sensor_t SEN_R = { 0, 954, 450, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 909, 380, 0 };
+sensor_t SEN_R = { 0, 1027, 500, 0 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 980, 380, 0 };
 sensor_t SEN_RF = { 0, 945, 350, 0 };
 sensor_t SEN_LF = { 0, 941, 300, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
@@ -28,7 +28,7 @@ float wallcontrol_value;
 
 volatile int16_t i;
 
-volatile float diameter = 23.60; //タイヤ径
+volatile float diameter = 23.50; //タイヤ径
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
@@ -76,7 +76,7 @@ uint8_t direction = 0, direction_pass = 0;
 XY_t x, y;
 
 walldate_t walldate_real, walldate_checked, walldate_adachi;
-uint8_t step_map[16][16];
+uint16_t step_map[16][16];
 uint8_t pass[255];
 uint8_t pass_compression[255];
 uint8_t moter_flag = 0;

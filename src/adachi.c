@@ -120,6 +120,109 @@ void adachi_map(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	} while (q.tail != q.head);
 }
 
+void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
+		walldate_t walldate) {
+	uint8_t x_adachi, y_adachi, step;
+	queue_t q;
+
+	q.head = 0;
+	q.tail = 0;
+
+	for (x_adachi = 0; x_adachi < 16; x_adachi++) {
+		for (y_adachi = 0; y_adachi < 16; y_adachi++) {
+			step_map[x_adachi][y_adachi] = 255;
+		}
+	}
+
+	if (goal_scale == 1) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+	} else if (goal_scale == 4) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x + 1][goal_y] = 0;
+		x_adachi = goal_x + 1;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x][goal_y + 1] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y + 1;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x + 1][goal_y + 1] = 0;
+		x_adachi = goal_x + 1;
+		y_adachi = goal_y + 1;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+	}
+	do {
+		flag = 0;
+		queue_pop(&q, &x_adachi, &y_adachi);
+		step = step_map[x_adachi][y_adachi];
+		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
+				&& (step_map[x_adachi][y_adachi + 1] > step)
+				&& ((y_adachi + 1) < 16)) {
+			if (((step_map[x_adachi][y_adachi - 1] == step - 1)
+					|| (step_map[x_adachi][y_adachi - 1] == step - 2))
+					&& (y_adachi - 1) >= 0) {
+				step_map[x_adachi][y_adachi + 1] = step + 1;
+			} else {
+				step_map[x_adachi][y_adachi + 1] = step + 2;
+			}
+			queue_push(&q, x_adachi, y_adachi + 1);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
+				&& (step_map[x_adachi - 1][y_adachi] > step)
+				&& ((x_adachi - 1) >= 0)) {
+			if (((step_map[x_adachi + 1][y_adachi] == step - 1)
+					|| (step_map[x_adachi + 1][y_adachi] == step - 2))
+					&& (x_adachi + 1) < 16) {
+				step_map[x_adachi - 1][y_adachi] = step + 1;
+			} else {
+				step_map[x_adachi - 1][y_adachi] = step + 2;
+			}
+
+			queue_push(&q, x_adachi - 1, y_adachi);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
+				&& (step_map[x_adachi][y_adachi - 1] > step)
+				&& ((y_adachi - 1) >= 0)) {
+			if (((step_map[x_adachi][y_adachi + 1] == step - 1)
+					|| (step_map[x_adachi][y_adachi + 1] == step - 2))
+					&& (y_adachi + 1) < 16) {
+				step_map[x_adachi][y_adachi - 1] = step + 1;
+			} else {
+				step_map[x_adachi][y_adachi - 1] = step + 2;
+			}
+			queue_push(&q, x_adachi, y_adachi - 1);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
+				&& (step_map[x_adachi + 1][y_adachi] > step)
+				&& ((x_adachi + 1) < 16)) {
+			if (((step_map[x_adachi - 1][y_adachi] == step - 1)
+					|| (step_map[x_adachi - 1][y_adachi] == step - 2))
+					&& (x_adachi - 1) >= 0) {
+				step_map[x_adachi + 1][y_adachi] = step + 1;
+			} else {
+				step_map[x_adachi + 1][y_adachi] = step + 2;
+			}
+			queue_push(&q, x_adachi + 1, y_adachi);
+			flag = 10;
+		}
+//		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+	} while (q.tail != q.head);
+}
+
 void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		float accel, float vel, uint8_t slalom_flag) {
 	uint8_t flag; //flag 0:前,1:左折2:Uターン(けつあて)3:右折4:Uターン
@@ -130,12 +233,17 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		adachi_map(goal_x, goal_y, goal_scale, walldate_real);
 
 		if ((goal_scale == 1) && ((x.now == goal_x && y.now == goal_y))) {
-			if ((getWall(goal_x, goal_y, direction + 1, &walldate_real))
-					&& (getWall(goal_x, goal_y, direction, &walldate_real))) {
-				ketuate_goal_left(accel, vel);
-			} else if ((getWall(goal_x, goal_y, direction + 3, &walldate_real))
-					&& (getWall(goal_x, goal_y, direction, &walldate_real))) {
-				ketuate_goal_right(accel, vel);
+			if (getWall(goal_x, goal_y, direction, &walldate_real)) {
+				set_straight(90.0, accel, vel, vel, 0.0);
+				wait_straight();
+				wait_time(50);
+				set_rotation(180.0, nomal_rotation.accel,
+						nomal_rotation.vel_search, 0.0);
+				wait_rotation();
+				wait_time(50);
+				back_100();
+				wait_time(50);
+				rotation_deviation.cumulative = 0.0;
 			} else {
 				non_ketuate_goal(accel, vel);
 			}
@@ -146,29 +254,40 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 						|| (x.now == goal_x + 1 && y.now == goal_y)
 						|| (x.now == goal_x && y.now == goal_y + 1)
 						|| (x.now == goal_x + 1 && y.now == goal_y + 1))) {
-			set_straight(90.0, accel, vel, vel, 0.0);
-			wait_straight();
-			wait_time(50);
+
 			if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
+				set_straight(95.0, accel, vel, vel, 0.0);
+				wait_straight();
+				wait_time(50);
 				set_rotation(-90.0, nomal_rotation.accel,
 						nomal_rotation.vel_search, 0.0);
 				wait_rotation();
 				wait_time(50);
 				back_100();
 				wait_time(50);
+				rotation_deviation.cumulative = 0.0;
 			} else if (getWall(x.now, y.now, direction + 3, &walldate_real)) {
+				set_straight(90.0, accel, vel, vel, 0.0);
+				wait_straight();
+				wait_time(50);
 				set_rotation(90.0, nomal_rotation.accel,
 						nomal_rotation.vel_search, 0.0);
 				wait_rotation();
 				wait_time(50);
 				back_100();
 				wait_time(50);
+				rotation_deviation.cumulative = 0.0;
 			} else {
+				set_straight(93.0, accel, vel, vel, 0.0);
+				wait_straight();
+				wait_time(50);
 				set_rotation(-180.0, nomal_rotation.accel,
 						nomal_rotation.vel_search, 0.0);
 				wait_rotation();
 				wait_time(50);
-				back_100();
+				set_straight(-50.0, 500, 150, 0.0, 0.0);
+				wall_control_flag = 0;
+				wait_straight();
 				wait_time(50);
 			}
 			break;
@@ -182,8 +301,13 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (slalom_flag == 0) {
 				turn_left(accel, vel);
 			} else {
+//				if (vel == 600.0) {
+//					slalom_left90_600(accel, nomal_run.vel_search,
+//							nomal_rotation.accel, nomal_rotation.vel_search);
+//				} else {
 				slalom_left90(accel, vel, nomal_rotation.accel,
 						nomal_rotation.vel_search);
+//				}
 			}
 		}
 		if (flag == 2) {
@@ -194,8 +318,13 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (slalom_flag == 0) {
 				turn_right(accel, vel);
 			} else {
+//				if (vel == 600.0) {
+//					slalom_right90_600(accel, nomal_run.vel_search,
+//							nomal_rotation.accel, nomal_rotation.vel_search);
+//				} else {
 				slalom_right90(accel, vel, nomal_rotation.accel,
 						nomal_rotation.vel_search);
+//				}
 			}
 		}
 
@@ -206,6 +335,7 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		addWall();
 	}
 }
+
 
 uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t walldate) {
 	uint8_t step, flag, i;
@@ -288,15 +418,15 @@ void right_hand(float accel, float vel) {
 }
 
 void go_entrance(float accel, float vel) {
-	rotation_deviation.now = 0.0;
-	rotation_deviation.cumulative = 0.0;
+//	rotation_deviation.now = 0.0;
+//rotation_deviation.cumulative = 0.0;
 	set_straight(140.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
 
 void go_center(float accel, float vel) {
-	rotation_deviation.now = 0.0;
-	rotation_deviation.cumulative = 0.0;
+//	rotation_deviation.now = 0.0;
+//	rotation_deviation.cumulative = 0.0;
 	set_straight(54.0, accel, vel, 0.0, 0.0);
 	wait_straight();
 }
@@ -348,6 +478,7 @@ void ketuate(float accel, float vel) {
 	wait_time(50);
 	back_100();
 	wait_time(50);
+	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
 
@@ -367,6 +498,7 @@ void ketuate_right(float accel, float vel) {
 	wait_time(50);
 	back_100();
 	wait_time(50);
+	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
 
@@ -379,18 +511,20 @@ void ketuate_left(float accel, float vel) {
 	wait_time(50);
 	back_100();
 	wait_time(50);
-	go_center(accel, vel);
+	set_straight(57.0, accel, vel, 0.0, 0.0);
+	wait_straight();
 	wait_time(50);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
 	wait_time(50);
 	back_100();
 	wait_time(50);
+	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
 
 void back_100(void) {
-	set_straight(-65.0, 500, 150, 0.0, 0.0);
+	set_straight(-80.0, 300, 150, 0.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
 }
@@ -411,6 +545,7 @@ void ketuate_goal_left(float accel, float vel) {
 	wait_time(50);
 	back_100();
 	wait_time(50);
+	rotation_deviation.cumulative = 0.0;
 }
 
 void ketuate_goal_right(float accel, float vel) {
@@ -429,6 +564,7 @@ void ketuate_goal_right(float accel, float vel) {
 	wait_time(50);
 	back_100();
 	wait_time(50);
+	rotation_deviation.cumulative = 0.0;
 }
 
 void non_ketuate_goal_turn(float accel, float vel) {
@@ -466,10 +602,34 @@ void slalom_left90(float run_accel, float run_vel, float rota_accel,
 
 void slalom_right90(float run_accel, float run_vel, float rota_accel,
 		float rota_vel) {
-	set_straight(18.0, run_accel, run_vel, run_vel, run_vel);
+	set_straight(20.0, run_accel, run_vel, run_vel, run_vel);
+	wait_straight();
+	set_rotation(-89.0, rota_accel, rota_vel, run_vel);
+	wait_rotation();
+	set_straight(22.0, run_accel, run_vel, run_vel, run_vel);
+	wait_straight();
+}
+
+void slalom_left90_600(float run_accel, float run_vel, float rota_accel,
+		float rota_vel) {
+	rota_accel = 9000.0;
+	rota_vel = 750.0;
+	set_straight(10.0, run_accel, run_vel, run_vel, run_vel);
+	wait_straight();
+	set_rotation(90.0, rota_accel, rota_vel, run_vel);
+	wait_rotation();
+	set_straight(25.0, run_accel, run_vel, run_vel, run_vel);
+	wait_straight();
+}
+
+void slalom_right90_600(float run_accel, float run_vel, float rota_accel,
+		float rota_vel) {
+	rota_accel = 9000.0;
+	rota_vel = 750.0;
+	set_straight(11.0, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
 	set_rotation(-90.0, rota_accel, rota_vel, run_vel);
 	wait_rotation();
-	set_straight(25.0, run_accel, run_vel, run_vel, run_vel);
+	set_straight(20.0, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
 }

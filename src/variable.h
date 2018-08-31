@@ -127,7 +127,7 @@ extern uint8_t direction,direction_pass;
 extern XY_t x,y;
 extern float wallcontrol_value;
 extern walldate_t walldate_real,walldate_checked,walldate_adachi;
-extern uint8_t step_map[16][16];
+extern uint16_t step_map[16][16];
 extern uint8_t pass[255];
 extern uint8_t pass_compression[255];
 extern uint8_t moter_flag;

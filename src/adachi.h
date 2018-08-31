@@ -33,5 +33,11 @@ void slalom_left90(float run_accel, float run_vel, float rota_accel,
 void slalom_right90(float run_accel, float run_vel, float rota_accel,
 		float rota_vel);
 void ketuate(float accel, float vel);
+void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
+		walldate_t walldate);
+void slalom_left90_600(float run_accel, float run_vel, float rota_accel,
+		float rota_vel);
+void slalom_right90_600(float run_accel, float run_vel, float rota_accel,
+		float rota_vel);
 #endif /* ADACHI_H_ */
 

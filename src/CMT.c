@@ -15,7 +15,7 @@
 void interrupt_cmt0(void) {
 	g_count++;
 	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
-			|| rotation_deviation.cumulative > 15000.0) {
+			|| rotation_deviation.cumulative > 20000.0) {
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
 		duty.left = 0;
@@ -34,7 +34,6 @@ void interrupt_cmt0(void) {
 		RIGHTFRONT = 1;
 		LEFTFRONT = 1;
 		failsafe_flag=1;
-
 	}
 
 	real_velocity_control();
@@ -60,7 +59,7 @@ void interrupt_cmt0(void) {
 					&run_left_deviation, &run_right_deviation, &run_gain,
 					&translation_parameter, &duty, 0);
 			if (translation_parameter.back_rightturn_flag == 0
-					|| rotation_ideal.velocity > 0.0) {
+					|| translation_ideal.velocity > 100.0) {
 				PID_control(&rotation_ideal, &rotation_real, &rotation_real,
 						&rotation_deviation, &rotation_deviation,
 						&rotation_gain, &rotation_parameter, &duty, 1);
