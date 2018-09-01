@@ -29,31 +29,21 @@ void mode_0(void) {
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
 	make_pass(x.goal, y.goal, 4, 0);
-	moter_flag=0;
-	while(SWITCH==1){
 
-	}
-	output_Walldate(&walldate_adachi);
-	for (i = 0; pass[i] != 0xff; i++) {
-		myprintf("pass[%d]=%d\n", i, pass[i]);
-	}
-	for (i = 0; pass_compression[i] != 0xff; i++) {
-		myprintf("pass_compression[%d]=%d\n", i, pass_compression[i]);
-	}
-//	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-//	wait_time(2000);
-//	nomal_run.vel_search = 500.0;
-//	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-//	wait_time(2000);
-//	nomal_run.vel_search = 500.0;
-//	make_pass(x.goal, y.goal, 4, 0);
-//	nomal_run.vel_search = 600.0;
-//	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-//	wait_time(2000);
-//	nomal_run.vel_search = 500.0;
-//	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-//	wait_time(2000);
-//	nomal_run.vel_search = 500.0;
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+	wait_time(2000);
+	nomal_run.vel_search = 500.0;
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	wait_time(2000);
+	nomal_run.vel_search = 500.0;
+	make_pass(x.goal, y.goal, 4, 0);
+	nomal_run.vel_search = 600.0;
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+	wait_time(2000);
+	nomal_run.vel_search = 500.0;
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	wait_time(2000);
+	nomal_run.vel_search = 500.0;
 
 }
 
@@ -83,27 +73,20 @@ void mode_3(void) {
 
 void mode_4(void) {
 	moter_flag = 1;
-	rotation_gain.Kp = 0.62;
-	rotation_gain.Ki = 0.010;
 	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
-			1);
+			0);
 	wait_time(2000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-	wait_time(2000);
-	make_pass(x.goal, y.goal, 4, 0);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-	wait_time(2000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 0);
 	wait_time(2000);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	moter_flag = 1;
-	rotation_gain.Kp = 0.62;
-	rotation_gain.Ki = 0.010;
-	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
-			1);
+	nomal_run.vel_search = 600.0;
+	make_pass(x.goal, y.goal, 4, 0);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 	wait_time(2000);
+	nomal_run.vel_search = 500.0;
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
 }
@@ -114,6 +97,8 @@ void mode_6(void) {
 	rotation_gain.Ki = 0.010;
 	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
 			1);
+	wait_time(2000);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
 	wait_time(2000);
 
 //	walldate_real.column[0] = 65535;
@@ -157,34 +142,38 @@ void mode_6(void) {
 }
 
 void mode_7(void) {
-//	mode_flag=1;
-//	rotation_gain.Kp = 0.62;
-//	rotation_gain.Ki = 0.010;
-//	make_pass(x.goal, y.goal, 4, 0);
-//	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-//	wait_time(2000);
-//	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-//	wait_time(2000);
+	mode_flag = 1;
+	rotation_gain.Kp = 0.62;
+	rotation_gain.Ki = 0.010;
+	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
+			1);
+	wait_time(2000);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	wait_time(2000);
+	make_pass(x.goal, y.goal, 4, 0);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+	wait_time(2000);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
+	wait_time(2000);
 ////	int i = 0;
-	while (1) {
-		moter_flag=0;
-////		real_angle_control();
-////	myprintf("%.2f\n", rotation_real.velocity);
-////		ui_led_3bit(i);
-////		i++;
-////		if(i>=8){
-////			i=0;
-////		}
-////		wait_time(1);
-		AD_SEN();
-		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
-				SEN_RF.now, SEN_R.now);
-		wait_time(10);
-//		myprintf("%.8f\n", rotation_real.velocity);
-////		moter_flag = 1;
-////		myprintf("%.3f\n", rotation_deviation.cumulative);
+//	while (1) {
+//		moter_flag = 0;
+//////		real_angle_control();
+//////	myprintf("%.2f\n", rotation_real.velocity);
+//////		ui_led_3bit(i);
+//////		i++;
+//////		if(i>=8){
+//////			i=0;
+//////		}
+//////		wait_time(1);
+//		AD_SEN();
+//		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
+//				SEN_RF.now, SEN_R.now);
+//		wait_time(10);
+////		myprintf("%.8f\n", rotation_real.velocity);
+//////		moter_flag = 1;
+//////		myprintf("%.3f\n", rotation_deviation.cumulative);
 
-		}
 }
 
 void go_mode(uint8_t mode) {

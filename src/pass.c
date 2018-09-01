@@ -16,7 +16,7 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		uint8_t straight_flag) {
 	uint8_t i = 0, j = 0, straight_count = 0;
 	uint8_t flag;
-	straight_flag=0;
+	straight_flag = 0;
 
 	for (i = 0; i < 255; i++) {
 		pass[i] = 0x0;
@@ -125,15 +125,15 @@ void move_pass_compression(float accel, float vel) {
 	for (i = 0; pass_compression[i] != 0xff; i++) {
 		if (pass_compression[i] < 35) { //直進の途中
 			if (first_turn_flag == 0) {
-				set_straight(90.0 * pass_compression[i] + 140.0, accel, vel,
-						0.0, nomal_run.vel_search);
+				set_straight(90.0 * (float) pass_compression[i] + 140.0, accel,
+						vel, 0.0, nomal_run.vel_search);
 				wait_straight();
 				first_turn_flag = 0xff;
 				for (j = 0; j < 1 + (pass_compression[i] / 2); j++) {
 					coordinate();
 				}
 			} else {
-				set_straight(90.0 * pass_compression[i], accel, vel,
+				set_straight(90.0 * (float) pass_compression[i], accel, vel,
 						nomal_run.vel_search, nomal_run.vel_search);
 				wait_straight();
 				for (j = 0; j < pass_compression[i] / 2; j++) {
@@ -147,7 +147,8 @@ void move_pass_compression(float accel, float vel) {
 				coordinate();
 			}
 			if (nomal_run.vel_search == 600.0) {
-				slalom_left90_600(nomal_run.accel, nomal_run.vel_search, 9000.0, 750.0);
+				slalom_left90_600(nomal_run.accel, nomal_run.vel_search, 9000.0,
+						750.0);
 			} else {
 				slalom_left90(nomal_run.accel, nomal_run.vel_search,
 						nomal_rotation.accel, nomal_rotation.vel_search);
@@ -160,7 +161,8 @@ void move_pass_compression(float accel, float vel) {
 				coordinate();
 			}
 			if (nomal_run.vel_search == 600.0) {
-				slalom_right90_600(nomal_run.accel, nomal_run.vel_search, 9000.0, 750.0);
+				slalom_right90_600(nomal_run.accel, nomal_run.vel_search,
+						9000.0, 750.0);
 			} else {
 				slalom_right90(nomal_run.accel, nomal_run.vel_search,
 						nomal_rotation.accel, nomal_rotation.vel_search);
