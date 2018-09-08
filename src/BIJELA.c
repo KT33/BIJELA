@@ -31,6 +31,7 @@
 #include "speaker.h"
 #include "Moter.h"
 #include "run.h"
+#include "dataflash.h"
 
 //PCKBは50Mhz
 
@@ -47,12 +48,12 @@ void main() {
 	mode_flag = 0;
 	Moter_Stby = 1;
 	Moter_R_FRONT = 1;
-
+	init_dataflash();
 	//gyro_flag=1;
 	while (1) {
 		//	myprintf("%6.2f\n", angle);
-		x.goal = 7;
-		y.goal = 7;
+//		x.goal = 7;
+//		y.goal = 7;
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 70) {
 			mode_select_dis = 0;

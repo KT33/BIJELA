@@ -173,7 +173,7 @@ void clear_adachiMap(walldate_t *walldate) {
 
 void output_Walldate(walldate_t *walldate) {
 	int x_check, y_check;
-
+	myprintf("\n");
 	for (y_check = 15; y_check >= 0; y_check--) {
 		myprintf("+");
 		for (x_check = 0; x_check < 16; x_check++) {
@@ -211,12 +211,13 @@ void output_Walldate(walldate_t *walldate) {
 		myprintf("+");
 	}
 	myprintf("\n");
+	myprintf("\n");
 }
 
 int getWall(int x_check, int y_check, int direction_check, walldate_t *walldate) { //(見たい座標のx,y,とその座標からの方角１～４壁があれば１
 	int check_wall = 1;
-	if(direction_check>3){
-		direction_check=direction_check-4;
+	if (direction_check > 3) {
+		direction_check = direction_check - 4;
 	}
 	if (direction_check == North) {
 		check_wall <<= x_check;

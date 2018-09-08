@@ -20,105 +20,40 @@
 #include "pass.h"
 #include "dataflash.h"
 
-uint32_t top_addr_db00 = 0x00100000;
-volatile uint16_t *read;
-volatile uint16_t *verify;
-uint16_t test = 3;
-uint16_t *test_data = &test;
 void mode_0(void) {
-
-	moter_flag = 0;
-
-	FLASH.FRESETR.BIT.FRESET = 1;
-	wait_time(10);
-	FLASH.FRESETR.BIT.FRESET = 0;
-	wait_time(10);
-
-	fld_init_fcu_ram();
-	fld_int_pclk_notification();
-
-//	if (FLASH.FENTRYR.WORD & 0x00ff != 0x0080) {
-	FLASH.FENTRYR.WORD = 0xAA80;
-//	}
-//
-//	if (flf_blank_check_2KB(top_addr_db00) != FLD_BLANK) {
-	fld_erase_2KB(top_addr_db00);
-//	}
-	fld_program_8byte(top_addr_db00, test_data);
-	fld_enable_read();
-	read = (uint16_t *) top_addr_db00;
-	verify = test_data;
-//	while(1){
-	myprintf("read:%d,verify:%d\n", *read, *verify);
-	wait_time(1000);
-////	}
-
+	moter_flag = 1;
+	x.goal = 1;
+	y.goal = 0;
+	adachi_search_run(x.goal, y.goal, 1, nomal_run.accel, nomal_run.vel_search,
+			1);
+	write_all_walldatas();
 }
 
 void mode_1(void) {
-	//moter_flag = 1;
-	fld_enable_read();
-	read = (uint16_t *) top_addr_db00;
-	verify = test_data;
-	myprintf("read:%d,verify:%d\n", *read, *verify);
-	read = (uint16_t *) 0x00100800;
-	verify = test_data;
-	myprintf("read:%d,verify:%d\n", *read, *verify);
+	moter_flag = 1;
+	read_all_walldatas();
+	make_pass(x.goal, y.goal, 1, 0);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 }
 void mode_2(void) {
-	test = 7;
-	FLASH.FRESETR.BIT.FRESET = 1;
-	wait_time(10);
-	FLASH.FRESETR.BIT.FRESET = 0;
-	wait_time(10);
-
-	fld_init_fcu_ram();
-	fld_int_pclk_notification();
-
-//	if (FLASH.FENTRYR.WORD & 0x00ff != 0x0080) {
-	FLASH.FENTRYR.WORD = 0xAA80;
-//	}
-//
-//	if (flf_blank_check_2KB(top_addr_db00) != FLD_BLANK) {
-	fld_erase_2KB(0x00100800);
-//	}
-	fld_program_8byte(0x00100800, test_data);
-	fld_enable_read();
-	read = (uint16_t *) 0x00100800;
-	verify = test_data;
 
 }
 
 void mode_3(void) {
-	moter_flag = 1;
-
+	read_walldata(0, &walldate_real);
+	output_Walldate(&walldate_real);
 }
 
 void mode_4(void) {
-	moter_flag = 1;
+	init_dataflash();
 
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	moter_flag = 1;
-	nomal_run.vel_search = 600.0;
-	make_pass(x.goal, y.goal, 4, 0);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-	wait_time(2000);
-	nomal_run.vel_search = 500.0;
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-	wait_time(2000);
+	erase_all();
 }
 
 void mode_6(void) {
-	moter_flag = 1;
-	rotation_gain.Kp = 0.62;
-	rotation_gain.Ki = 0.010;
-	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
-			1);
-	wait_time(2000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-	wait_time(2000);
 
 //	walldate_real.column[0] = 65535;
 //	walldate_real.column[1] = 1;
@@ -133,7 +68,7 @@ void mode_6(void) {
 //	walldate_real.row[4] = 63;
 //	walldate_real.row[5] = 0;
 //	walldate_real.row[6] = 0;
-//
+
 //	walldate_adachi.column[0] = 65535;
 //	walldate_adachi.column[1] = 1;
 //	walldate_adachi.column[2] = 8;

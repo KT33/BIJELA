@@ -10,6 +10,7 @@
 #include "other.h"
 #include "variable.h"
 #include "stdint.h"
+#include "speaker.h"
 
 void fld_init_fcu_ram(void) {
 	int i;
@@ -91,7 +92,7 @@ int32_t flf_blank_check_2KB(uint32_t addr) {
 	//エラーチェック
 	if (FLASH.FSTATR0.BIT.ILGLERR == 1) {
 		return FLD_ERROR; //エラー
-			CENTERFRONT = 1;
+		CENTERFRONT = 1;
 	}
 
 	//チェック結果の受け取り
@@ -104,10 +105,14 @@ int32_t flf_blank_check_2KB(uint32_t addr) {
 }
 
 int32_t fld_erase_2KB(uint32_t addr) {
-	int i;
 	volatile uint8_t *addr_b = (uint8_t *) addr;
 	int32_t ret = FLD_OK;
-	FLASH.FENTRYR.WORD = 0xAA80;
+	if (FLASH.FENTRYR.WORD != 0xAA80) {
+		FLASH.FENTRYR.WORD = 0xAA80;
+	}
+	if (FLASH.FENTRYR.WORD != 0xAA80) {
+		FLASH.FENTRYR.WORD = 0xAA80;
+	}
 
 	//消去プロテクトの解除
 	FLASH.FWEPROR.BYTE = 0x01;
@@ -124,7 +129,7 @@ int32_t fld_erase_2KB(uint32_t addr) {
 	*addr_b = 0x20;
 	*addr_b = 0xD0;
 
-	wait_time(10);
+//	wait_time(10);
 	while (FLASH.FSTATR0.BIT.FRDY == 0) {
 
 	}
@@ -133,8 +138,8 @@ int32_t fld_erase_2KB(uint32_t addr) {
 //		LEFTFRONT = 1;
 //	}
 
-	if (FLASH.FSTATR0.BIT.ILGLERR == 1||FLASH.FSTATR0.BIT.ERSERR == 1) {
-			LEFTFRONT = 1;
+	if (FLASH.FSTATR0.BIT.ILGLERR == 1 || FLASH.FSTATR0.BIT.ERSERR == 1) {
+		LEFTFRONT = 1;
 		ret = FLD_ERROR;
 	}
 //	if (FLASH.FSTATR0.BIT.ERSERR == 1) {
@@ -151,15 +156,22 @@ int32_t fld_erase_2KB(uint32_t addr) {
 	return ret;
 }
 
-int32_t fld_program_8byte(uint32_t addr, uint16_t *ram) {
-	int32_t i, ret = FLD_OK;
+int32_t fld_program_2byte(uint32_t addr, uint16_t *ram) {
+	int32_t ret = FLD_OK;
 	volatile uint8_t *addr_b = (uint8_t *) addr;
 	volatile uint16_t *adde_w = (uint16_t *) addr;
 
+	if (FLASH.FENTRYR.WORD != 0xAA80) {
+		FLASH.FENTRYR.WORD = 0xAA80;
+	}
+	if (FLASH.FENTRYR.WORD != 0xAA80) {
+		FLASH.FENTRYR.WORD = 0xAA80;
+	}
 	//書き込みプロテクトの解除
 	FLASH.FWEPROR.BIT.FLWE = 1;
 
 	//ブロック単位の書き込み許可
+
 	FLASH.DFLWE0.WORD = 0x1EFF;
 	FLASH.DFLWE1.WORD = 0xE1FF;
 
@@ -169,12 +181,12 @@ int32_t fld_program_8byte(uint32_t addr, uint16_t *ram) {
 	*addr_b = 0xE8;
 	*addr_b = 0x01;
 //	for (i = 0; i < 4; i++) {
-		*adde_w = *ram;
+	*adde_w = *ram;
 //	}
 	*addr_b = 0xD0;
 
 	//コマンド完了待ち
-	wait_time(5);
+//	wait_time(5);
 	while (FLASH.FSTATR0.BIT.FRDY == 0) {
 
 	}
@@ -205,3 +217,69 @@ int32_t fld_enable_read(void) {
 
 	return FLD_OK;
 }
+
+void init_dataflash(void) {
+	FLASH.FRESETR.BIT.FRESET = 1;
+	wait_time(10);
+	FLASH.FRESETR.BIT.FRESET = 0;
+	wait_time(10);
+
+	fld_init_fcu_ram();
+	fld_int_pclk_notification();
+}
+
+void erase_unit(uint16_t block) {
+	uint32_t addr = (uint32_t) (0x00100000 + block * 32);
+	fld_erase_2KB(addr);
+}
+
+void erase_all(void) {
+	uint16_t i;
+	for (i = 0; i < 1024; i++) {
+		erase_unit(i);
+//		speaker_on(1 * C_5, 6.000000, 100);
+	}
+}
+
+void write_unit(uint16_t block, uint16_t data) {
+	uint32_t addr = (uint32_t) (0x00100000 + block * 32);
+	fld_program_2byte(addr, &data);
+}
+
+void write_walldata(uint16_t start_block, walldate_t walldata) {
+	uint8_t i;
+	for (i = 0; i < 17; i++) {
+		write_unit(start_block + i, walldata.column[i]);
+	}
+	for (i = 0; i < 17; i++) {
+		write_unit(start_block + i + 17, walldata.row[i]);
+	}
+}
+
+void read_walldata(uint16_t start_block, walldate_t *walldata) {
+	uint8_t i;
+	uint16_t *read;
+	fld_enable_read();
+	for (i = 0; i < 17; i++) {
+		read = (uint16_t *) (0x00100000 + (start_block + i) * 32);
+		walldata->column[i] = *read;
+	}
+	for (i = 0; i < 17; i++) {
+		read = (uint16_t *) (0x00100000 + (start_block + i + 17) * 32);
+		walldata->row[i] = *read;
+	}
+}
+
+void write_all_walldatas(void){
+	write_all_walldatas(0,walldate_real);
+	write_walldata(40, walldate_checked);
+	write_walldata(80,walldate_adachi);
+}
+
+void read_all_walldatas(void){
+	read_walldata(0, &walldate_real);
+	read_walldata(40, &walldate_checked);
+	read_walldata(80, &walldate_adachi);
+}
+
+
