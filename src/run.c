@@ -148,7 +148,7 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 void wait_straight(void) {
 	volatile int i;
 	//LEFTEING = 1;
-	while (translation_parameter.run_flag == 1) {
+	while (translation_parameter.run_flag == 1&&failsafe_flag==0) {
 		//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
 	//LEFTFRONT = 1;
@@ -173,7 +173,7 @@ void wait_straight(void) {
 void wait_rotation(void) {
 	volatile int i;
 //	LEFTEING = 1;
-	while (rotation_parameter.run_flag == 1) {
+	while (rotation_parameter.run_flag == 1&&failsafe_flag==0) {
 
 	}
 //	LEFTFRONT = 1;

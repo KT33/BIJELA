@@ -16,7 +16,7 @@
 #include "walldate.h"
 
 void real_angle_control(void) {
-	rotation_real.velocity = -0.246411 + test_gyro2(); //-0.2450 +
+	rotation_real.velocity = -0.246411+0.07052+0.0505+0.00524+0.02939 + test_gyro2(); //-0.2450 +
 	if (rotation_parameter.back_rightturn_flag == 1) {
 		rotation_real.velocity = -1 * rotation_real.velocity;
 	}
@@ -118,6 +118,7 @@ void init_ALL(void) {
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
 	x.now = 0;
 	y.now = 0;
+	init_dataflash();
 }
 
 void wait_time(int ms) {
@@ -129,14 +130,16 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 1;
+	log_how_often = 2;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = rotation_real.velocity;
+		Log[log_index] = translation_ideal.dis;
+		log2[log_index] = (float)SEN_L.now;
+		log3[log_index]=(float)SEN_R.now;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -150,6 +153,16 @@ void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.3f\n", Log[i]);
+	}
+	myprintf("\n");
+	myprintf("\n");
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", log2[i]);
+	}
+	myprintf("\n");
+	myprintf("\n");
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", log3[i]);
 	}
 }
 

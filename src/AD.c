@@ -8,9 +8,22 @@
 #include "AD.h"
 #include "iodefine.h"
 #include "variable.h"
+#include "other.h"
+
+#define AD_COUNT 10
 
 void init_AD(void) {
 	PORTE.PMR.BIT.B0 = 1;
+	PORTE.PMR.BIT.B5 = 1;
+	PORT4.PMR.BIT.B0 = 1;
+	PORT4.PMR.BIT.B2 = 1;
+	PORT4.PMR.BIT.B4 = 1;
+	PORTE.PDR.BIT.B0 = 0;
+	PORTE.PDR.BIT.B5 = 0;
+	PORT4.PDR.BIT.B0 = 0;
+	PORT4.PDR.BIT.B2 = 0;
+	PORT4.PDR.BIT.B4 = 0;
+
 	SYSTEM.PRCR.WORD = 0xA502; //低消費電力モードレジスタのプロテクト解除
 	SYSTEM.MSTPCRA.BIT.MSTPA17 = 0; //S12ADの低消費電力モード解除
 	SYSTEM.PRCR.WORD = 0xA500; //低消費電力モードレジスタのプロテクト
@@ -45,52 +58,73 @@ void init_AD(void) {
 }
 
 void AD_SEN(void) {
+	uint8_t i;
+	int sen_r,sen_rf,sen_l,sen_lf;
 	S12AD.ADANS0.WORD = 0x2114; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_R.now = -1 * S12AD.ADDR13;
-	SEN_LF.now = -1 * S12AD.ADDR2;
-	SEN_RF.now = -1 * S12AD.ADDR8;
-	SEN_L.now = -1 * S12AD.ADDR4;
+	sen_r = -1 * S12AD.ADDR13;
+	sen_lf = -1 * S12AD.ADDR2;
+	sen_rf = -1 * S12AD.ADDR8;
+	sen_l = -1 * S12AD.ADDR4;
 
 	SENLED_L = 1;
+	for(i=0;i<AD_COUNT;i++){
+
+	}
 	S12AD.ADANS0.WORD = 0x0010; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_L.now += S12AD.ADDR4;
+	sen_l += S12AD.ADDR4;
 	SENLED_L = 0;
 ///////
 	SENLED_LF = 1;
+	for(i=0;i<AD_COUNT;i++){
+
+	}
 	S12AD.ADANS0.WORD = 0x0004; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_LF.now += S12AD.ADDR2;
+	sen_lf += S12AD.ADDR2;
 	SENLED_LF = 0;
 ///////
 	SENLED_R = 1;
+	for(i=0;i<AD_COUNT;i++){
+
+	}
 	S12AD.ADANS0.WORD = 0x2000; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_R.now += S12AD.ADDR13;
+	sen_r += S12AD.ADDR13;
 	SENLED_R = 0;
 ////////
 	SENLED_RF = 1;
+	for(i=0;i<AD_COUNT;i++){
+
+	}
 	S12AD.ADANS0.WORD = 0x0100; //AD変換4つを設定
 	S12AD.ADCSR.BIT.ADST = 1;
 	while (S12AD.ADCSR.BIT.ADST == 1) {
 
 	}
-	SEN_RF.now += S12AD.ADDR8;
+	sen_rf += S12AD.ADDR8;
 	SENLED_RF = 0;
 ///////
+///
+///
+
+	SEN_L.now=sen_l;
+	SEN_R.now=sen_r;
+	SEN_RF.now=sen_rf;
+	SEN_LF.now=sen_lf;
 
 	SEN_L_log.before_5ms = SEN_L_log.before_4ms;
 	SEN_L_log.before_4ms = SEN_L_log.before_3ms;
@@ -117,5 +151,17 @@ void AD_SEN(void) {
 	}
 
 	SEN_F.now = (SEN_LF.now + SEN_RF.now) / 2;
+}
+
+void output_SEN(void) {
+	SEN_check_flag = 1;
+	while (1) {
+		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
+				SEN_RF.now, SEN_R.now);
+		wait_time(10);
+		if (SWITCH == 0) {
+			break;
+		}
+	}
 }
 

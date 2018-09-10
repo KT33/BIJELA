@@ -17,8 +17,8 @@
 
 typedef struct {
 	uint16_t queue[QUEUE_SIZE];
-	uint8_t head; //先頭位置
-	uint8_t tail; //末尾位置
+	uint16_t head; //先頭位置
+	uint16_t tail; //末尾位置
 } queue_t;
 
 void queue_pop(queue_t *q, uint8_t *x, uint8_t *y) {
@@ -40,6 +40,7 @@ void queue_push(queue_t *q, uint8_t x, uint8_t y) {
 	if (q->tail == QUEUE_SIZE) {
 		q->tail = 0;
 	}
+
 }
 
 void adachi_map(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
@@ -125,6 +126,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
 
+	moter_flag=1;
 	q.head = 0;
 	q.tail = 0;
 
@@ -165,9 +167,23 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	do {
 		flag = 0;
 		queue_pop(&q, &x_adachi, &y_adachi);
+
+///////////////////////////////////////////
+//		step = step_map[x_adachi][y_adachi];
+/////////////////////////////////////////
+
+//////
+		while (step + 3 < step_map[x_adachi][y_adachi]) {
+			queue_push(&q, x_adachi, y_adachi);
+			queue_pop(&q, &x_adachi, &y_adachi);
+		}
+
 		step = step_map[x_adachi][y_adachi];
+
+//////
+
 		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
-				&& (step_map[x_adachi][y_adachi + 1] > step)
+				&& (step_map[x_adachi][y_adachi + 1] > step + 1)
 				&& ((y_adachi + 1) < 16)) {
 			if (((step_map[x_adachi][y_adachi - 1] == step - 1)
 					|| (step_map[x_adachi][y_adachi - 1] == step - 2))
@@ -180,7 +196,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
-				&& (step_map[x_adachi - 1][y_adachi] > step)
+				&& (step_map[x_adachi - 1][y_adachi] > step + 1)
 				&& ((x_adachi - 1) >= 0)) {
 			if (((step_map[x_adachi + 1][y_adachi] == step - 1)
 					|| (step_map[x_adachi + 1][y_adachi] == step - 2))
@@ -194,7 +210,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
-				&& (step_map[x_adachi][y_adachi - 1] > step)
+				&& (step_map[x_adachi][y_adachi - 1] > step + 1)
 				&& ((y_adachi - 1) >= 0)) {
 			if (((step_map[x_adachi][y_adachi + 1] == step - 1)
 					|| (step_map[x_adachi][y_adachi + 1] == step - 2))
@@ -207,7 +223,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			flag = 10;
 		}
 		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
-				&& (step_map[x_adachi + 1][y_adachi] > step)
+				&& (step_map[x_adachi + 1][y_adachi] > step + 1)
 				&& ((x_adachi + 1) < 16)) {
 			if (((step_map[x_adachi - 1][y_adachi] == step - 1)
 					|| (step_map[x_adachi - 1][y_adachi] == step - 2))
@@ -224,13 +240,19 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 }
 
 void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
-		float accel, float vel, uint8_t slalom_flag) {
+		float accel, float vel, uint8_t slalom_flag, uint8_t straight_flag) {
 	uint8_t flag; //flag 0:前,1:左折2:Uターン(けつあて)3:右折4:Uターン
 	go_entrance(accel, vel);
 	coordinate();
 	addWall();
-	while (1) {
-		adachi_map(goal_x, goal_y, goal_scale, walldate_real);
+	while (failsafe_flag == 0) {
+		if (straight_flag == 1) {
+			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
+		} else {
+			//adachi_map(goal_x, goal_y, goal_scale, walldate_real);
+			failsafe_flag=1;
+			break;
+		}
 
 		if ((goal_scale == 1) && ((x.now == goal_x && y.now == goal_y))) {
 			if (getWall(goal_x, goal_y, direction, &walldate_real)) {
@@ -335,7 +357,6 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		addWall();
 	}
 }
-
 
 uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t walldate) {
 	uint8_t step, flag, i;

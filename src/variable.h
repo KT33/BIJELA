@@ -94,7 +94,7 @@ extern volatile float angle;
 extern int16_t encoder_L,encoder_R;
 extern sensor_t SEN_R, SEN_RF, SEN_L, SEN_LF,SEN_F;
 //#define LogMax 200
-extern volatile float Log[LogMax];
+
 extern int8_t log_flag,log_counter,log_how_often;
 extern uint16_t log_index;
 extern volatile float diameter;//タイヤ径
@@ -133,6 +133,10 @@ extern uint8_t pass_compression[255];
 extern uint8_t moter_flag;
 extern float test_float;
 extern uint8_t failsafe_flag;
+
+extern volatile float Log[LogMax],log2[LogMax],log3[LogMax];
+extern uint8_t SEN_check_flag;
+extern float failsafe_accel;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

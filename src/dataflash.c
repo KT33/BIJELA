@@ -271,7 +271,8 @@ void read_walldata(uint16_t start_block, walldate_t *walldata) {
 }
 
 void write_all_walldatas(void){
-	write_all_walldatas(0,walldate_real);
+	erase_all();
+	write_walldata(0,walldate_real);
 	write_walldata(40, walldate_checked);
 	write_walldata(80,walldate_adachi);
 }

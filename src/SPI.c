@@ -77,16 +77,17 @@ void init_gyro(void) {
 	communicate_gyro(0, 0x7, 0x00); //PWR_MGMT_2
 }
 
-void test_gyro(void) {
+float test_gyro(void) {
 	uint8_t read_1, read_2;
 	int16_t value;
-	read_1 = communicate_gyro(1, 0x37, 0x0);
-	read_2 = communicate_gyro(1, 0x38, 0x0);
+	read_1 = communicate_gyro(1, 0x2d, 0x0);
+	read_2 = communicate_gyro(1, 0x2e, 0x0);
 	value = (int16_t) read_1 << 8;
 	value = value | read_2;
 //	myprintf("%d	%d	%d\n", read_1, read_2,value);
 //	myprintf("value %f\n",(float)value*9.80665/8192); //加速度
-	myprintf("%f\n", (float) value * 0.00106252644); //1000*pi/(2^15*180)*2000
+//	myprintf("%f\n", (float) value * 0.00106252644); //1000*pi/(2^15*180)*2000
+	return (float)value*9.80665/8192;
 }
 
 float test_gyro2(void) {

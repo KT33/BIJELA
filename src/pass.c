@@ -89,7 +89,9 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			j++;
 		}
 	}
-	straight_count++;
+	if (goal_scale == 4) {
+		straight_count++;
+	}
 	if (straight_count != 0) {
 		pass_compression[j] = straight_count * 2;
 		j++;
@@ -117,6 +119,7 @@ void move_pass(float accel, float vel) {
 
 void move_pass_compression(float accel, float vel) {
 	uint8_t i = 0, j, first_turn_flag = 0;
+	moter_flag=1;
 	if (pass[i] == 0) {
 		first_turn_flag = 0;
 	} else {

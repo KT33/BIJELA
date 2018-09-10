@@ -14,32 +14,34 @@
 
 void interrupt_cmt0(void) {
 	g_count++;
-//	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
-//			|| rotation_deviation.cumulative > 20000.0) {
-//		translation_ideal.accel = 0.0;
-//		translation_ideal.velocity = 0.0;
-//		duty.left = 0;
-//		duty.right = 0;
-//		duty_to_moter();
-//		x.now = 0;
-//		y.now = 0;
-//		direction = 0;
-//		mode_flag = mode_flag & 0x7f;
-//		moter_flag = 0;
-//		UI_LED1 = 1;
-//		UI_LED2 = 1;
-//		UI_LED3 = 1;
-//		RIGHTWING = 1;
-//		LEFTEING = 1;
-//		RIGHTFRONT = 1;
-//		LEFTFRONT = 1;
-//		failsafe_flag=1;
-//	}
+	failsafe_accel = test_gyro();
+	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
+			|| rotation_deviation.cumulative > 20000.0
+			|| failsafe_accel > 39.2) {
+
+		translation_ideal.accel = 0.0;
+		translation_ideal.velocity = 0.0;
+		duty.left = 0;
+		duty.right = 0;
+		duty_to_moter();
+		x.now = 0;
+		y.now = 0;
+		direction = 0;
+		moter_flag = 0;
+		UI_LED1 = 1;
+		UI_LED2 = 1;
+		UI_LED3 = 1;
+		RIGHTWING = 1;
+		LEFTEING = 1;
+		RIGHTFRONT = 1;
+		LEFTFRONT = 1;
+		failsafe_flag = 1;
+	}
 
 	real_velocity_control();
 	if (mode_flag & 0x80) { //モード内
-		if (moter_flag == 1) {
-			//	real_velocity_control();
+		if (moter_flag == 1 && failsafe_flag == 0) {
+			failsafe_accel = test_gyro();
 			ui_led_3bit(y.now);
 			Moter_Stby = 1;
 			AD_SEN();
@@ -73,6 +75,9 @@ void interrupt_cmt0(void) {
 		} else {
 			Moter_Stby = 0;
 			real_angle_control();
+			if (SEN_check_flag == 1) {
+				AD_SEN();
+			}
 		}
 	} else { //モード選択中
 //		real_velocity_control();

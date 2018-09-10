@@ -19,38 +19,74 @@
 #include "walldate.h"
 #include "pass.h"
 #include "dataflash.h"
+#include "adachi.h"
 
 void mode_0(void) {
+
 	moter_flag = 1;
-	x.goal = 1;
-	y.goal = 0;
-	adachi_search_run(x.goal, y.goal, 1, nomal_run.accel, nomal_run.vel_search,
-			1);
+	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 	write_all_walldatas();
+	wait_time(1000);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
+	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
+	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	adachi_map_straight(1, 0, 1, walldate_real);
+	output_Walldate(&walldate_real);
+//	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+//	write_all_walldatas();
+//	adachi_map(1, 0, 1, walldate_real);
+//	output_Walldate(&walldate_real);
 }
 
 void mode_1(void) {
 	moter_flag = 1;
 	read_all_walldatas();
-	make_pass(x.goal, y.goal, 1, 0);
+	make_pass(1, 0, 1, 0);
 	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 }
 void mode_2(void) {
-
+	moter_flag = 1;
+	read_all_walldatas();
+	make_pass(1, 0, 1, 1);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 }
 
 void mode_3(void) {
-	read_walldata(0, &walldate_real);
-	output_Walldate(&walldate_real);
+	moter_flag=1;
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	log_start();
+	pass_180(nomal_run.accel, nomal_run.vel_search);
+	pass_180(nomal_run.accel, nomal_run.vel_search);
+	set_straight(90, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0);
+	wait_straight();
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	log_output();
 }
 
 void mode_4(void) {
-	init_dataflash();
-
+	moter_flag = 1;
+	set_straight(300, nomal_run.accel, nomal_run.vel_search, 0, 0);
+	wait_straight();
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	erase_all();
+	moter_flag = 1;
+	set_rotation(90, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
 }
 
 void mode_6(void) {
@@ -96,20 +132,8 @@ void mode_6(void) {
 }
 
 void mode_7(void) {
-	mode_flag = 1;
-	rotation_gain.Kp = 0.62;
-	rotation_gain.Ki = 0.010;
-	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
-			1);
-	wait_time(2000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-	wait_time(2000);
-	make_pass(x.goal, y.goal, 4, 0);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
-	wait_time(2000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1);
-	wait_time(2000);
-////	int i = 0;
+	output_SEN();
+
 //	while (1) {
 //		moter_flag = 0;
 //////		real_angle_control();
@@ -120,14 +144,11 @@ void mode_7(void) {
 //////			i=0;
 //////		}
 //////		wait_time(1);
-//		AD_SEN();
-//		myprintf("L:%3d,LF:%3d,RF:%3d,R:%3d\n", SEN_L.now, SEN_LF.now,
-//				SEN_RF.now, SEN_R.now);
-//		wait_time(10);
+
 ////		myprintf("%.8f\n", rotation_real.velocity);
 //////		moter_flag = 1;
 //////		myprintf("%.3f\n", rotation_deviation.cumulative);
-
+//	}
 }
 
 void go_mode(uint8_t mode) {
@@ -216,8 +237,7 @@ void go_mode(uint8_t mode) {
 	mode_flag = mode_flag & 0x7f;
 	moter_flag = 0;
 	failsafe_flag = 0;
-	rotation_gain.Kp = 0.62;
-	rotation_gain.Ki = 0.010;
+	SEN_check_flag = 0;
 }
 
 //	walldate_real.column[0] = 65535;

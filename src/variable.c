@@ -18,10 +18,10 @@ gain_t wall_cntrol_gain = { 0.041, 0.0, 0.0 }; //0.05
 normal_para_t nomal_run = { 500.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 7000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
 
-sensor_t SEN_R = { 0, 1027, 500, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 980, 380, 0 };
-sensor_t SEN_RF = { 0, 945, 350, 0 };
-sensor_t SEN_LF = { 0, 941, 300, 0 };
+sensor_t SEN_R = { 0, 1553, 600, 0 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 1980, 1000, 0 };
+sensor_t SEN_RF = { 0, 3282, 735, 0 };
+sensor_t SEN_LF = { 0, 3320, 680, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 float wallcontrol_value;
@@ -46,7 +46,7 @@ uint16_t log_index = 0;
 run_t left_real, right_real;
 duty_t duty = { 0, 0 };
 
-volatile float Log[LogMax];
+
 
 volatile int speacer_i;
 volatile float triangle;
@@ -85,3 +85,8 @@ float test_float;
 
 uint8_t failsafe_flag=0;
 
+volatile float Log[LogMax],log2[LogMax],log3[LogMax];
+
+uint8_t SEN_check_flag=0;
+
+float failsafe_accel;

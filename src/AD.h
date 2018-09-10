@@ -10,5 +10,6 @@
 
 void init_AD();
 void AD_SEN();
+void output_SEN(void);
 
 #endif /* AD_H_ */
