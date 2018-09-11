@@ -30,20 +30,8 @@ void mode_0(void) {
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 	write_all_walldatas();
 	wait_time(1000);
-	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
-	write_all_walldatas();
-	wait_time(1000);
-	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
-	write_all_walldatas();
-	wait_time(1000);
-	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
-	write_all_walldatas();
-	wait_time(1000);
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	adachi_map_straight(1, 0, 1, walldate_real);
-	output_Walldate(&walldate_real);
+	make_pass(1, 0, 1, 1);
+	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 //	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 //	write_all_walldatas();
 //	adachi_map(1, 0, 1, walldate_real);
@@ -52,27 +40,32 @@ void mode_0(void) {
 
 void mode_1(void) {
 	moter_flag = 1;
-	read_all_walldatas();
-	make_pass(1, 0, 1, 0);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	set_rotation(180.0, nomal_rotation.accel / 1.5, nomal_rotation.vel_max/1.5,
+			nomal_run.vel_search);
+	wait_rotation();
+	stop90(nomal_run.accel, nomal_run.vel_search);
 }
 void mode_2(void) {
 	moter_flag = 1;
-	read_all_walldatas();
-	make_pass(1, 0, 1, 1);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+	nomal_run.vel_search = 600.0;
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	slalom_left90(nomal_run.accel, nomal_run.vel_search);
+	stop90(nomal_run.accel, nomal_run.vel_search);
 }
 
 void mode_3(void) {
-	moter_flag=1;
+	moter_flag = 1;
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	log_start();
 	pass_180(nomal_run.accel, nomal_run.vel_search);
 	pass_180(nomal_run.accel, nomal_run.vel_search);
-	set_straight(90, nomal_run.accel, nomal_run.vel_search, nomal_run.vel_search, 0);
+	set_straight(90, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, 0);
 	wait_straight();
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
 	log_output();
 }
@@ -101,7 +94,7 @@ void mode_6(void) {
 //	walldate_real.row[1] = 44;
 //	walldate_real.row[2] = 5;
 //	walldate_real.row[3] = 30;
-//	walldate_real.row[4] = 63;
+//	walldate_real.row[4]f = 63;
 //	walldate_real.row[5] = 0;
 //	walldate_real.row[6] = 0;
 

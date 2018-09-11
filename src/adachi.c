@@ -126,7 +126,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
 
-	moter_flag=1;
+	moter_flag = 1;
 	q.head = 0;
 	q.tail = 0;
 
@@ -250,7 +250,7 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
 		} else {
 			//adachi_map(goal_x, goal_y, goal_scale, walldate_real);
-			failsafe_flag=1;
+			failsafe_flag = 1;
 			break;
 		}
 
@@ -327,8 +327,7 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 //					slalom_left90_600(accel, nomal_run.vel_search,
 //							nomal_rotation.accel, nomal_rotation.vel_search);
 //				} else {
-				slalom_left90(accel, vel, nomal_rotation.accel,
-						nomal_rotation.vel_search);
+				slalom_left90(accel, vel);
 //				}
 			}
 		}
@@ -344,8 +343,7 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 //					slalom_right90_600(accel, nomal_run.vel_search,
 //							nomal_rotation.accel, nomal_rotation.vel_search);
 //				} else {
-				slalom_right90(accel, vel, nomal_rotation.accel,
-						nomal_rotation.vel_search);
+				slalom_right90(accel, vel);
 //				}
 			}
 		}
@@ -611,46 +609,68 @@ void non_ketuate_goal(float accel, float vel) {
 	wait_time(50);
 }
 
-void slalom_left90(float run_accel, float run_vel, float rota_accel,
-		float rota_vel) {
-	set_straight(15.0, run_accel, run_vel, run_vel, run_vel);
+void slalom_left90(float run_accel, float run_vel) {
+	float rota_accel, rota_vel,in_offset,out_offset;
+	if (run_vel == 500.0) {
+		rota_accel = slarom_500.accel;
+		rota_vel = slarom_500.max_vel;
+		in_offset=slarom_500.left.in_offset;
+		out_offset=slarom_500.left.out_offset;
+	} else if (run_vel == 600.0) {
+		rota_accel = slarom_600.accel;
+		rota_vel = slarom_600.max_vel;
+		in_offset=slarom_600.left.in_offset;
+		out_offset=slarom_600.left.out_offset;
+	}
+	set_straight(in_offset, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
 	set_rotation(90.0, rota_accel, rota_vel, run_vel);
 	wait_rotation();
-	set_straight(30.0, run_accel, run_vel, run_vel, run_vel);
+	set_straight(out_offset, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
 }
 
-void slalom_right90(float run_accel, float run_vel, float rota_accel,
-		float rota_vel) {
-	set_straight(20.0, run_accel, run_vel, run_vel, run_vel);
+void slalom_right90(float run_accel, float run_vel) {
+	float rota_accel, rota_vel,in_offset,out_offset;
+	float angle_offset=0.0;
+	if (run_vel == 500.0) {
+		rota_accel = slarom_500.accel;
+		rota_vel = slarom_500.max_vel;
+		in_offset=slarom_500.right.in_offset;
+		out_offset=slarom_500.right.out_offset;
+		angle_offset=1.0;
+	} else if (run_vel == 600.0) {
+		rota_accel = slarom_600.accel;
+		rota_vel = slarom_600.max_vel;
+		in_offset=slarom_600.right.in_offset;
+		out_offset=slarom_600.right.out_offset;
+		angle_offset=2.0;
+	}
+	set_straight(in_offset, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
-	set_rotation(-89.0, rota_accel, rota_vel, run_vel);
+	set_rotation(-90.0+angle_offset, rota_accel, rota_vel, run_vel);
 	wait_rotation();
-	set_straight(22.0, run_accel, run_vel, run_vel, run_vel);
+	set_straight(out_offset, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
 }
 
-void slalom_left90_600(float run_accel, float run_vel, float rota_accel,
-		float rota_vel) {
-	rota_accel = 9000.0;
-	rota_vel = 750.0;
-	set_straight(10.0, run_accel, run_vel, run_vel, run_vel);
-	wait_straight();
-	set_rotation(90.0, rota_accel, rota_vel, run_vel);
-	wait_rotation();
-	set_straight(25.0, run_accel, run_vel, run_vel, run_vel);
+void stop90(float run_accel, float run_vel){
+	set_straight(90.0, run_accel, run_vel, run_vel, 0.0);
 	wait_straight();
 }
 
-void slalom_right90_600(float run_accel, float run_vel, float rota_accel,
-		float rota_vel) {
-	rota_accel = 9000.0;
-	rota_vel = 750.0;
-	set_straight(11.0, run_accel, run_vel, run_vel, run_vel);
-	wait_straight();
-	set_rotation(-90.0, rota_accel, rota_vel, run_vel);
-	wait_rotation();
-	set_straight(20.0, run_accel, run_vel, run_vel, run_vel);
-	wait_straight();
+void slarom_left_check(accel,vel){
+	moter_flag = 1;
+	nomal_run.vel_search=600.0;
+	go_entrance(accel, vel);
+	slalom_left90(accel,vel);
+	stop90(accel, vel);
+}
+
+void slarom_right_check(accel,vel){
+	moter_flag = 1;
+	nomal_run.vel_search=600.0;
+	go_entrance(accel, vel);
+	slalom_right90(accel,vel);
+	stop90(accel, vel);
 }

@@ -15,11 +15,13 @@ gain_t rotation_gain = { 0.62, 0.010, 0.0 };
 gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
 gain_t wall_cntrol_gain = { 0.041, 0.0, 0.0 }; //0.05
 
-normal_para_t nomal_run = { 500.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
+normal_para_t nomal_run = { 600.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 7000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
+slarom_para_t slarom_500={7000.0,6000.0,{15.0,35.0},{15.0,22.0}};
+slarom_para_t slarom_600={12500.0,6000.0,{21.0,42.0},{21.0,36.0}};
 
-sensor_t SEN_R = { 0, 1553, 600, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 1980, 1000, 0 };
+sensor_t SEN_R = { 0, 1690, 600, 0 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 2257, 1000, 0 };
 sensor_t SEN_RF = { 0, 3282, 735, 0 };
 sensor_t SEN_LF = { 0, 3320, 680, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };

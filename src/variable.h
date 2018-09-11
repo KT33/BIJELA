@@ -84,6 +84,18 @@ typedef struct{
 	uint16_t column[17];
 }walldate_t;
 
+typedef struct{
+	float in_offset;
+	float out_offset;
+}sla_t;
+
+typedef struct{
+	float accel;
+	float max_vel;
+	sla_t left;
+	sla_t right;
+}slarom_para_t;
+
 extern volatile int16_t i;
 extern volatile int g_count;
 extern volatile unsigned short Batt;
@@ -137,6 +149,9 @@ extern uint8_t failsafe_flag;
 extern volatile float Log[LogMax],log2[LogMax],log3[LogMax];
 extern uint8_t SEN_check_flag;
 extern float failsafe_accel;
+
+extern slarom_para_t slarom_500;
+extern slarom_para_t slarom_600;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

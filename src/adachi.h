@@ -28,16 +28,13 @@ void adachi_map(uint8_t goal_x, uint8_t goal_y, uint8_t, walldate_t);
 void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t, float accel,
 		float vel, uint8_t,uint8_t);
 uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t);
-void slalom_left90(float run_accel, float run_vel, float rota_accel,
-		float rota_vel);
-void slalom_right90(float run_accel, float run_vel, float rota_accel,
-		float rota_vel);
+void slalom_left90(float run_accel, float run_vel);
+void slalom_right90(float run_accel, float run_vel);
 void ketuate(float accel, float vel);
 void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate);
-void slalom_left90_600(float run_accel, float run_vel, float rota_accel,
-		float rota_vel);
-void slalom_right90_600(float run_accel, float run_vel, float rota_accel,
-		float rota_vel);
+void stop90(float run_accel, float run_vel);
+void slarom_left_check(accel,vel);
+void slarom_right_check(accel,vel);
 #endif /* ADACHI_H_ */
 

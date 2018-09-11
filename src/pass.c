@@ -98,6 +98,11 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		straight_count = 0;
 	}
 	pass_compression[j] = 0xff;
+	if (goal_scale == 1) {
+		pass[254] = 1;
+	} else {
+		pass[254] = 4;
+	}
 }
 
 void move_pass(float accel, float vel) {
@@ -107,11 +112,9 @@ void move_pass(float accel, float vel) {
 		if (pass[i] == 0) {
 			pass_180(accel, vel);
 		} else if (pass[i] == 1) {
-			slalom_left90(accel, vel, nomal_rotation.accel,
-					nomal_rotation.vel_search);
+			slalom_left90(accel, vel);
 		} else if (pass[i] == 3) {
-			slalom_right90(accel, vel, nomal_rotation.accel,
-					nomal_rotation.vel_search);
+			slalom_right90(accel, vel);
 		}
 	}
 	non_ketuate_goal(accel, vel);
@@ -119,7 +122,7 @@ void move_pass(float accel, float vel) {
 
 void move_pass_compression(float accel, float vel) {
 	uint8_t i = 0, j, first_turn_flag = 0;
-	moter_flag=1;
+	moter_flag = 1;
 	if (pass[i] == 0) {
 		first_turn_flag = 0;
 	} else {
@@ -149,13 +152,9 @@ void move_pass_compression(float accel, float vel) {
 				first_turn_flag = 0xff;
 				coordinate();
 			}
-			if (nomal_run.vel_search == 600.0) {
-				slalom_left90_600(nomal_run.accel, nomal_run.vel_search, 9000.0,
-						750.0);
-			} else {
-				slalom_left90(nomal_run.accel, nomal_run.vel_search,
-						nomal_rotation.accel, nomal_rotation.vel_search);
-			}
+
+			slalom_left90(nomal_run.accel, nomal_run.vel_search);
+
 			coordinate();
 		} else if (pass_compression[i] == 50) { //右折
 			if (first_turn_flag == 1) {
@@ -163,42 +162,14 @@ void move_pass_compression(float accel, float vel) {
 				first_turn_flag = 0xff;
 				coordinate();
 			}
-			if (nomal_run.vel_search == 600.0) {
-				slalom_right90_600(nomal_run.accel, nomal_run.vel_search,
-						9000.0, 750.0);
-			} else {
-				slalom_right90(nomal_run.accel, nomal_run.vel_search,
-						nomal_rotation.accel, nomal_rotation.vel_search);
-			}
+
+			slalom_right90(nomal_run.accel, nomal_run.vel_search);
+
 			coordinate();
 		}
 	}
 
-	if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
-		set_straight(95.0, accel, nomal_run.vel_search, nomal_run.vel_search,
-				0.0);
-		wait_straight();
-		wait_time(50);
-		set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-				0.0);
-		wait_rotation();
-		wait_time(50);
-		back_100();
-		wait_time(50);
-		rotation_deviation.cumulative = 0.0;
-	} else if (getWall(x.now, y.now, direction + 3, &walldate_real)) {
-		set_straight(93.0, accel, nomal_run.vel_search, nomal_run.vel_search,
-				0.0);
-		wait_straight();
-		wait_time(50);
-		set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
-				0.0);
-		wait_rotation();
-		wait_time(50);
-		back_100();
-		wait_time(50);
-		rotation_deviation.cumulative = 0.0;
-	} else {
+	if (pass[254] == 1) {
 		set_straight(93.0, accel, nomal_run.vel_search, nomal_run.vel_search,
 				0.0);
 		wait_straight();
@@ -211,5 +182,44 @@ void move_pass_compression(float accel, float vel) {
 		wall_control_flag = 0;
 		wait_straight();
 		wait_time(50);
+	} else {
+		if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
+			set_straight(95.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+					0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+			rotation_deviation.cumulative = 0.0;
+		} else if (getWall(x.now, y.now, direction + 3, &walldate_real)) {
+			set_straight(93.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+					0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+			rotation_deviation.cumulative = 0.0;
+		} else {
+			set_straight(93.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(-180.0, nomal_rotation.accel,
+					nomal_rotation.vel_search, 0.0);
+			wait_rotation();
+			wait_time(50);
+			set_straight(-50.0, 500, 150, 0.0, 0.0);
+			wall_control_flag = 0;
+			wait_straight();
+			wait_time(50);
+		}
 	}
 }
