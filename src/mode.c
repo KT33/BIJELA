@@ -40,19 +40,31 @@ void mode_0(void) {
 
 void mode_1(void) {
 	moter_flag = 1;
-
+	Log[0]=100.0;
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	set_rotation(180.0, nomal_rotation.accel / 1.5, nomal_rotation.vel_max/1.5,
-			nomal_run.vel_search);
-	wait_rotation();
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, nomal_run.vel_search);
+	wait_straight();
+	trun_right_90_big(nomal_run.vel_search);
 	stop90(nomal_run.accel, nomal_run.vel_search);
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	myprintf("%f\n",Log[0]);
 }
 void mode_2(void) {
 	moter_flag = 1;
-	nomal_run.vel_search = 600.0;
+	Log[0]=100.0;
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	slalom_left90(nomal_run.accel, nomal_run.vel_search);
+	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
+			nomal_run.vel_search, nomal_run.vel_search);
+	wait_straight();
+	trun_left_90_big(nomal_run.vel_search);
 	stop90(nomal_run.accel, nomal_run.vel_search);
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	myprintf("%f\n",Log[0]);
 }
 
 void mode_3(void) {
@@ -72,7 +84,7 @@ void mode_3(void) {
 
 void mode_4(void) {
 	moter_flag = 1;
-	set_straight(300, nomal_run.accel, nomal_run.vel_search, 0, 0);
+	set_straight(180*8,1000.0, 500.0, 0, 0);
 	wait_straight();
 }
 

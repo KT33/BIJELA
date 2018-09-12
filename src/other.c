@@ -154,16 +154,16 @@ void log_output(void) {
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.3f\n", Log[i]);
 	}
-	myprintf("\n");
-	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log2[i]);
-	}
-	myprintf("\n");
-	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log3[i]);
-	}
+//	myprintf("\n");
+//	myprintf("\n");
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log2[i]);
+//	}
+//	myprintf("\n");
+//	myprintf("\n");
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log3[i]);
+//	}
 }
 
 void Battery_Check(void) {

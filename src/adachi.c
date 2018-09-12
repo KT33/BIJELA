@@ -674,3 +674,89 @@ void slarom_right_check(accel,vel){
 	slalom_right90(accel,vel);
 	stop90(accel, vel);
 }
+
+void trun_left_180_big(float vel){
+	float in_offset,out_offset,rota_accel,rota_vel;
+	if(vel==600.0){
+		in_offset=20.0;
+		out_offset=38.0;
+		rota_accel=4700.0;
+		rota_vel=380.0;
+	}
+	while(SEN_L.now>SEN_L.threshold){
+		translation_ideal.dis=7.2;
+	}
+//	Log[0]=translation_ideal.dis;
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(180.0, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void trun_right_180_big(float vel){
+	float in_offset,out_offset,rota_accel,rota_vel;
+	float angle_offset;
+	if(vel==600.0){
+		in_offset=30.0;
+		out_offset=43.0;
+		rota_accel=4700.0;
+		rota_vel=385.0;
+		angle_offset=1.0;
+	}
+	while(SEN_R.now>SEN_R.threshold){
+//		translation_ideal.dis=13.2;
+	}
+//	Log[0]=translation_ideal.dis;
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(-180.0+angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void trun_left_90_big(float vel){
+	float in_offset,out_offset,rota_accel,rota_vel;
+	if(vel==600.0){
+		in_offset=36.0;
+		out_offset=52.0;
+		rota_accel=3000.0;
+		rota_vel=350.0;
+	}
+	while(SEN_L.now>SEN_L.threshold){
+		translation_ideal.dis=7.8;
+	}
+//	Log[0]=translation_ideal.dis;
+
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(90.0, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void trun_right_90_big(float vel){
+	float in_offset,out_offset,rota_accel,rota_vel;
+	float angle_offset;
+	if(vel==600.0){
+		in_offset=36.0;
+		out_offset=50.0;
+		rota_accel=3000.0;
+		rota_vel=350.0;
+		angle_offset=1.0;
+	}
+	while(SEN_R.now>SEN_R.threshold){
+		translation_ideal.dis=12.0;
+	}
+//	Log[0]=translation_ideal.dis;
+
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(-90.0+angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
