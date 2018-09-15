@@ -224,4 +224,238 @@ void move_pass_compression(float accel, float vel) {
 	}
 }
 
+#define SHORTLEFT90 40
+#define SHORTRIGHT90 50
+#define BIGLEFT90 60
+#define BIGRIGHT90 70
+#define BIGLEFT180 80
+#define BIGRIGHT180 90
+#define FARST_SHORTRIGHT90 100
+#define FARST_BIGRIGHT90 110
 
+void move_pass_big_turn(float accel, float vel) {
+	uint8_t i = 0, j, first_turn_flag = 0;
+	int8_t straight_count;
+	uint8_t x_box, y_box, direction_box;
+
+	for (i = 0; i < 255; i++) {
+		pass_big[i] = 0;
+	}
+
+	x.now = 0;
+	y.now = 0;
+
+	coordinate();
+	for (i = 0; pass[i] != 0xff; i++) {
+		if (pass[i] == 1) {
+			direction++;
+		} else if (pass[i] == 3) {
+			direction += 3;
+		}
+		if (direction > 3) {
+			direction -= 4;
+		}
+		coordinate();
+	}
+
+	x_box = x.now;
+	y_box = y.now;
+	direction_box = direction;
+
+	j = 0;
+	straight_count = 0;
+
+	for (i = 0; pass[i] != 0xff; i++) {
+		if (pass[i] == 0) {
+			straight_count += 2;
+		} else {
+			if (pass[i + 1] == pass[i] && pass[i + 2] == 0
+					&& pass[i - 1] == 0) {
+				if (straight_count > 1) {
+					pass_big[j] = straight_count - 1;
+					j++;
+				}
+				straight_count = 0;
+				if (pass[i] == 1) {
+					pass_big[j] = BIGLEFT180;
+				} else if (pass[i] == 3) {
+					pass_big[j] = BIGRIGHT180;
+				}
+				j++;
+				i++;
+				straight_count = -1;
+			} else if (pass[i + 1] == 0 && (i == 0 || pass[i - 1] == 0)) {
+				if (straight_count > 1) {
+					pass_big[j] = straight_count - 1;
+					j++;
+				}
+				straight_count = 0;
+				if (pass[i] == 1) {
+					pass_big[j] = BIGLEFT90;
+				} else if (pass[i] == 3) {
+					pass_big[j] = BIGRIGHT90;
+				}
+
+				straight_count = -1;
+				j++;
+
+			} else {
+				if (straight_count > 0) {
+					pass_big[j] = straight_count;
+					j++;
+				}
+				straight_count = 0;
+				if (pass[i] == 1) {
+					pass_big[j] = SHORTLEFT90;
+				} else if (pass[i] == 3) {
+					pass_big[j] = SHORTRIGHT90;
+				}
+				j++;
+			}
+		}
+	}
+	if (pass[254] == 4) {
+		straight_count += 2;
+	}
+	if (straight_count != 0) {
+		pass_big[j] = straight_count;
+		j++;
+		straight_count = 0;
+	}
+	pass_big[j] = 0xff;
+
+//	while (SWITCH == 1) {
+//
+//	}
+//
+//	for (i = 0; pass[i] != 0xff; i++) {
+//		myprintf("%d\n", pass[i]);
+//	}
+//	myprintf("\n");
+//	for (i = 0; pass_big[i] != 0xff; i++) {
+//		myprintf("%d\n", pass_big[i]);
+//	}
+//
+//	while (1)
+//		;
+
+	moter_flag = 1;
+
+	i = 0;
+	coordinate();
+	if (pass_big[i] < 35) {
+		set_straight(140.0 + 90.0 * (float) pass_big[i], accel, vel, 0.0,
+				nomal_run.vel_search);
+		wait_straight();
+		for (j = 0; j < pass_big[i] / 2; j++) {
+			coordinate();
+		}
+	} else if (pass_big[i] == SHORTRIGHT90) { //右折
+		go_entrance(accel, nomal_run.vel_search);
+		slalom_right90(nomal_run.accel, nomal_run.vel_search);
+		coordinate();
+	} else if (pass_big[i] == BIGRIGHT90) {
+		farst_turn_right_90_big(nomal_run.vel_search);
+	}
+
+	for (i = 1; pass_big[i] != 0xff; i++) {
+		if (pass_big[i] < 35) { //直進の途中
+			set_straight(90.0 * (float) pass_big[i], accel, vel,
+					nomal_run.vel_search, nomal_run.vel_search);
+			wait_straight();
+			for (j = 0; j < pass_big[i] / 2; j++) {
+				coordinate();
+			}
+		} else if (pass_big[i] == SHORTLEFT90) { //左折
+			slalom_left90(nomal_run.accel, nomal_run.vel_search);
+			coordinate();
+		} else if (pass_big[i] == SHORTRIGHT90) { //右折
+			slalom_right90(nomal_run.accel, nomal_run.vel_search);
+			coordinate();
+		} else if (pass_big[i] == BIGLEFT90) {
+			turn_left_90_big(nomal_run.vel_search);
+			coordinate();
+		} else if (pass_big[i] == BIGRIGHT90) {
+			turn_right_90_big(nomal_run.vel_search);
+			coordinate();
+		} else if (pass_big[i] == BIGLEFT180) {
+			turn_left_180_big(nomal_run.vel_search);
+			coordinate();
+		} else if (pass_big[i] == BIGRIGHT180) {
+			turn_right_180_big(nomal_run.vel_search);
+			coordinate();
+		}
+	}
+
+	x.now = x_box;
+	y.now = y_box;
+	direction = direction_box;
+
+	if (pass[254] == 1) {
+		set_straight(93.0, accel, nomal_run.vel_search, nomal_run.vel_search,
+				0.0);
+		wait_straight();
+		wait_time(50);
+		set_rotation(-180.0, nomal_rotation.accel, nomal_rotation.vel_search,
+				0.0);
+		wait_rotation();
+		wait_time(50);
+		set_straight(-50.0, 500, 150, 0.0, 0.0);
+		wall_control_flag = 0;
+		wait_straight();
+		wait_time(50);
+	} else {
+		coordinate();
+		addWall();
+
+		if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
+			set_straight(90.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+					0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+			rotation_deviation.cumulative = 0.0;
+		} else if (getWall(x.now, y.now, direction + 3, &walldate_real)) {
+			set_straight(90.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+					0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+			rotation_deviation.cumulative = 0.0;
+		} else if(getWall(x.now, y.now, direction, &walldate_real)){
+			set_straight(90.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(-180.0, nomal_rotation.accel,
+					nomal_rotation.vel_search, 0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+		}else{
+			set_straight(90.0, accel, nomal_run.vel_search,
+					nomal_run.vel_search, 0.0);
+			wait_straight();
+			wait_time(50);
+			set_rotation(-180.0, nomal_rotation.accel,
+					nomal_rotation.vel_search, 0.0);
+			wait_rotation();
+			wait_time(50);
+			set_straight(-40.0, 500, 150, 0.0, 0.0);
+//			wall_control_flag = 0;
+			wait_straight();
+			wait_time(50);
+		}
+	}
+}

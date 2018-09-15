@@ -13,4 +13,5 @@
 void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale, uint8_t);
 void move_pass(float accel, float vel);
 void move_pass_compression(float accel, float vel);
+void move_pass_big_turn(float accel, float vel);
 #endif /* PASS_H_ */

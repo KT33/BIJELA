@@ -34,11 +34,12 @@ void ketuate(float accel, float vel);
 void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate);
 void stop90(float run_accel, float run_vel);
-void slarom_left_check(accel,vel);
-void slarom_right_check(accel,vel);
-void trun_left_180_big(float vel);
-void trun_right_180_big(float vel);
-void trun_left_90_big(float vel);
-void trun_right_90_big(float vel);
+void slalom_left_check(float accel,float vel);
+void slalom_right_check(float accel,float vel);
+void turn_left_180_big(float vel);
+void turn_right_180_big(float vel);
+void turn_left_90_big(float vel);
+void turn_right_90_big(float vel);
+void farst_turn_right_90_big(float vel);
 #endif /* ADACHI_H_ */
 

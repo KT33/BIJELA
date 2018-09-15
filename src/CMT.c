@@ -17,7 +17,7 @@ void interrupt_cmt0(void) {
 	failsafe_accel = test_gyro();
 	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
 			|| rotation_deviation.cumulative > 20000.0
-			|| failsafe_accel > 39.2) {
+			|| failsafe_accel > 50.0) { //|| failsafe_accel > 39.2
 
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
@@ -31,10 +31,20 @@ void interrupt_cmt0(void) {
 		UI_LED1 = 1;
 		UI_LED2 = 1;
 		UI_LED3 = 1;
-		RIGHTWING = 1;
-		LEFTEING = 1;
+		if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0) {
+			LEFTEING = 0;
+			RIGHTWING = 0;
+		} else if (rotation_deviation.cumulative > 20000.0) {
+			LEFTEING = 1;
+			RIGHTWING = 0;
+		}else if(failsafe_accel > 39.2){
+			LEFTEING = 0;
+			RIGHTWING = 1;
+		}
+
 		RIGHTFRONT = 1;
 		LEFTFRONT = 1;
+		CENTERFRONT = 1;
 		failsafe_flag = 1;
 	}
 
@@ -42,7 +52,7 @@ void interrupt_cmt0(void) {
 	if (mode_flag & 0x80) { //モード内
 		if (moter_flag == 1 && failsafe_flag == 0) {
 			failsafe_accel = test_gyro();
-			ui_led_3bit(y.now);
+			ui_led_3bit(x.now);
 			Moter_Stby = 1;
 			AD_SEN();
 			wall_control();

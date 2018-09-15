@@ -22,16 +22,22 @@
 #include "adachi.h"
 
 void mode_0(void) {
-
+	uint8_t i;
 	moter_flag = 1;
-	adachi_search_run(1, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	adachi_search_run(7, 0, 4, nomal_run.accel, nomal_run.vel_search, 1, 0);
 	write_all_walldatas();
-	wait_time(1000);
+
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 	write_all_walldatas();
 	wait_time(1000);
-	make_pass(1, 0, 1, 1);
-	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
+
+	write_all_walldatas();
+
+	make_pass(7, 0, 4, 1);
+	move_pass_big_turn(nomal_run.accel, 1200.0);
+
+//	make_pass(1, 0, 1, 1);
+//	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
 //	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 //	write_all_walldatas();
 //	adachi_map(1, 0, 1, walldate_real);
@@ -39,63 +45,53 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
+	read_all_walldatas();
 	moter_flag = 1;
-	Log[0]=100.0;
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, nomal_run.vel_search);
-	wait_straight();
-	trun_right_90_big(nomal_run.vel_search);
-	stop90(nomal_run.accel, nomal_run.vel_search);
-	while(SWITCH==1){
-		moter_flag=0;
-	}
-	myprintf("%f\n",Log[0]);
+	make_pass(7, 0, 4, 1);
+	move_pass_big_turn(nomal_run.accel, 2000.0);
 }
 void mode_2(void) {
-	moter_flag = 1;
-	Log[0]=100.0;
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	set_straight(90.0, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, nomal_run.vel_search);
-	wait_straight();
-	trun_left_90_big(nomal_run.vel_search);
-	stop90(nomal_run.accel, nomal_run.vel_search);
-	while(SWITCH==1){
-		moter_flag=0;
-	}
-	myprintf("%f\n",Log[0]);
+	read_all_walldatas();
+	make_pass(1, 0, 4, 1);
+	output_Walldate(&walldate_real);
+	output_Walldate(&walldate_checked);
+	output_Walldate(&walldate_adachi);
+	move_pass_big_turn(1, 1);
 }
 
 void mode_3(void) {
-	moter_flag = 1;
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	read_all_walldatas();
+	adachi_map_straight(0, 0, 1, walldate_real);
+}
+
+void mode_4(void) {
+	clear_adachiMap(&walldate_real);
+	write_all_walldatas();
+}
+
+void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	log_start();
-	pass_180(nomal_run.accel, nomal_run.vel_search);
-	pass_180(nomal_run.accel, nomal_run.vel_search);
-	set_straight(90, nomal_run.accel, nomal_run.vel_search,
-			nomal_run.vel_search, 0);
-	wait_straight();
+	moter_flag = 1;
+	slalom_right_check(nomal_run.accel, nomal_run.vel_search);
 	while (SWITCH == 1) {
 		moter_flag = 0;
 	}
 	log_output();
 }
 
-void mode_4(void) {
-	moter_flag = 1;
-	set_straight(180*8,1000.0, 500.0, 0, 0);
-	wait_straight();
-}
-
-void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	moter_flag = 1;
-	set_rotation(90, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
-	wait_rotation();
-}
-
 void mode_6(void) {
-
+	uint8_t i;
+	moter_flag = 1;
+	log_start();
+	go_entrance(nomal_run.accel, nomal_run.vel_search);
+	for (i = 0; i < 1; i++) {
+		pass_180(nomal_run.accel, nomal_run.vel_search);
+	}
+	stop90(nomal_run.accel, nomal_run.vel_search);
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	log_output();
 //	walldate_real.column[0] = 65535;
 //	walldate_real.column[1] = 1;
 //	walldate_real.column[2] = 8;

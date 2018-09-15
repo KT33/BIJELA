@@ -40,13 +40,13 @@ void (* const Fixed_Vectors[])(void) = {
 		Dummy,
 //;0xffffffA0  Reserved
 // uint32_t id_code(Default)
-		(fp)0xFFFFFFFF,
-		//;0xffffffA4  Reserved
-		(fp)0xFFFFFFFF,
+		(fp)0x45010203,
+//;0xffffffA4  Reserved
+		(fp)0x04050607,
 //;0xffffffA8  Reserved
-		(fp)0xFFFFFFFF,
+		(fp)0x08090A0B,
 //;0xffffffAC  Reserved
-		(fp)0xFFFFFFFF,
+		(fp)0x0C0D0E0F,
 //;0xffffffB0  Reserved
 		Dummy,
 //;0xffffffB4  Reserved

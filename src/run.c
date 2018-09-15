@@ -129,9 +129,6 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 //	rotation_gain.Ki = 0.04;
 	if ((i_angle > 80.0) && (i_angle < 100.0)) {
 		direction++;
-		if (direction == 4) {
-			direction = North;
-		}
 	} else if ((i_angle < -80.0) && (i_angle > -100.0)) {
 		direction += 3;
 	} else if (((i_angle > 170.0) && (i_angle < 190.0))

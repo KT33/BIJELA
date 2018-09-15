@@ -130,14 +130,14 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 2;
+	log_how_often = 1;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = translation_ideal.dis;
+		Log[log_index] = failsafe_accel;
 		log2[log_index] = (float)SEN_L.now;
 		log3[log_index]=(float)SEN_R.now;
 		log_index++;

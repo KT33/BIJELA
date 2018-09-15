@@ -16,7 +16,7 @@ gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
 gain_t wall_cntrol_gain = { 0.041, 0.0, 0.0 }; //0.05
 
 normal_para_t nomal_run = { 600.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
-normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 7000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
+normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 6500.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
 slarom_para_t slarom_500={7000.0,6000.0,{15.0,35.0},{15.0,22.0}};
 slarom_para_t slarom_600={12500.0,6000.0,{21.0,42.0},{21.0,36.0}};
 
@@ -81,6 +81,7 @@ walldate_t walldate_real, walldate_checked, walldate_adachi;
 uint16_t step_map[16][16];
 uint8_t pass[255];
 uint8_t pass_compression[255];
+uint8_t pass_big[255];
 uint8_t moter_flag = 0;
 
 float test_float;

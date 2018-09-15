@@ -69,7 +69,7 @@ void init_gyro(void) {
 	wait_time(3);
 //	communicate_gyro(0, 0x02, 0x02); //GYRO_CONFIG_1<=+-2000dps,nonfilter
 //	wait_time(3);
-	communicate_gyro(0, 0x14, 0x02); //ACCEL_CONFIG
+	communicate_gyro(0, 0x14, 0x04); //ACCEL_CONFIG
 	wait_time(3);
 
 	communicate_gyro(0, 0x7f, 0x00); //REG_BANK_SEL
@@ -87,7 +87,7 @@ float test_gyro(void) {
 //	myprintf("%d	%d	%d\n", read_1, read_2,value);
 //	myprintf("value %f\n",(float)value*9.80665/8192); //加速度
 //	myprintf("%f\n", (float) value * 0.00106252644); //1000*pi/(2^15*180)*2000
-	return (float)value*9.80665/8192;
+	return (float)value*9.80665*2/8192;
 }
 
 float test_gyro2(void) {
