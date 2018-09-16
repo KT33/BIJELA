@@ -51,11 +51,11 @@ void main() {
 //	init_dataflash();
 	//gyro_flag=1;
 	LED_Setting();
-	CENTERFRONT=1;
+	CENTERFRONT = 1;
 	while (1) {
 		//	myprintf("%6.2f\n", angle);
-//		x.goal = 7;
-//		y.goal = 7;
+		x.goal = 8;
+		y.goal = 0;
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;
@@ -75,5 +75,4 @@ void main() {
 		translation_ideal.velocity = 0.0;
 	}
 }
-
 

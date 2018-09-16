@@ -168,6 +168,7 @@ void clear_adachiMap(walldate_t *walldate) {
 	for (i = 0; i < 17; i++) {
 		walldate->column[i] = 0xffff;
 		walldate->row[i] = 0xffff;
+		walldate->row[1] = 0xfffe;
 	}
 }
 

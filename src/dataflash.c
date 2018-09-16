@@ -270,17 +270,18 @@ void read_walldata(uint16_t start_block, walldate_t *walldata) {
 	}
 }
 
-void write_all_walldatas(void){
-	erase_all();
-	write_walldata(0,walldate_real);
-	write_walldata(40, walldate_checked);
-	write_walldata(80,walldate_adachi);
+void write_all_walldatas(void) {
+	if (failsafe_flag == 0) {
+		erase_all();
+		write_walldata(0, walldate_real);
+		write_walldata(40, walldate_checked);
+		write_walldata(80, walldate_adachi);
+	}
 }
 
-void read_all_walldatas(void){
+void read_all_walldatas(void) {
 	read_walldata(0, &walldate_real);
 	read_walldata(40, &walldate_checked);
 	read_walldata(80, &walldate_adachi);
 }
-
 

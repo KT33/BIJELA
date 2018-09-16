@@ -24,7 +24,8 @@
 void mode_0(void) {
 	uint8_t i;
 	moter_flag = 1;
-	adachi_search_run(7, 0, 4, nomal_run.accel, nomal_run.vel_search, 1, 0);
+	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
+			1, 1);
 	write_all_walldatas();
 
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
@@ -33,8 +34,16 @@ void mode_0(void) {
 
 	write_all_walldatas();
 
-	make_pass(7, 0, 4, 1);
-	move_pass_big_turn(nomal_run.accel, 1200.0);
+	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
+			1, 1);
+	write_all_walldatas();
+
+
+
+//	write_all_walldatas();
+//
+//	make_pass(x.goal, y.goal, 4, 1);
+//	move_pass_big_turn(nomal_run.accel, 1200.0, 1000.0);
 
 //	make_pass(1, 0, 1, 1);
 //	move_pass_compression(nomal_run.accel, nomal_run.vel_max);
@@ -46,16 +55,29 @@ void mode_0(void) {
 
 void mode_1(void) {
 	read_all_walldatas();
-	moter_flag = 1;
-	make_pass(7, 0, 4, 1);
-	move_pass_big_turn(nomal_run.accel, 2000.0);
-}
-void mode_2(void) {
-	read_all_walldatas();
-	make_pass(1, 0, 4, 1);
+	make_pass(x.goal, y.goal, 4, 1);
+	make_pass_big_turn();
+	adachi_map_straight(x.goal, y.goal,4, walldate_real);
+
 	output_Walldate(&walldate_real);
-	output_Walldate(&walldate_checked);
-	output_Walldate(&walldate_adachi);
+
+
+	for (i = 0; pass[i] != 0xff; i++) {
+		myprintf("pass[%d]=%d\n", i, pass[i]);
+	}
+	myprintf("pass[%d]=%d\n", i, pass[i]);
+	for (i = 0; pass_big[i] != 0xff; i++) {
+		myprintf("%d\n", pass_big[i]);
+	}
+	myprintf("%d\n", pass_big[i]);
+}
+
+void mode_2(void) {
+	wait_time(3000);
+	moter_flag = 1;
+	read_all_walldatas();
+	make_pass(x.goal, y.goal, 4, 1);
+	move_pass_big_turn(nomal_run.accel, 2200.0, 1000.0);
 
 }
 
@@ -65,17 +87,17 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	moter_flag=1;
+	moter_flag = 1;
 	go_entrance(nomal_run.accel, 1000.0);
 	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 1000.0);
 	wait_straight();
-	turn_left_180_big(1000.0);
+	turn_left_90_big(1000.0);
 	stop90(nomal_run.accel, 1000.0);
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
 
-	myprintf("%f\n",Log[0]);
+	myprintf("%f\n", Log[0]);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
@@ -149,15 +171,16 @@ void mode_6(void) {
 void mode_7(void) {
 	output_SEN();
 
-//	while (1) {
-//		moter_flag = 0;
-//////		real_angle_control();
-//////	myprintf("%.2f\n", rotation_real.velocity);
+	while (1) {
+		//	moter_flag = 1;
+		wait_time(1);
+		real_angle_control();
+		myprintf("%.4f\n", rotation_real.velocity);
 //////		ui_led_3bit(i);
 //////		i++;
 //////		if(i>=8){
 //////			i=0;
-//////		}
+	}
 //////		wait_time(1);
 
 ////		myprintf("%.8f\n", rotation_real.velocity);

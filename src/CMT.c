@@ -16,7 +16,7 @@ void interrupt_cmt0(void) {
 	g_count++;
 	failsafe_accel = test_gyro();
 	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
-			|| rotation_deviation.cumulative > 20000.0
+			|| rotation_deviation.cumulative > 25000.0//20000.0
 			|| failsafe_accel > 50.0) { //|| failsafe_accel > 39.2
 
 		translation_ideal.accel = 0.0;
