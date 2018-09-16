@@ -57,7 +57,7 @@ void main() {
 //		x.goal = 7;
 //		y.goal = 7;
 		ui_led_3bit(mode_flag);
-		if (mode_select_dis > 70) {
+		if (mode_select_dis > 50) {
 			mode_select_dis = 0;
 			mode_flag++;
 			if (mode_flag >= 8) {

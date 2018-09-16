@@ -56,7 +56,7 @@ void mode_2(void) {
 	output_Walldate(&walldate_real);
 	output_Walldate(&walldate_checked);
 	output_Walldate(&walldate_adachi);
-	move_pass_big_turn(1, 1);
+
 }
 
 void mode_3(void) {
@@ -65,18 +65,32 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	clear_adachiMap(&walldate_real);
-	write_all_walldatas();
+	moter_flag=1;
+	go_entrance(nomal_run.accel, 1000.0);
+	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 1000.0);
+	wait_straight();
+	turn_left_180_big(1000.0);
+	stop90(nomal_run.accel, 1000.0);
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+
+	myprintf("%f\n",Log[0]);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	log_start();
 	moter_flag = 1;
-	slalom_right_check(nomal_run.accel, nomal_run.vel_search);
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	log_output();
+	set_straight(90.0, nomal_run.accel, 600.0, 0, 600.0);
+	wait_straight();
+
+	set_straight(90.0, nomal_run.accel, 1000.0, 600.0, 1000.0);
+	wait_straight();
+
+	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 600.0);
+	wait_straight();
+
+	set_straight(90.0, nomal_run.accel, 600.0, 600.0, 0.0);
+	wait_straight();
 }
 
 void mode_6(void) {

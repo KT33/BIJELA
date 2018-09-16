@@ -344,8 +344,13 @@ void move_pass_big_turn(float accel, float vel) {
 	i = 0;
 	coordinate();
 	if (pass_big[i] < 35) {
-		set_straight(140.0 + 90.0 * (float) pass_big[i], accel, vel, 0.0,
-				nomal_run.vel_search);
+		if (pass_big[1] == SHORTLEFT90 || pass_big[1] == SHORTRIGHT90) {
+			set_straight(140.0 + 90.0 * (float) pass_big[i], accel, vel, 0.0,
+					nomal_run.vel_search);
+		} else {
+			set_straight(140.0 + 90.0 * (float) pass_big[i], accel, vel, 0.0,
+					vel);
+		}
 		wait_straight();
 		for (j = 0; j < pass_big[i] / 2; j++) {
 			coordinate();
@@ -432,7 +437,7 @@ void move_pass_big_turn(float accel, float vel) {
 			back_100();
 			wait_time(50);
 			rotation_deviation.cumulative = 0.0;
-		} else if(getWall(x.now, y.now, direction, &walldate_real)){
+		} else if (getWall(x.now, y.now, direction, &walldate_real)) {
 			set_straight(90.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
 			wait_straight();
@@ -443,7 +448,7 @@ void move_pass_big_turn(float accel, float vel) {
 			wait_time(50);
 			back_100();
 			wait_time(50);
-		}else{
+		} else {
 			set_straight(90.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
 			wait_straight();
