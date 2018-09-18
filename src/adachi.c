@@ -127,7 +127,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate) {
 	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
-	uint8_t test = 0;
+//	uint8_t test = 0;
 
 //	moter_flag = 1;
 	q.head = 0;
@@ -191,8 +191,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (((step_map[x_adachi][y_adachi - 1] == step - 1)
 					|| (step_map[x_adachi][y_adachi - 1] == step - 2))
 					&& (y_adachi - 1) >= 0
-					&& getWall(x_adachi, y_adachi, South, &walldate)
-							== 0) {
+					&& getWall(x_adachi, y_adachi, South, &walldate) == 0) {
 				step_map[x_adachi][y_adachi + 1] = step + 1;
 			} else {
 				step_map[x_adachi][y_adachi + 1] = step + 2;
@@ -206,8 +205,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (((step_map[x_adachi + 1][y_adachi] == step - 1)
 					|| (step_map[x_adachi + 1][y_adachi] == step - 2))
 					&& (x_adachi + 1) < 16
-					&& getWall(x_adachi, y_adachi, East, &walldate)
-							== 0) {
+					&& getWall(x_adachi, y_adachi, East, &walldate) == 0) {
 				step_map[x_adachi - 1][y_adachi] = step + 1;
 			} else {
 				step_map[x_adachi - 1][y_adachi] = step + 2;
@@ -222,8 +220,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (((step_map[x_adachi][y_adachi + 1] == step - 1)
 					|| (step_map[x_adachi][y_adachi + 1] == step - 2))
 					&& (y_adachi + 1) < 16
-					&& getWall(x_adachi, y_adachi, North, &walldate)
-							== 0) {
+					&& getWall(x_adachi, y_adachi, North, &walldate) == 0) {
 				step_map[x_adachi][y_adachi - 1] = step + 1;
 			} else {
 				step_map[x_adachi][y_adachi - 1] = step + 2;
@@ -237,8 +234,7 @@ void adachi_map_straight(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			if (((step_map[x_adachi - 1][y_adachi] == step - 1)
 					|| (step_map[x_adachi - 1][y_adachi] == step - 2))
 					&& (x_adachi - 1) >= 0
-					&& getWall(x_adachi, y_adachi, West, &walldate)
-							== 0) {
+					&& getWall(x_adachi, y_adachi, West, &walldate) == 0) {
 				step_map[x_adachi + 1][y_adachi] = step + 1;
 			} else {
 				step_map[x_adachi + 1][y_adachi] = step + 2;
@@ -702,8 +698,8 @@ void turn_left_180_big(float vel) {
 		in_offset = 0.0;
 		out_offset = 45.0;
 		rota_accel = 8700.0;
-		rota_vel = 632.0;
-		kabekire_dis = 7.2;
+		rota_vel = 640.0;
+		kabekire_dis = 1.0;
 		angle_offset = -1.2;
 	}
 
@@ -747,16 +743,16 @@ void turn_right_180_big(float vel) {
 	}
 	if (vel == 1000.0) {
 		in_offset = 0.0;
-		out_offset = 52.0;
+		out_offset = 38.0;
 		rota_accel = 8700.0;
-		rota_vel = 658.0;
-		kabekire_dis = 7.2;
+		rota_vel = 666.0;
+		kabekire_dis = 4.0;
 		angle_offset = 1.5;
 	}
 	while (SEN_R.now > SEN_R.threshold) {
 		translation_ideal.dis = kabekire_dis;
 	}
-	Log[0] = translation_ideal.dis;
+//	Log[0] = translation_ideal.dis;
 
 	coordinate();
 
@@ -791,12 +787,12 @@ void turn_left_90_big(float vel) {
 		angle_offset = 0.0;
 	}
 	if (vel == 1000.0) {
-		in_offset = 20.0;
+		in_offset = 23.0;
 		out_offset = 57.0;
 		rota_accel = 6200.0;
 		rota_vel = 1500.0;
-		kabekire_dis = 15.0;
-		angle_offset = 1.0;
+		kabekire_dis = 2.0;
+		angle_offset = 0.0;
 	}
 
 	while (SEN_L.now > SEN_L.threshold) {
@@ -830,16 +826,16 @@ void turn_right_90_big(float vel) {
 
 	if (vel == 1000.0) {
 		in_offset = 25.0;
-		out_offset = 58.0;
+		out_offset = 53.0;
 		rota_accel = 6700.0;
 		rota_vel = 1700.0;
-		kabekire_dis = 13.0;
-		angle_offset = 0.5;
+		kabekire_dis = 5.0;
+		angle_offset = 1.0;
 	}
 	while (SEN_R.now > SEN_R.threshold) {
 		translation_ideal.dis = kabekire_dis;
 	}
-	Log[0] = translation_ideal.dis;
+//	Log[0] = translation_ideal.dis;
 
 	coordinate();
 
@@ -866,10 +862,10 @@ void farst_turn_right_90_big(float vel) {
 
 	if (vel == 1000.0) {
 		in_offset = 25.0;
-		out_offset = 60.0;
+		out_offset = 53.0;
 		rota_accel = 6700.0;
 		rota_vel = 1700.0;
-		angle_offset = 0.5;
+		angle_offset = 1.0;
 	}
 
 	coordinate();
@@ -883,3 +879,141 @@ void farst_turn_right_90_big(float vel) {
 
 	coordinate();
 }
+
+void turn_right_45(float vel) {
+	float in_offset, out_offset, rota_accel, rota_vel, kabekire_dis;
+	float angle_offset;
+//	if (vel == 600.0) {
+//		in_offset = 36.0;
+//		out_offset = 50.0;
+//		rota_accel = 3000.0;
+//		rota_vel = 350.0;
+//		angle_offset = 1.0;
+//	}
+
+	if (vel == 1000.0) {
+		in_offset = 15.0;
+		out_offset = 66.0;
+		rota_accel = 10000.0;
+		rota_vel = 1000.0;
+		angle_offset = 0.0;
+		kabekire_dis = 4.0;
+	}
+
+	while (SEN_R.now > SEN_R.threshold) {
+		translation_ideal.dis = kabekire_dis;
+	}
+
+//	Log[0] = translation_ideal.dis;
+	log_sampling();
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(-45.0 + angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void turn_left_45(float vel) {
+	float in_offset, out_offset, rota_accel, rota_vel, kabekire_dis;
+	float angle_offset;
+//	if (vel == 600.0) {
+//		in_offset = 36.0;
+//		out_offset = 50.0;
+//		rota_accel = 3000.0;
+//		rota_vel = 350.0;
+//		angle_offset = 1.0;
+//	}
+
+	if (vel == 1000.0) {
+		in_offset = 5.0;
+		out_offset = 85.0;
+		rota_accel = 12000.0;
+		rota_vel = 1100.0;
+		angle_offset = 0.0;
+		kabekire_dis = 2.0;
+	}
+
+	while (SEN_L.now > SEN_L.threshold) {
+			translation_ideal.dis = kabekire_dis;
+	}
+
+//	Log[0] = translation_ideal.dis;
+	log_sampling();
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(45.0 + angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void turn_right_135(float vel) {
+	float in_offset, out_offset, rota_accel, rota_vel, kabekire_dis;
+	float angle_offset;
+//	if (vel == 600.0) {
+//		in_offset = 36.0;
+//		out_offset = 50.0;
+//		rota_accel = 3000.0;
+//		rota_vel = 350.0;
+//		angle_offset = 1.0;
+//	}
+
+	if (vel == 1000.0) {
+		in_offset = 0.0;
+		out_offset = 0.0;
+		rota_accel = 9000.0;
+		rota_vel = 700.0;
+		angle_offset = 0.0;
+		kabekire_dis = 4.0;
+	}
+
+	while (SEN_R.now > SEN_R.threshold) {
+//		translation_ideal.dis = kabekire_dis;
+	}
+
+	Log[0] = translation_ideal.dis;
+	log_sampling();
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(-135.0 + angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+void turn_left_135(float vel) {
+	float in_offset, out_offset, rota_accel, rota_vel, kabekire_dis;
+	float angle_offset;
+//	if (vel == 600.0) {
+//		in_offset = 36.0;
+//		out_offset = 50.0;
+//		rota_accel = 3000.0;
+//		rota_vel = 350.0;
+//		angle_offset = 1.0;
+//	}
+
+	if (vel == 1000.0) {
+		in_offset = 5.0;
+		out_offset = 85.0;
+		rota_accel = 12000.0;
+		rota_vel = 1000.0;
+		angle_offset = 0.0;
+		kabekire_dis = 2.0;
+	}
+
+	while (SEN_L.now > SEN_L.threshold) {
+			translation_ideal.dis = kabekire_dis;
+	}
+
+//	Log[0] = translation_ideal.dis;
+	log_sampling();
+	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+	set_rotation(135.0 + angle_offset, rota_accel, rota_vel, vel);
+	wait_rotation();
+	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+	wait_straight();
+}
+
+

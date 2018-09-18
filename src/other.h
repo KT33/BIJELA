@@ -29,5 +29,5 @@ void ui_led_3bit(uint8_t value);
 void real_velocity_control(void);
 void real_angle_control(void);
 void log_output(void);
-
+void start_SEN(void);
 #endif /* OTHER_H_ */

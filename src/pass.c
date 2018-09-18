@@ -16,7 +16,7 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		uint8_t straight_flag) {
 	uint8_t i = 0, j = 0, straight_count = 0;
 	uint8_t flag;
-	straight_flag = 0;
+//	straight_flag = 0;
 
 	for (i = 0; i < 255; i++) {
 		pass[i] = 0x0;

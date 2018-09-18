@@ -206,7 +206,7 @@ void mario_start(int bpm, int pitch) {     //140,1
 	speaker_on(pitch * REST, 18.000000, bpm);
 	speaker_on(pitch * F_5, 18.000000, bpm);
 	speaker_on(pitch * C_6, 3.000000, bpm);
-	speaker_on(pitch * REST, 4.000000, bpm);
+	speaker_on(pitch * REST, 6.000000, bpm);
 
 	speaker_on(pitch * A_4, 4.000000, bpm);
 	speaker_on(pitch * REST, 3.000000, bpm);

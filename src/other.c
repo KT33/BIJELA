@@ -14,6 +14,7 @@
 #include "other.h"
 #include "SPI.h"
 #include "walldate.h"
+#include "speaker.h"
 
 void real_angle_control(void) {
 	rotation_real.velocity = -0.1930 + test_gyro2(); //-0.2450 +
@@ -137,9 +138,9 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = failsafe_accel;
-		log2[log_index] = (float)SEN_L.now;
-		log3[log_index]=(float)SEN_R.now;
+		Log[log_index] = rotation_real.velocity;
+		log2[log_index] = (float) SEN_L.now;
+		log3[log_index] = (float) SEN_R.now;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -333,5 +334,20 @@ void Clock_Settting(void) {
 	R_INIT_NonExistentPort(); /* ---- Initialization of the non-existent ports ---- */
 	R_INIT_Clock(); /* ---- Initialization of the clock ---- */
 	setpsw_i();
+}
+
+void start_SEN(void) {
+	SEN_check_flag = 1;
+	while (SEN_R.now < SEN_R.reference || SEN_RF.now < SEN_RF.reference) { //
+		moter_flag = 0;
+	}
+	SEN_check_flag = 0;
+	if (x.goal == 7 && y.goal == 7) {
+		mario_start(150, 1);
+	} else {
+		speaker_on(C_5, 6.0, 240);
+	}
+	wait_time(500);
+	moter_flag = 1;
 }
 

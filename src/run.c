@@ -21,34 +21,34 @@ void wall_control(void) {
 								* (((float) SEN_L.now - (float) SEN_L.reference)
 										- ((float) SEN_R.now
 												- (float) SEN_R.reference));
-				LEFTFRONT = 1;
-				RIGHTFRONT = 1;
-				CENTERFRONT = 1;
+//				LEFTFRONT = 1;
+//				RIGHTFRONT = 1;
+//				CENTERFRONT = 1;
 			} else if (SEN_L.now < SEN_L.threshold
 					&& SEN_R.now > SEN_R.threshold) {
 				wallcontrol_value = -2.0 * wall_cntrol_gain.Kp
 						* ((float) SEN_R.now - (float) SEN_R.reference);
-				LEFTFRONT = 0;
-				RIGHTFRONT = 1;
-				CENTERFRONT = 1;
+//				LEFTFRONT = 0;
+//				RIGHTFRONT = 1;
+//				CENTERFRONT = 1;
 			} else if (SEN_L.now > SEN_L.threshold
 					&& SEN_R.now < SEN_R.threshold) {
 				wallcontrol_value = 2.0 * wall_cntrol_gain.Kp
 						* ((float) SEN_L.now - (float) SEN_L.reference);
-				LEFTFRONT = 1;
-				RIGHTFRONT = 0;
-				CENTERFRONT = 1;
+//				LEFTFRONT = 1;
+//				RIGHTFRONT = 0;
+//				CENTERFRONT = 1;
 			} else {
 				wallcontrol_value = 0.0;
-				LEFTFRONT = 0;
-				RIGHTFRONT = 0;
-				CENTERFRONT = 1;
+//				LEFTFRONT = 0;
+//				RIGHTFRONT = 0;
+//				CENTERFRONT = 1;
 			}
 		} else {
 			wallcontrol_value = 0.0;
-			LEFTFRONT = 0;
-			RIGHTFRONT = 0;
-			CENTERFRONT = 0;
+//			LEFTFRONT = 0;
+//			RIGHTFRONT = 0;
+//			CENTERFRONT = 0;
 		}
 	} else {
 		wallcontrol_value = 0.0;

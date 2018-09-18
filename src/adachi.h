@@ -41,5 +41,10 @@ void turn_right_180_big(float vel);
 void turn_left_90_big(float vel);
 void turn_right_90_big(float vel);
 void farst_turn_right_90_big(float vel);
+void turn_right_45(float vel);
+void turn_left_45(float vel);
+void turn_right_135(float vel);
+void turn_left_135(float vel);
+
 #endif /* ADACHI_H_ */
 

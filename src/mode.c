@@ -23,7 +23,7 @@
 
 void mode_0(void) {
 	uint8_t i;
-	moter_flag = 1;
+	start_SEN();
 	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
 			1, 1);
 	write_all_walldatas();
@@ -37,8 +37,6 @@ void mode_0(void) {
 	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
 			1, 1);
 	write_all_walldatas();
-
-
 
 //	write_all_walldatas();
 //
@@ -56,20 +54,7 @@ void mode_0(void) {
 void mode_1(void) {
 	read_all_walldatas();
 	make_pass(x.goal, y.goal, 4, 1);
-	make_pass_big_turn();
-	adachi_map_straight(x.goal, y.goal,4, walldate_real);
-
-	output_Walldate(&walldate_real);
-
-
-	for (i = 0; pass[i] != 0xff; i++) {
-		myprintf("pass[%d]=%d\n", i, pass[i]);
-	}
-	myprintf("pass[%d]=%d\n", i, pass[i]);
-	for (i = 0; pass_big[i] != 0xff; i++) {
-		myprintf("%d\n", pass_big[i]);
-	}
-	myprintf("%d\n", pass_big[i]);
+	move_pass_big_turn(nomal_run.accel, 2200.0, 1000.0);
 }
 
 void mode_2(void) {
@@ -82,22 +67,30 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
+	x.goal = 7;
+	y.goal = 7;
+	start_SEN();
 	read_all_walldatas();
-	adachi_map_straight(0, 0, 1, walldate_real);
+	adachi_map_straight(x.goal, y.goal, 4, walldate_real);
+	make_pass(x.goal, y.goal, 4, 1);
+	output_Walldate(&walldate_adachi);
+	myprintf("flag=%d\n", how_to_move(2, 10, 5, walldate_adachi));
+
 }
 
 void mode_4(void) {
-	moter_flag = 1;
+	start_SEN();
 	go_entrance(nomal_run.accel, 1000.0);
 	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 1000.0);
 	wait_straight();
-	turn_left_90_big(1000.0);
-	stop90(nomal_run.accel, 1000.0);
+	turn_right_135(1000.0);
+	set_straight(127.28, nomal_run.accel, 1000.0, 1000.0, 0.0);
+//	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 0.0);
+	wait_straight();
 	while (SWITCH == 1) {
 		moter_flag = 0;
 	}
-
-	myprintf("%f\n", Log[0]);
+	myprintf("%f\n",Log[0]);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search

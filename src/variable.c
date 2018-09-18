@@ -20,9 +20,9 @@ normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 6000.0 }; //deg/sec //400.0,
 slarom_para_t slarom_500={7000.0,6000.0,{15.0,35.0},{15.0,22.0}};
 slarom_para_t slarom_600={12500.0,6000.0,{21.0,42.0},{21.0,36.0}};
 
-sensor_t SEN_R = { 0, 1398, 600, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 2050, 1000, 0 };
-sensor_t SEN_RF = { 0, 3282, 735, 0 };
+sensor_t SEN_R = { 0, 1300, 600, 0 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 1530, 574, 0 };
+sensor_t SEN_RF = { 0, 3282, 728, 0 };
 sensor_t SEN_LF = { 0, 3320, 680, 0 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
@@ -91,5 +91,7 @@ uint8_t failsafe_flag=0;
 volatile float Log[LogMax],log2[LogMax],log3[LogMax];
 
 uint8_t SEN_check_flag=0;
-
 float failsafe_accel;
+
+uint16_t led_count=0;
+

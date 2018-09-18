@@ -155,6 +155,8 @@ extern slarom_para_t slarom_600;
 
 extern uint8_t pass_big[255];
 
+extern uint16_t led_count;
+
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4
 #define UI_LED3 PORT5.PODR.BIT.B5
