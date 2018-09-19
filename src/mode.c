@@ -83,7 +83,7 @@ void mode_4(void) {
 	go_entrance(nomal_run.accel, 1000.0);
 	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 1000.0);
 	wait_straight();
-	turn_right_135(1000.0);
+	turn_left_135(1000.0);
 	set_straight(127.28, nomal_run.accel, 1000.0, 1000.0, 0.0);
 //	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 0.0);
 	wait_straight();

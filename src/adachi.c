@@ -960,19 +960,19 @@ void turn_right_135(float vel) {
 //	}
 
 	if (vel == 1000.0) {
-		in_offset = 0.0;
-		out_offset = 0.0;
+		in_offset = 8.0;
+		out_offset = 20.0;
 		rota_accel = 9000.0;
-		rota_vel = 700.0;
+		rota_vel = 653.0;
 		angle_offset = 0.0;
-		kabekire_dis = 4.0;
+		kabekire_dis = 2.0;
 	}
 
 	while (SEN_R.now > SEN_R.threshold) {
-//		translation_ideal.dis = kabekire_dis;
+		translation_ideal.dis = kabekire_dis;
 	}
 
-	Log[0] = translation_ideal.dis;
+//	Log[0] = translation_ideal.dis;
 	log_sampling();
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 	wait_straight();
@@ -994,12 +994,12 @@ void turn_left_135(float vel) {
 //	}
 
 	if (vel == 1000.0) {
-		in_offset = 5.0;
-		out_offset = 85.0;
-		rota_accel = 12000.0;
-		rota_vel = 1000.0;
+		in_offset = 6.0;
+		out_offset = 25.0;
+		rota_accel = 9000.0;
+		rota_vel = 653.0;
 		angle_offset = 0.0;
-		kabekire_dis = 2.0;
+		kabekire_dis = 4.0;
 	}
 
 	while (SEN_L.now > SEN_L.threshold) {
