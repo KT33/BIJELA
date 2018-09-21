@@ -176,25 +176,32 @@ void output_Walldate(walldate_t *walldate) {
 	int x_check, y_check;
 	myprintf("\n");
 	for (y_check = 15; y_check >= 0; y_check--) {
+		myprintf("\x1b[31m");
 		myprintf("+");
 		for (x_check = 0; x_check < 16; x_check++) {
 			if (getWall(x_check, y_check, North, walldate) == 1) {
+				myprintf("\x1b[31m");
 				myprintf("-----");
 			} else {
+				myprintf("\x1b[m");
 				myprintf("     ");
 			}
+			myprintf("\x1b[31m");
 			myprintf("+");
 		}
 		myprintf("\n");
 		for (x_check = 0; x_check < 16; x_check++) {
 			if (getWall(x_check, y_check, West, walldate) == 1) {
+				myprintf("\x1b[31m");
 				myprintf("|");
 			} else {
 				myprintf(" ");
 			}
+			myprintf("\x1b[m");
 			myprintf(" %3d ", step_map[x_check][y_check]); //step_Map[x_check][y_check]
 		}
 		if (getWall(15, y_check, East, walldate) == 1) {
+			myprintf("\x1b[31m");
 			myprintf("|");
 		} else {
 			myprintf(" ");
@@ -205,12 +212,14 @@ void output_Walldate(walldate_t *walldate) {
 	y_check = 0;
 	for (x_check = 0; x_check < 16; x_check++) {
 		if (getWall(x_check, y_check, South, walldate) == 1) {
+			myprintf("\x1b[31m");
 			myprintf("-----");
 		} else {
 			myprintf("     ");
 		}
 		myprintf("+");
 	}
+	myprintf("\x1b[m");
 	myprintf("\n");
 	myprintf("\n");
 }

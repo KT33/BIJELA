@@ -82,6 +82,7 @@ uint16_t step_map[16][16];
 uint8_t pass[255];
 uint8_t pass_compression[255];
 uint8_t pass_big[255];
+uint8_t pass_oblique[255];
 uint8_t moter_flag = 0;
 
 float test_float;
@@ -94,4 +95,5 @@ uint8_t SEN_check_flag=0;
 float failsafe_accel;
 
 uint16_t led_count=0;
+uint8_t wall_control_oblique_flag=0;
 

@@ -346,8 +346,9 @@ void start_SEN(void) {
 		mario_start(150, 1);
 	} else {
 		speaker_on(C_5, 6.0, 240);
+		wait_time(500);
 	}
-	wait_time(500);
+
 	moter_flag = 1;
 }
 

@@ -154,8 +154,11 @@ extern slarom_para_t slarom_500;
 extern slarom_para_t slarom_600;
 
 extern uint8_t pass_big[255];
+extern uint8_t pass_oblique[255];
 
 extern uint16_t led_count;
+
+extern uint8_t wall_control_oblique_flag;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4
