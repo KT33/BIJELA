@@ -131,7 +131,7 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 1;
+	log_how_often = 2;
 	log_flag = 1;
 }
 
@@ -139,8 +139,8 @@ void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
 		Log[log_index] = rotation_real.velocity;
-		log2[log_index] = (float) SEN_L.now;
-		log3[log_index] = (float) SEN_R.now;
+		log2[log_index] = rotation_ideal.velocity;
+//		log3[log_index] = (float) SEN_R.now;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -155,11 +155,11 @@ void log_output(void) {
 	for (i = 0; i < LogMax; i++) {
 		myprintf("%.3f\n", Log[i]);
 	}
-//	myprintf("\n");
-//	myprintf("\n");
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.3f\n", log2[i]);
-//	}
+	myprintf("\n");
+	myprintf("\n");
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", log2[i]);
+	}
 //	myprintf("\n");
 //	myprintf("\n");
 //	for (i = 0; i < LogMax; i++) {

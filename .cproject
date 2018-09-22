@@ -168,7 +168,7 @@
 					</folderInfo>
 					<fileInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.1956639141.1838284091" name="mode.c" rcbsApplicability="disable" resourcePath="src/mode.c" toolsToInvoke="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.857441764.350794440">
 						<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.857441764.350794440" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.857441764">
-							<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.941101030" name="最適化レベル" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.level0" valueType="enumerated"/>
+							<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.941101030" name="最適化レベル" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.level1" valueType="enumerated"/>
 							<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.391961297" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
 							<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1466380847" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
 						</tool>

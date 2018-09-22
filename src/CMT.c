@@ -18,16 +18,18 @@ void interrupt_cmt0(void) {
 	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
 			|| rotation_deviation.cumulative > 25000.0 //20000.0
 			|| failsafe_accel > 50.0) { //|| failsafe_accel > 39.2
-
+		failsafe_flag = 1;
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
 		duty.left = 0;
 		duty.right = 0;
 		duty_to_moter();
+		Moter_Stby = 1;
+		MTU0.TGRB = 0; //MOTER_R
+		MTU0.TGRD = 0; //MOTER_L
 		x.now = 0;
 		y.now = 0;
 		direction = 0;
-		moter_flag = 0;
 		UI_LED1 = 1;
 		UI_LED2 = 1;
 		UI_LED3 = 1;
@@ -46,6 +48,7 @@ void interrupt_cmt0(void) {
 		LEFTFRONT = 1;
 		CENTERFRONT = 1;
 		failsafe_flag = 1;
+		//moter_flag=0;
 	}
 
 	real_velocity_control();

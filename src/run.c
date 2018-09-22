@@ -12,7 +12,7 @@
 #include "iodefine.h"
 
 void wall_control(void) {
-	if (wall_control_flag == 1) {
+	if (wall_control_flag == 1 && wall_control_oblique_flag == 0) {
 		if (((translation_ideal.velocity) > 350) && (SEN_L.diff < 15)
 				&& (SEN_R.diff < 15) && (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
 			if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
@@ -50,6 +50,8 @@ void wall_control(void) {
 //			RIGHTFRONT = 0;
 //			CENTERFRONT = 0;
 		}
+	} else if (wall_control_flag == 1 && wall_control_oblique_flag == 1) {
+		wallcontrol_value = 0.0;//ここに斜め壁制御を書く
 	} else {
 		wallcontrol_value = 0.0;
 	}
@@ -145,7 +147,7 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 void wait_straight(void) {
 	volatile int i;
 	//LEFTEING = 1;
-	while (translation_parameter.run_flag == 1&&failsafe_flag==0) {
+	while (translation_parameter.run_flag == 1 && failsafe_flag == 0) {
 		//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
 	//LEFTFRONT = 1;
@@ -170,7 +172,7 @@ void wait_straight(void) {
 void wait_rotation(void) {
 	volatile int i;
 //	LEFTEING = 1;
-	while (rotation_parameter.run_flag == 1&&failsafe_flag==0) {
+	while (rotation_parameter.run_flag == 1 && failsafe_flag == 0) {
 
 	}
 //	LEFTFRONT = 1;
@@ -352,16 +354,16 @@ void duty_to_moter(void) {
 	}
 
 	if (duty_left > 400) {
-		duty_left = 400-1;
+		duty_left = 400 - 1;
 	}
 	if (duty_right > 400) {
-		duty_right = 400-1;
+		duty_right = 400 - 1;
 	}
 	if (duty_left < -400) {
-		duty_left = -400+1;
+		duty_left = -400 + 1;
 	}
 	if (duty_right < -400) {
-		duty_right = -400+1;
+		duty_right = -400 + 1;
 	}
 
 //	test1 = duty_left;

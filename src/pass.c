@@ -341,8 +341,11 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 	pass_big[j] = 0xff;
 
 //	while (SWITCH == 1) {
-//
+//		moter_flag=0;
 //	}
+//	out_put_pass(pass_big);
+//		while (1)
+//			;
 //
 //	for (i = 0; pass[i] != 0xff; i++) {
 //		myprintf("%d\n", pass[i]);
@@ -501,8 +504,9 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 }
 
 void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
-	uint8_t i = 0, j;
-	int8_t straight_count, oblique_flag, oblique_straight_count = 0;
+	volatile uint8_t i = 0;
+	volatile int j = 0;
+	int8_t straight_count, oblique_flag = 0, oblique_straight_count = 0;
 	uint8_t x_box, y_box, direction_box;
 
 	for (i = 0; i < 255; i++) {
@@ -538,16 +542,20 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 			if (pass[i] == 0) {
 				straight_count += 2;
 			} else {
-				if ((pass[i + 1] == pass[i]) && pass[i - 1] == 0) {
+				if ((pass[i + 1] == pass[i]) && (pass[i - 1] == 0 || i == 0)) {
 					if (straight_count > 1) {
 						pass_oblique[j] = straight_count - 1;
 						j++;
+					} else {
+						myprintf("error3\n");
 					}
 					if (pass[i + 2] == 0) {
 						if (pass[i] == 1) {
 							pass_oblique[j] = BIGLEFT180;
 						} else if (pass[i] == 3) {
 							pass_oblique[j] = BIGRIGHT180;
+						} else {
+							myprintf("error4\n");
 						}
 						j++;
 						i++;
@@ -564,17 +572,23 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 						pass_oblique[j] = RIGHT135IN;
 						i++;
 						j++;
+					} else {
+						myprintf("error5\n");
 					}
 				} else if ((pass[i + 1] == 0) && (i == 0 || pass[i - 1] == 0)) {
 					if (straight_count > 1) {
 						pass_oblique[j] = straight_count - 1;
 						j++;
+					} else {
+						myprintf("error6\n");
 					}
 					straight_count = 0;
 					if (pass[i] == 1) {
 						pass_oblique[j] = BIGLEFT90;
 					} else if (pass[i] == 3) {
 						pass_oblique[j] = BIGRIGHT90;
+					} else {
+						myprintf("error7\n");
 					}
 
 					straight_count = -1;
@@ -585,16 +599,20 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 					if (straight_count > 1) {
 						pass_oblique[j] = straight_count - 1;
 						j++;
+					} else {
+						myprintf("error8\n");
 					}
 					straight_count = 0;
 					oblique_flag = 1;
 					pass_oblique[j] = LEFT45IN;
 					j++;
-				} else if (pass[i - 1] == 0 && pass[i] == 3
+				} else if ((pass[i - 1] == 0 || i == 0) && pass[i] == 3
 						&& pass[i + 1] == 1) {
 					if (straight_count > 1) {
 						pass_oblique[j] = straight_count - 1;
 						j++;
+					} else {
+						myprintf("error9\n");
 					}
 					straight_count = 0;
 					oblique_flag = 1;
@@ -604,12 +622,16 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 					if (straight_count > 1) {
 						pass_oblique[j] = straight_count;
 						j++;
+					} else {
+						myprintf("error10\n");
 					}
 					straight_count = 0;
 					if (pass[i] == 1) {
 						pass_oblique[j] = SHORTLEFT90;
 					} else if (pass[i] == 3) {
 						pass_oblique[j] = SHORTRIGHT90;
+					} else {
+						myprintf("error11\n");
 					}
 					j++;
 				}
@@ -659,9 +681,14 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 					pass_oblique[j] = V_90_RIGHT;
 					j++;
 					i++;
+				} else {
+					myprintf("error1\n");
 				}
 			}
+		} else {
+			myprintf("error2\n");
 		}
+		myprintf("j=%d\n", j);
 	}
 //	if (pass[254] == 4) {
 //		straight_count += 2;
@@ -671,25 +698,31 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 		j++;
 		straight_count = 0;
 	}
+//	myprintf("lasj=%d\n",j);
 	pass_oblique[j] = 0xff;
 
 ///////////////////////////////////////////////////////////////////////////
-	while (SWITCH == 1) {
-
-	}
-
-	for (i = 0; pass[i] != 0xff; i++) {
-		myprintf("%d\n", pass[i]);
-	}
-	myprintf("\n");
-	for (i = 0; pass_oblique[i] != 0xff; i++) {
-		myprintf("%d\n", pass_oblique[i]);
-	}
-
-	out_put_pass(pass_oblique);
-
-	while (1)
-		;
+//	while (SWITCH == 1) {
+//
+//	}
+//	out_put_pass(pass_oblique);
+//	while (1)
+//		;
+////
+//	for (i = 0; pass[i] != 0xff; i++) {
+//		myprintf("%d\n", pass[i]);
+//	}
+//	myprintf("\n");
+////	ui_led_3bit(1);
+//	myprintf("%d\n", pass_oblique[0]);
+//	for (i = 0; pass_oblique[i] != 0xff; i++) {
+//		myprintf("%d\n", pass_oblique[i]);
+//	}
+////	ui_led_3bit(3);
+//	out_put_pass(pass_oblique);
+////
+//	while (1)
+//		;
 //////////////////////////////////////////////////////////////////////////
 	moter_flag = 1;
 
@@ -713,78 +746,86 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 		coordinate();
 	} else if (pass_oblique[i] == BIGRIGHT90) {
 		farst_turn_right_90_big(big_turn_vel);
+	} else if (pass_oblique[i]==RIGHT45IN){
+		farst_turn_right_45_in(big_turn_vel);
+	}else if(pass_oblique[i]==RIGHT135IN){
+		farst_turn_right_135_in(big_turn_vel);
 	}
 
-	for (i = 1; pass_oblique[i] != 0xff; i++) {
-		if (pass_oblique[i] < 35) { //直進の途中
-			if (pass_oblique[i - 1] == SHORTLEFT90
-					|| pass_oblique[i - 1] == SHORTRIGHT90) {
-				if (pass_oblique[i + 1] == SHORTLEFT90
-						|| pass_oblique[i + 1] == SHORTRIGHT90
-						|| pass_oblique[i + 1] == 0xff) {
-					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
-							nomal_run.vel_search, nomal_run.vel_search);
+		for (i = 1; pass_oblique[i] != 0xff && failsafe_flag == 0; i++) {
+			if (pass_oblique[i] < 35) { //直進の途中
+				if (pass_oblique[i - 1] == SHORTLEFT90
+						|| pass_oblique[i - 1] == SHORTRIGHT90) {
+					if (pass_oblique[i + 1] == SHORTLEFT90
+							|| pass_oblique[i + 1] == SHORTRIGHT90
+							|| pass_oblique[i + 1] == 0xff) {
+						set_straight(90.0 * (float) pass_oblique[i], accel,
+								max_vel, nomal_run.vel_search,
+								nomal_run.vel_search);
+					} else {
+						set_straight(90.0 * (float) pass_oblique[i], accel,
+								max_vel, nomal_run.vel_search, big_turn_vel);
+					}
 				} else {
-					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
-							nomal_run.vel_search, big_turn_vel);
+					if (pass_oblique[i + 1] == SHORTLEFT90
+							|| pass_oblique[i + 1] == SHORTRIGHT90) {
+						set_straight(90.0 * (float) pass_oblique[i], accel,
+								max_vel, big_turn_vel, nomal_run.vel_search);
+					} else {
+						set_straight(90.0 * (float) pass_oblique[i], accel,
+								max_vel, big_turn_vel, big_turn_vel);
+					}
 				}
-			} else {
-				if (pass_oblique[i + 1] == SHORTLEFT90
-						|| pass_oblique[i + 1] == SHORTRIGHT90) {
-					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
-							big_turn_vel, nomal_run.vel_search);
-				} else {
-					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
-							big_turn_vel, big_turn_vel);
-				}
-			}
-			wait_straight();
+				wait_straight();
 //			for (j = 0; j < pass_oblique[i] / 2; j++) {
 //				coordinate();
 //			}
-		} else if (pass_oblique[i] == SHORTLEFT90) { //左折
-			slalom_left90(nomal_run.accel, nomal_run.vel_search);
+			} else if (pass_oblique[i] == SHORTLEFT90) { //左折
+				slalom_left90(nomal_run.accel, nomal_run.vel_search);
 //			coordinate();
-		} else if (pass_oblique[i] == SHORTRIGHT90) { //右折
-			slalom_right90(nomal_run.accel, nomal_run.vel_search);
+			} else if (pass_oblique[i] == SHORTRIGHT90) { //右折
+				slalom_right90(nomal_run.accel, nomal_run.vel_search);
 //			coordinate();
-		} else if (pass_oblique[i] == BIGLEFT90) {
-			turn_left_90_big(big_turn_vel);
+			} else if (pass_oblique[i] == BIGLEFT90) {
+				turn_left_90_big(big_turn_vel);
 //			coordinate();
-		} else if (pass_oblique[i] == BIGRIGHT90) {
-			turn_right_90_big(big_turn_vel);
+			} else if (pass_oblique[i] == BIGRIGHT90) {
+				turn_right_90_big(big_turn_vel);
 //			coordinate();
-		} else if (pass_oblique[i] == BIGLEFT180) {
-			turn_left_180_big(big_turn_vel);
+			} else if (pass_oblique[i] == BIGLEFT180) {
+				turn_left_180_big(big_turn_vel);
 //			coordinate();
-		} else if (pass_oblique[i] == BIGRIGHT180) {
-			turn_right_180_big(big_turn_vel);
+			} else if (pass_oblique[i] == BIGRIGHT180) {
+				turn_right_180_big(big_turn_vel);
 //			coordinate();
-		}else if(pass_oblique[i] ==LEFT45IN){
-			turn_left_45_in(big_turn_vel);
-		}else if(pass_oblique[i] ==RIGHT45IN){
-			turn_right_45_in(big_turn_vel);
-		}else if(pass_oblique[i] ==LEFT135IN){
-			turn_left_135_in(big_turn_vel);
-		}else if(pass_oblique[i] ==RIGHT135IN){
-			turn_right_135_in(big_turn_vel);
-		}else if(pass_oblique[i] ==LEFT45OUT){
-			turn_left_45_out(big_turn_vel);
-		}else if(pass_oblique[i] ==RIGHT45OUT){
-			turn_right_45_out(big_turn_vel);
-		}else if(pass_oblique[i] ==LEFT135OUT){
-			turn_left_135_out(big_turn_vel);
-		}else if(pass_oblique[i] ==RIGHT135OUT){
-			turn_right_135_out(big_turn_vel);
-		}else if(pass_oblique[i] ==V_90_LEFT){
-			turn_left_v90(big_turn_vel);
-		}else if(pass_oblique[i] ==RIGHT135OUT){
-			turn_right_v90(big_turn_vel);
-		}else if(pass_oblique[i] >200){
-			set_straight(127.28, accel, max_vel, big_turn_vel, big_turn_vel);
-			wait_straight();
+			} else if (pass_oblique[i] == LEFT45IN) {
+				turn_left_45_in(big_turn_vel);
+			} else if (pass_oblique[i] == RIGHT45IN) {
+				turn_right_45_in(big_turn_vel);
+			} else if (pass_oblique[i] == LEFT135IN) {
+				turn_left_135_in(big_turn_vel);
+			} else if (pass_oblique[i] == RIGHT135IN) {
+				turn_right_135_in(big_turn_vel);
+			} else if (pass_oblique[i] == LEFT45OUT) {
+				turn_left_45_out(big_turn_vel);
+			} else if (pass_oblique[i] == RIGHT45OUT) {
+				turn_right_45_out(big_turn_vel);
+			} else if (pass_oblique[i] == LEFT135OUT) {
+				turn_left_135_out(big_turn_vel);
+			} else if (pass_oblique[i] == RIGHT135OUT) {
+				turn_right_135_out(big_turn_vel);
+			} else if (pass_oblique[i] == V_90_LEFT) {
+				turn_left_v90(big_turn_vel);
+			} else if (pass_oblique[i] == V_90_RIGHT) {
+				turn_right_v90(big_turn_vel);
+			} else if (pass_oblique[i] > 200) {
+				wall_control_oblique_flag = 1;
+				set_straight(127.28 * (pass_oblique[i] - 200), accel, max_vel,
+						big_turn_vel, big_turn_vel);
+				wait_straight();
+				wall_control_oblique_flag = 0;
+			}
 		}
-	}
 
 	x.now = x_box;
 	y.now = y_box;
@@ -863,51 +904,51 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 
 void out_put_pass(uint8_t *pass) {
 	int i = 0;
-	for(i=0;pass[i]!=0xff;i++){
-		if(pass[i]==SHORTLEFT90){
+	for (i = 0; pass[i] != 0xff; i++) {
+		if (pass[i] == SHORTLEFT90) {
 			myprintf("SHORTLEFT90\n");
-		}else if(pass[i]==SHORTRIGHT90){
+		} else if (pass[i] == SHORTRIGHT90) {
 			myprintf("SHORTRIGHT90\n");
-		}else if(pass[i]==BIGLEFT180){
+		} else if (pass[i] == BIGLEFT180) {
 			myprintf("BIGLEFT180\n");
-		}else if(pass[i]==BIGRIGHT180){
+		} else if (pass[i] == BIGRIGHT180) {
 			myprintf("BIGRIGHT180\n");
-		}else if(pass[i]==BIGLEFT90){
+		} else if (pass[i] == BIGLEFT90) {
 			myprintf("BIGLEFT90\n");
-		}else if(pass[i]==BIGRIGHT90){
+		} else if (pass[i] == BIGRIGHT90) {
 			myprintf("BIGRIGHT90\n");
-		}else if(pass[i]==FARST_BIGRIGHT90){
+		} else if (pass[i] == FARST_BIGRIGHT90) {
 			myprintf("FARST_BIGRIGHT90\n");
-		}else if(pass[i]==FARST_SHORTRIGHT90){
+		} else if (pass[i] == FARST_SHORTRIGHT90) {
 			myprintf("BIGLEFT180\n");
-		}else if(pass[i]==FARST_SHORTRIGHT90){
+		} else if (pass[i] == FARST_SHORTRIGHT90) {
 			myprintf("BIGRIGHT180\n");
-		}else if(pass[i]==LEFT45IN){
+		} else if (pass[i] == LEFT45IN) {
 			myprintf("LEFT45IN\n");
-		}else if(pass[i]==RIGHT45IN){
+		} else if (pass[i] == RIGHT45IN) {
 			myprintf("RIGHT45IN\n");
-		}else if(pass[i]==LEFT135IN){
+		} else if (pass[i] == LEFT135IN) {
 			myprintf("LEFT135IN\n");
-		}else if(pass[i]==RIGHT135IN){
+		} else if (pass[i] == RIGHT135IN) {
 			myprintf("RIGHT135IN\n");
-		}else if(pass[i]==LEFT45OUT){
+		} else if (pass[i] == LEFT45OUT) {
 			myprintf("LEFT45OUT\n");
-		}else if(pass[i]==RIGHT45OUT){
+		} else if (pass[i] == RIGHT45OUT) {
 			myprintf("RIGHT45OUT\n");
-		}else if(pass[i]==LEFT135OUT){
+		} else if (pass[i] == LEFT135OUT) {
 			myprintf("LEFT135OUT\n");
-		}else if(pass[i]==RIGHT135OUT){
+		} else if (pass[i] == RIGHT135OUT) {
 			myprintf("RIGHT135OUT\n");
-		}else if(pass[i]==V_90_LEFT){
+		} else if (pass[i] == V_90_LEFT) {
 			myprintf("V_90_LEFT\n");
-		}else if(pass[i]==V_90_RIGHT){
+		} else if (pass[i] == V_90_RIGHT) {
 			myprintf("V_90_RIGHT\n");
-		}else if(pass[i]<30){
-			myprintf("straight:%d\n",pass[i]);
-		}else if(pass[i]>200){
-			myprintf("oblique_straight:%d\n",pass[i]-200);
-		}else{
-			myprintf("%d\n",pass[i]);
+		} else if (pass[i] < 30) {
+			myprintf("straight:%d\n", pass[i]);
+		} else if (pass[i] > 200) {
+			myprintf("oblique_straight:%d\n", pass[i] - 200);
+		} else {
+			myprintf("%d\n", pass[i]);
 		}
 
 	}
