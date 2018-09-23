@@ -452,7 +452,7 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 		wait_straight();
 		wait_time(50);
 	} else {
-		coordinate();
+//		coordinate();
 		addWall();
 
 		if (pass_big[i - 1] == SHORTLEFT90 || pass_big[i - 1] == SHORTRIGHT90) {
@@ -746,86 +746,85 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 		coordinate();
 	} else if (pass_oblique[i] == BIGRIGHT90) {
 		farst_turn_right_90_big(big_turn_vel);
-	} else if (pass_oblique[i]==RIGHT45IN){
+	} else if (pass_oblique[i] == RIGHT45IN) {
 		farst_turn_right_45_in(big_turn_vel);
-	}else if(pass_oblique[i]==RIGHT135IN){
+	} else if (pass_oblique[i] == RIGHT135IN) {
 		farst_turn_right_135_in(big_turn_vel);
 	}
 
-		for (i = 1; pass_oblique[i] != 0xff && failsafe_flag == 0; i++) {
-			if (pass_oblique[i] < 35) { //直進の途中
-				if (pass_oblique[i - 1] == SHORTLEFT90
-						|| pass_oblique[i - 1] == SHORTRIGHT90) {
-					if (pass_oblique[i + 1] == SHORTLEFT90
-							|| pass_oblique[i + 1] == SHORTRIGHT90
-							|| pass_oblique[i + 1] == 0xff) {
-						set_straight(90.0 * (float) pass_oblique[i], accel,
-								max_vel, nomal_run.vel_search,
-								nomal_run.vel_search);
-					} else {
-						set_straight(90.0 * (float) pass_oblique[i], accel,
-								max_vel, nomal_run.vel_search, big_turn_vel);
-					}
+	for (i = 1; pass_oblique[i] != 0xff && failsafe_flag == 0; i++) {
+		if (pass_oblique[i] < 35) { //直進の途中
+			if (pass_oblique[i - 1] == SHORTLEFT90
+					|| pass_oblique[i - 1] == SHORTRIGHT90) {
+				if (pass_oblique[i + 1] == SHORTLEFT90
+						|| pass_oblique[i + 1] == SHORTRIGHT90
+						|| pass_oblique[i + 1] == 0xff) {
+					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
+							nomal_run.vel_search, nomal_run.vel_search);
 				} else {
-					if (pass_oblique[i + 1] == SHORTLEFT90
-							|| pass_oblique[i + 1] == SHORTRIGHT90) {
-						set_straight(90.0 * (float) pass_oblique[i], accel,
-								max_vel, big_turn_vel, nomal_run.vel_search);
-					} else {
-						set_straight(90.0 * (float) pass_oblique[i], accel,
-								max_vel, big_turn_vel, big_turn_vel);
-					}
+					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
+							nomal_run.vel_search, big_turn_vel);
 				}
-				wait_straight();
+			} else {
+				if (pass_oblique[i + 1] == SHORTLEFT90
+						|| pass_oblique[i + 1] == SHORTRIGHT90) {
+					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
+							big_turn_vel, nomal_run.vel_search);
+				} else {
+					set_straight(90.0 * (float) pass_oblique[i], accel, max_vel,
+							big_turn_vel, big_turn_vel);
+				}
+			}
+			wait_straight();
 //			for (j = 0; j < pass_oblique[i] / 2; j++) {
 //				coordinate();
 //			}
-			} else if (pass_oblique[i] == SHORTLEFT90) { //左折
-				slalom_left90(nomal_run.accel, nomal_run.vel_search);
+		} else if (pass_oblique[i] == SHORTLEFT90) { //左折
+			slalom_left90(nomal_run.accel, nomal_run.vel_search);
 //			coordinate();
-			} else if (pass_oblique[i] == SHORTRIGHT90) { //右折
-				slalom_right90(nomal_run.accel, nomal_run.vel_search);
+		} else if (pass_oblique[i] == SHORTRIGHT90) { //右折
+			slalom_right90(nomal_run.accel, nomal_run.vel_search);
 //			coordinate();
-			} else if (pass_oblique[i] == BIGLEFT90) {
-				turn_left_90_big(big_turn_vel);
+		} else if (pass_oblique[i] == BIGLEFT90) {
+			turn_left_90_big(big_turn_vel);
 //			coordinate();
-			} else if (pass_oblique[i] == BIGRIGHT90) {
-				turn_right_90_big(big_turn_vel);
+		} else if (pass_oblique[i] == BIGRIGHT90) {
+			turn_right_90_big(big_turn_vel);
 //			coordinate();
-			} else if (pass_oblique[i] == BIGLEFT180) {
-				turn_left_180_big(big_turn_vel);
+		} else if (pass_oblique[i] == BIGLEFT180) {
+			turn_left_180_big(big_turn_vel);
 //			coordinate();
-			} else if (pass_oblique[i] == BIGRIGHT180) {
-				turn_right_180_big(big_turn_vel);
+		} else if (pass_oblique[i] == BIGRIGHT180) {
+			turn_right_180_big(big_turn_vel);
 //			coordinate();
-			} else if (pass_oblique[i] == LEFT45IN) {
-				turn_left_45_in(big_turn_vel);
-			} else if (pass_oblique[i] == RIGHT45IN) {
-				turn_right_45_in(big_turn_vel);
-			} else if (pass_oblique[i] == LEFT135IN) {
-				turn_left_135_in(big_turn_vel);
-			} else if (pass_oblique[i] == RIGHT135IN) {
-				turn_right_135_in(big_turn_vel);
-			} else if (pass_oblique[i] == LEFT45OUT) {
-				turn_left_45_out(big_turn_vel);
-			} else if (pass_oblique[i] == RIGHT45OUT) {
-				turn_right_45_out(big_turn_vel);
-			} else if (pass_oblique[i] == LEFT135OUT) {
-				turn_left_135_out(big_turn_vel);
-			} else if (pass_oblique[i] == RIGHT135OUT) {
-				turn_right_135_out(big_turn_vel);
-			} else if (pass_oblique[i] == V_90_LEFT) {
-				turn_left_v90(big_turn_vel);
-			} else if (pass_oblique[i] == V_90_RIGHT) {
-				turn_right_v90(big_turn_vel);
-			} else if (pass_oblique[i] > 200) {
-				wall_control_oblique_flag = 1;
-				set_straight(127.28 * (pass_oblique[i] - 200), accel, max_vel,
-						big_turn_vel, big_turn_vel);
-				wait_straight();
-				wall_control_oblique_flag = 0;
-			}
+		} else if (pass_oblique[i] == LEFT45IN) {
+			turn_left_45_in(big_turn_vel);
+		} else if (pass_oblique[i] == RIGHT45IN) {
+			turn_right_45_in(big_turn_vel);
+		} else if (pass_oblique[i] == LEFT135IN) {
+			turn_left_135_in(big_turn_vel);
+		} else if (pass_oblique[i] == RIGHT135IN) {
+			turn_right_135_in(big_turn_vel);
+		} else if (pass_oblique[i] == LEFT45OUT) {
+			turn_left_45_out(big_turn_vel);
+		} else if (pass_oblique[i] == RIGHT45OUT) {
+			turn_right_45_out(big_turn_vel);
+		} else if (pass_oblique[i] == LEFT135OUT) {
+			turn_left_135_out(big_turn_vel);
+		} else if (pass_oblique[i] == RIGHT135OUT) {
+			turn_right_135_out(big_turn_vel);
+		} else if (pass_oblique[i] == V_90_LEFT) {
+			turn_left_v90(big_turn_vel);
+		} else if (pass_oblique[i] == V_90_RIGHT) {
+			turn_right_v90(big_turn_vel);
+		} else if (pass_oblique[i] > 200) {
+			wall_control_oblique_flag = 1;
+			set_straight(127.28 * (pass_oblique[i] - 200), accel, max_vel,
+					big_turn_vel, big_turn_vel);
+			wait_straight();
+			wall_control_oblique_flag = 0;
 		}
+	}
 
 	x.now = x_box;
 	y.now = y_box;
@@ -836,8 +835,10 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 				|| pass_oblique[i - 1] == SHORTRIGHT90) {
 			set_straight(93.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
-		} else {
+		} else if (pass[i - 1] > 35) {
 			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
+		} else {
+			set_straight(93.0, accel, max_vel, max_vel, 0.0);
 		}
 		wait_straight();
 		wait_time(50);
@@ -850,15 +851,17 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 		wait_straight();
 		wait_time(50);
 	} else {
-		coordinate();
+//		coordinate();
 		addWall();
 
 		if (pass_oblique[i - 1] == SHORTLEFT90
 				|| pass_oblique[i - 1] == SHORTRIGHT90) {
 			set_straight(90.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
+		} else if (pass[i - 1] > 35) {
+			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
 		}
 		wait_straight();
 		wait_time(50);

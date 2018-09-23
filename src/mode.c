@@ -23,8 +23,6 @@
 
 void mode_0(void) {
 
-	x.goal = 4;
-	y.goal = 3;
 	start_SEN();
 
 //	uint8_t i;
@@ -40,7 +38,7 @@ void mode_0(void) {
 	write_all_walldatas();
 
 	make_pass(x.goal, y.goal, 4, 1);
-	moter_flag=0;
+//	moter_flag=0;
 	move_pass_oblique(nomal_run.accel, 2200.0, 1000.0);
 
 	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
@@ -54,30 +52,47 @@ void mode_1(void) {
 	make_pass(x.goal, y.goal, 4, 1);
 	output_Walldate(&walldate_adachi);
 	move_pass_oblique(nomal_run.accel, 2200.0, 1000.0);
+//	while(SWITCH==1){
+//		moter_flag=0;
+//	}
+//	myprintf("x:%d,y:%d,direction:%d\n",x.now,y.now,direction);
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
 }
 
 void mode_2(void) {
-	wait_time(3000);
-	moter_flag = 1;
-	read_all_walldatas();
-	make_pass(x.goal, y.goal, 4, 1);
-	output_Walldate(&walldate_adachi);
-	move_pass_big_turn(nomal_run.accel, 2200.0, 1000.0);
+	start_SEN();
+	adachi_search_run(x.goal, y.goal, 4, nomal_run.accel, nomal_run.vel_search,
+			1, 1);
+	write_all_walldatas();
+
+	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
+	write_all_walldatas();
+	wait_time(1000);
+
+	write_all_walldatas();
 
 }
 
 void mode_3(void) {
-	x.goal = 8;
-	y.goal = 0;
-//	start_SEN();
-	read_all_walldatas();
-	adachi_map_straight(x.goal, y.goal, 4, walldate_real);
-	make_pass(x.goal, y.goal, 4, 1);
-	output_Walldate(&walldate_adachi);
-	for (i = 0; pass[i] != 0xff; i++) {
-		myprintf("%d\n", pass[i]);
+	moter_flag=1;
+	wall_control_oblique_flag=1;
+	start_SEN();
+	set_straight(127.28, nomal_run.accel, 1000.0, 0.0, 1000.0);
+	wait_straight();
+	log_start();
+	set_straight(127.28*4, nomal_run.accel, 1000.0, 1000.0, 1000.0);
+	wait_straight();
+	log_flag=0;
+	set_straight(127.28, nomal_run.accel, 1000.0, 1000.0, 0.0);
+	wait_straight();
+	while(SWITCH==1){
+		moter_flag=0;
 	}
+	log_output();
 }
+
 
 void mode_4(void) {
 	//127.28

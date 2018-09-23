@@ -18,6 +18,9 @@ typedef struct {
 	int reference;//真ん中にいるときのセンサー値
 	int threshold;//閾値
 	int diff;//差分
+	int diff_1ms;
+	int oblique_reference;
+	int oblique_threshold;
 } sensor_t;
 
 typedef struct{
@@ -131,7 +134,7 @@ extern run_t rotation_real;
 extern gain_t rotation_gain;
 extern deviation_t rotation_deviation;
 extern normal_para_t nomal_rotation;
-extern SENLOG_t SEN_L_log,SEN_R_log;
+extern SENLOG_t SEN_L_log,SEN_R_log,SEN_RF_log,SEN_LF_log;
 extern uint8_t wall_control_flag;
 extern gain_t wall_cntrol_gain;
 extern int test1,test2;
@@ -159,6 +162,8 @@ extern uint8_t pass_oblique[255];
 extern uint16_t led_count;
 
 extern uint8_t wall_control_oblique_flag;
+extern float oblique_Front_gain;
+extern float oblique_Side_gain;
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

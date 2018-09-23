@@ -51,7 +51,24 @@ void wall_control(void) {
 //			CENTERFRONT = 0;
 		}
 	} else if (wall_control_flag == 1 && wall_control_oblique_flag == 1) {
-		wallcontrol_value = 0.0;//ここに斜め壁制御を書く
+		wallcontrol_value = 0.0; //ここに斜め壁制御を書く
+		if (SEN_L.now > SEN_L.oblique_threshold && SEN_L.diff_1ms < 180) {
+			wallcontrol_value = oblique_Side_gain
+					* (SEN_L.now - SEN_L.oblique_reference);
+
+		} else if (SEN_LF.now > SEN_LF.oblique_threshold && SEN_LF.diff < 20) {
+			wallcontrol_value = oblique_Front_gain
+					* (SEN_LF.now - SEN_LF.oblique_reference);
+		}
+		if (SEN_R.now > SEN_R.oblique_threshold && SEN_R.diff_1ms < 180) {
+			wallcontrol_value -= oblique_Side_gain
+					* (SEN_R.now - SEN_R.oblique_reference);
+
+		} else if (SEN_RF.now > SEN_RF.oblique_threshold && SEN_RF.diff < 30) {
+			wallcontrol_value -= oblique_Front_gain
+					* (SEN_RF.now - SEN_RF.oblique_reference);
+		}
+
 	} else {
 		wallcontrol_value = 0.0;
 	}
@@ -146,12 +163,12 @@ void set_rotation(float i_angle, float accel, float max_vel, float center_vel) {
 
 void wait_straight(void) {
 	volatile int i;
-	//LEFTEING = 1;
+//LEFTEING = 1;
 	while (translation_parameter.run_flag == 1 && failsafe_flag == 0) {
 		//	myprintf("%6.2f", rotation_ideal.velocity);
 	}
-	//LEFTFRONT = 1;
-	//translation_parameter.run_flag=1;
+//LEFTFRONT = 1;
+//translation_parameter.run_flag=1;
 	translation_ideal.accel = 0.0;
 	translation_ideal.dis = 0.0;
 	translation_ideal.velocity = translation_parameter.end_vel;

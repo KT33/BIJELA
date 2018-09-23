@@ -252,8 +252,13 @@ void adachi_search_run(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	go_entrance(accel, vel);
 	coordinate();
 	addWall();
-
+	moter_flag = 1;
 	while (failsafe_flag == 0) {
+		if (step_map[x.now][y.now] == 999) {
+			stop90(accel, vel);
+			failsafe_flag = 1;
+			break;
+		}
 		if (straight_flag == 1) {
 			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
 		} else {
@@ -1233,7 +1238,7 @@ void farst_turn_right_45_in(float vel) {
 
 //	Log[0] = translation_ideal.dis;
 //	log_sampling();
-	set_straight(in_offset+50, nomal_run.accel, vel, 0.0, vel);
+	set_straight(in_offset + 50, nomal_run.accel, vel, 0.0, vel);
 	wait_straight();
 	set_rotation(-45.0 + angle_offset, rota_accel, rota_vel, vel);
 	wait_rotation();
@@ -1267,7 +1272,7 @@ void farst_turn_right_135_in(float vel) {
 
 //	Log[0] = translation_ideal.dis;
 	log_sampling();
-	set_straight(in_offset+50, nomal_run.accel, vel, 0.0, vel);
+	set_straight(in_offset + 50, nomal_run.accel, vel, 0.0, vel);
 	wait_straight();
 	set_rotation(-135.0 + angle_offset, rota_accel, rota_vel, vel);
 	wait_rotation();

@@ -14,16 +14,19 @@ gain_t rotation_gain = { 0.62, 0.010, 0.0 };
 //0.62,0.009:段差対策・安定感薄し
 gain_t run_gain = { 0.8, 0.4, 0.0 }; //p,i,d
 gain_t wall_cntrol_gain = { 0.041, 0.0, 0.0 }; //0.05
+float oblique_Front_gain = 0.6;
+float oblique_Side_gain = 0.0;//0.1
 
 normal_para_t nomal_run = { 600.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 600.0, 600.0, 0.0, 6000.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
-slarom_para_t slarom_500={7000.0,6000.0,{15.0,35.0},{15.0,22.0}};
-slarom_para_t slarom_600={12500.0,6000.0,{21.0,42.0},{21.0,36.0}};
+slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
+slarom_para_t slarom_600 = { 12500.0, 6000.0, { 21.0, 42.0 }, { 21.0, 36.0 } };
 
-sensor_t SEN_R = { 0, 1300, 600, 0 }; //now,reference,threshold,diff
-sensor_t SEN_L = { 0, 1530, 574, 0 };
-sensor_t SEN_RF = { 0, 3282, 728, 0 };
-sensor_t SEN_LF = { 0, 3320, 680, 0 };
+sensor_t SEN_R = { 0, 1370, 600, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
+sensor_t SEN_L = { 0, 1785, 574, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
+									  //3368
+sensor_t SEN_RF = { 0, 3282, 728, 0, 0, 224, 190 };
+sensor_t SEN_LF = { 0, 3320, 680, 0, 0, 359, 330 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 float wallcontrol_value;
@@ -48,8 +51,6 @@ uint16_t log_index = 0;
 run_t left_real, right_real;
 duty_t duty = { 0, 0 };
 
-
-
 volatile int speacer_i;
 volatile float triangle;
 //volatile uint8_t run_flag = 0; //0:停止 1:加速 2:等速 3:減速
@@ -69,7 +70,7 @@ run_t rotation_real;
 
 deviation_t rotation_deviation = { 0.0, 0.0, 0.0 };
 
-SENLOG_t SEN_L_log, SEN_R_log;
+SENLOG_t SEN_L_log, SEN_R_log, SEN_RF_log, SEN_LF_log;
 uint8_t wall_control_flag = 0;
 
 int test1, test2;
@@ -87,13 +88,13 @@ uint8_t moter_flag = 0;
 
 float test_float;
 
-uint8_t failsafe_flag=0;
+uint8_t failsafe_flag = 0;
 
-volatile float Log[LogMax],log2[LogMax],log3[LogMax];
+volatile float Log[LogMax], log2[LogMax], log3[LogMax];
 
-uint8_t SEN_check_flag=0;
+uint8_t SEN_check_flag = 0;
 float failsafe_accel;
 
-uint16_t led_count=0;
-uint8_t wall_control_oblique_flag=0;
+uint16_t led_count = 0;
+uint8_t wall_control_oblique_flag = 0;
 

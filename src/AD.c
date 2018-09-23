@@ -137,6 +137,11 @@ void AD_SEN(void) {
 	if (SEN_L.diff < 0) {
 		SEN_L.diff = -1 * SEN_L.diff;
 	}
+	SEN_L.diff_1ms = (SEN_L_log.now - SEN_L_log.before_1ms);
+	if (SEN_L.diff_1ms < 0) {
+		SEN_L.diff_1ms = -1 * SEN_L.diff;
+	}
+
 
 	SEN_R_log.before_5ms = SEN_R_log.before_4ms;
 	SEN_R_log.before_4ms = SEN_R_log.before_3ms;
@@ -148,6 +153,44 @@ void AD_SEN(void) {
 	SEN_R.diff = (SEN_R_log.now - SEN_R_log.before_3ms);
 	if (SEN_R.diff < 0) {
 		SEN_R.diff = -1 * SEN_R.diff;
+	}
+	SEN_R.diff_1ms = (SEN_R_log.now - SEN_R_log.before_1ms);
+	if (SEN_R.diff_1ms < 0) {
+		SEN_R.diff_1ms = -1 * SEN_R.diff;
+	}
+
+
+	SEN_LF_log.before_5ms = SEN_LF_log.before_4ms;
+	SEN_LF_log.before_4ms = SEN_LF_log.before_3ms;
+	SEN_LF_log.before_3ms = SEN_LF_log.before_2ms;
+	SEN_LF_log.before_2ms = SEN_LF_log.before_1ms;
+	SEN_LF_log.before_1ms = SEN_LF_log.now;
+	SEN_LF_log.now = SEN_LF.now;
+
+	SEN_LF.diff = (SEN_LF_log.now - SEN_LF_log.before_3ms);
+	if (SEN_LF.diff < 0) {
+		SEN_LF.diff = -1 * SEN_LF.diff;
+	}
+	SEN_LF.diff_1ms = (SEN_LF_log.now - SEN_LF_log.before_1ms);
+	if (SEN_LF.diff_1ms < 0) {
+		SEN_LF.diff_1ms = -1 * SEN_LF.diff;
+	}
+
+
+	SEN_RF_log.before_5ms = SEN_RF_log.before_4ms;
+	SEN_RF_log.before_4ms = SEN_RF_log.before_3ms;
+	SEN_RF_log.before_3ms = SEN_RF_log.before_2ms;
+	SEN_RF_log.before_2ms = SEN_RF_log.before_1ms;
+	SEN_RF_log.before_1ms = SEN_RF_log.now;
+	SEN_RF_log.now = SEN_RF.now;
+
+	SEN_RF.diff = (SEN_RF_log.now - SEN_RF_log.before_3ms);
+	if (SEN_RF.diff < 0) {
+		SEN_RF.diff = -1 * SEN_RF.diff;
+	}
+	SEN_RF.diff_1ms = (SEN_RF_log.now - SEN_RF_log.before_1ms);
+	if (SEN_RF.diff_1ms < 0) {
+		SEN_RF.diff_1ms = -1 * SEN_RF.diff;
 	}
 
 	SEN_F.now = (SEN_LF.now + SEN_RF.now) / 2;

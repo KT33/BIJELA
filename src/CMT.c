@@ -21,12 +21,12 @@ void interrupt_cmt0(void) {
 		failsafe_flag = 1;
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
-		duty.left = 0;
-		duty.right = 0;
+//		duty.left = 0;
+//		duty.right = 0;
 		duty_to_moter();
 		Moter_Stby = 1;
-		MTU0.TGRB = 0; //MOTER_R
-		MTU0.TGRD = 0; //MOTER_L
+//		MTU0.TGRB = 0; //MOTER_R
+//		MTU0.TGRD = 0; //MOTER_L
 		x.now = 0;
 		y.now = 0;
 		direction = 0;
