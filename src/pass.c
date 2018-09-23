@@ -465,7 +465,6 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 		wait_time(50);
 
 		if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
-
 			set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
 					0.0);
 			wait_rotation();
@@ -482,7 +481,6 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 			wait_time(50);
 			rotation_deviation.cumulative = 0.0;
 		} else if (getWall(x.now, y.now, direction, &walldate_real)) {
-
 			set_rotation(-180.0, nomal_rotation.accel,
 					nomal_rotation.vel_search, 0.0);
 			wait_rotation();
@@ -490,7 +488,6 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 			back_100();
 			wait_time(50);
 		} else {
-
 			set_rotation(-180.0, nomal_rotation.accel,
 					nomal_rotation.vel_search, 0.0);
 			wait_rotation();

@@ -76,39 +76,36 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-	moter_flag=1;
-	wall_control_oblique_flag=1;
+	moter_flag = 1;
+	wall_control_oblique_flag = 1;
 	start_SEN();
-	set_straight(127.28, nomal_run.accel, 1000.0, 0.0, 1000.0);
-	wait_straight();
 	log_start();
-	set_straight(127.28*4, nomal_run.accel, 1000.0, 1000.0, 1000.0);
+	set_straight(127.28*7, nomal_run.accel, 1000.0, 0.0, 0.0);
 	wait_straight();
 	log_flag=0;
-	set_straight(127.28, nomal_run.accel, 1000.0, 1000.0, 0.0);
-	wait_straight();
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
 	log_output();
 }
 
-
 void mode_4(void) {
 	//127.28
 	start_SEN();
+
 //	go_entrance(nomal_run.accel, 1000.0);
 	set_straight(127.28, nomal_run.accel, 1000.0, 0.0, 1000.0);
 	wait_straight();
-	turn_right_v90(1000.0);
+	turn_left_45_out(1000.0);
 //	turn_left_45_in(1000.0);
-	set_straight(127.28*2, nomal_run.accel, 1000.0, 1000.0, 0.0);
+	set_straight(180, nomal_run.accel, 1000.0, 1000.0, 0.0);
 //	set_straight(90.0, nomal_run.accel, 1000.0, 1000.0, 0.0);
 	wait_straight();
 	while (SWITCH == 1) {
 		moter_flag = 0;
 	}
-	log_output();
+	myprintf("%.3f\n",Log[0]);
+//	log_output();
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
@@ -283,7 +280,7 @@ void go_mode(uint8_t mode) {
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
-	if(failsafe_flag==1){
+	if (failsafe_flag == 1) {
 		wait_time(1000);
 	}
 	mode_flag = mode_flag & 0x7f;
