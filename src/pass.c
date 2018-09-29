@@ -11,6 +11,7 @@
 #include "adachi.h"
 #include "walldate.h"
 #include "other.h"
+#include "speaker.h"
 
 void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		uint8_t straight_flag) {
@@ -500,7 +501,8 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 	}
 }
 
-void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
+void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
+		float oblique_accel, float oblique_max_vel) {
 	volatile uint8_t i = 0;
 	volatile int j = 0;
 	int8_t straight_count, oblique_flag = 0, oblique_straight_count = 0;
@@ -512,6 +514,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 
 	x.now = 0;
 	y.now = 0;
+	direction = 0;
 
 	coordinate();
 	for (i = 0; pass[i] != 0xff; i++) {
@@ -525,6 +528,8 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 		}
 		coordinate();
 	}
+
+	ui_led_3bit(7);
 
 	x_box = x.now;
 	y_box = y.now;
@@ -700,7 +705,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 
 ///////////////////////////////////////////////////////////////////////////
 //	while (SWITCH == 1) {
-//
+//moter_flag=0;
 //	}
 //	out_put_pass(pass_oblique);
 //	while (1)
@@ -816,8 +821,8 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 			turn_right_v90(big_turn_vel);
 		} else if (pass_oblique[i] > 200) {
 			wall_control_oblique_flag = 1;
-			set_straight(127.28 * (pass_oblique[i] - 200), accel, max_vel,
-					big_turn_vel, big_turn_vel);
+			set_straight(127.28 * (pass_oblique[i] - 200), oblique_accel,
+					oblique_max_vel, big_turn_vel, big_turn_vel);
 			wait_straight();
 			wall_control_oblique_flag = 0;
 		}
@@ -856,12 +861,17 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel) {
 			set_straight(90.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
 		} else if (pass[i - 1] > 35) {
-			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
 		}
 		wait_straight();
-		wait_time(50);
+		if (x.goal == 7 && y.goal == 7 && failsafe_flag == 0) {
+			wait_time(5);
+			victory_fanfare(100, 1);
+		} else {
+			wait_time(200);
+		}
 
 		if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
 

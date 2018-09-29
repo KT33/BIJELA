@@ -15,9 +15,10 @@
 void interrupt_cmt0(void) {
 	g_count++;
 	failsafe_accel = test_gyro();
-	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0
-			|| rotation_deviation.cumulative > 25000.0 //20000.0
-			|| failsafe_accel > 50.0) { //|| failsafe_accel > 39.2
+	if ((right_real.velocity > 4500.0 || left_real.velocity > 4500.0
+			|| rotation_deviation.cumulative > 20000.0 //20000.0
+			|| rotation_deviation.cumulative < -20000.0 || failsafe_accel > 50000.0)
+			&& translation_parameter.back_rightturn_flag == 0) { //|| failsafe_accel > 39.2
 		failsafe_flag = 1;
 		translation_ideal.accel = 0.0;
 		translation_ideal.velocity = 0.0;
@@ -90,13 +91,13 @@ void interrupt_cmt0(void) {
 			if (led_count < 500) {
 				LEFTEING = 1;
 				RIGHTWING = 0;
-	//			LEFTFRONT = 0;
-	//			RIGHTFRONT = 1;
+				//			LEFTFRONT = 0;
+				//			RIGHTFRONT = 1;
 			} else if (led_count < 1000) {
 				LEFTEING = 0;
 				RIGHTWING = 1;
-	//			LEFTFRONT = 1;
-	//			RIGHTFRONT = 0;
+				//			LEFTFRONT = 1;
+				//			RIGHTFRONT = 0;
 			} else {
 				led_count = 0;
 			}

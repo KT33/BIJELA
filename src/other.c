@@ -138,9 +138,9 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = (float)SEN_R.now;
-		log2[log_index] = (float)SEN_L.now;
-		log3[log_index] = translation_ideal.dis;
+		Log[log_index] = translation_ideal.dis;
+		log2[log_index] = (float) SEN_R.now;
+//		log3[log_index] = translation_ideal.dis;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -161,10 +161,10 @@ void log_output(void) {
 		myprintf("%.3f\n", log2[i]);
 	}
 	myprintf("\n");
-	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log3[i]);
-	}
+//	myprintf("\n");
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log3[i]);
+//	}
 }
 
 void Battery_Check(void) {
