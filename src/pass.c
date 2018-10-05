@@ -873,7 +873,15 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 			wait_time(200);
 		}
 
-		if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
+		if (getWall(x.now, y.now, direction, &walldate_real)) {
+
+			set_rotation(-180.0, nomal_rotation.accel,
+					nomal_rotation.vel_search, 0.0);
+			wait_rotation();
+			wait_time(50);
+			back_100();
+			wait_time(50);
+		} else if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
 
 			set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
 					0.0);
@@ -890,14 +898,15 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 			back_100();
 			wait_time(50);
 			rotation_deviation.cumulative = 0.0;
-		} else if (getWall(x.now, y.now, direction, &walldate_real)) {
+		} else if (getWall(x.now, y.now, direction + 1, &walldate_real)) {
 
-			set_rotation(-180.0, nomal_rotation.accel,
-					nomal_rotation.vel_search, 0.0);
+			set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search,
+					0.0);
 			wait_rotation();
 			wait_time(50);
 			back_100();
 			wait_time(50);
+			rotation_deviation.cumulative = 0.0;
 		} else {
 
 			set_rotation(-180.0, nomal_rotation.accel,

@@ -32,6 +32,7 @@
 #include "Moter.h"
 #include "run.h"
 #include "dataflash.h"
+#include "motion.h"
 
 //PCKBは50Mhz
 

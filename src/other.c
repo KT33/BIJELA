@@ -176,7 +176,7 @@ void Battery_Check(void) {
 
 	Batt = S12AD.ADDR0;
 	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
-	if (Battery < 7.7) {
+	if (Battery < 7.72) {//7.7
 		Moter_Stby = 0;
 		while (1) {
 			UI_LED1 = 1;
@@ -336,14 +336,14 @@ void Clock_Settting(void) {
 	setpsw_i();
 }
 
-void start_SEN(void) {
+void start_SEN(uint8_t mario_flag) {
 	SEN_check_flag = 1;
 	while (SEN_R.now < SEN_R.reference || SEN_RF.now < SEN_RF.reference) { //
 		moter_flag = 0;
 	}
 	SEN_check_flag = 0;
-	if (x.goal == 7 && y.goal == 7) {
-		mario_start(150, 1);
+	if (x.goal == 7 && y.goal == 7&&mario_flag==1) {
+		mario_start(180, 1);
 	} else {
 		speaker_on(C_5, 6.0, 240);
 		wait_time(500);
