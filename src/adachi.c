@@ -609,7 +609,7 @@ void adachi_search_run_known(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			turn_180(accel, vel);
 		}
 		if (flag > 11) {
-			set_straight(180.0 * (flag - 10), 6000.0, 1800.0, vel, vel);
+			set_straight(180.0 * (flag - 10), 5000.0, 1500.0, vel, vel);
 			wait_straight();
 			for (i = 0; i < flag - 10 - 1; i++) {
 				coordinate();
@@ -691,6 +691,7 @@ uint8_t how_to_move_search_known(uint8_t direction, int8_t x, int8_t y) {
 	}
 	return flag;
 }
+
 
 void I_want_to_check_search_run(uint8_t goal_x,uint8_t goal_y){
 	uint8_t straight_flag,goal_scale,flag;
