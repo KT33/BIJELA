@@ -81,6 +81,35 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
+	start_SEN(0);
+	fan_on();
+	go_entrance(nomal_run.accel, 1200.0);
+	set_straight(90.0, nomal_run.accel, 1200.0, 1200.0, 1200.0);
+	wait_straight();
+	turn_left_90_big(1200.0);
+	set_straight(180.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	wait_straight();
+	fan_off();
+
+}
+
+void mode_4(void) {
+	start_SEN(0);
+	fan_on();
+	go_entrance(nomal_run.accel, 1200.0);
+	set_straight(90.0, nomal_run.accel, 1200.0, 1200.0, 1200.0);
+	wait_straight();
+	turn_right_90_big(1200.0);
+	set_straight(180.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	wait_straight();
+	fan_off();
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	myprintf("%.2f^n",Log[0]);
+}
+
+void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	nomal_run.vel_max = 3000.0;
 	nomal_run.accel = 7000.0;
 	start_SEN(0);
@@ -92,10 +121,9 @@ void mode_3(void) {
 //	stop90(nomal_run.accel, nomal_run.vel_max);
 //	wait_time(500);
 	fan_off();
-
 }
 
-void mode_4(void) {
+void mode_6(void) {
 	nomal_run.vel_max = 1100.0;
 	nomal_run.accel = 7000.0;
 	start_SEN(0);
@@ -108,48 +136,20 @@ void mode_4(void) {
 //	stop90(nomal_run.accel, nomal_run.vel_max);
 //	wait_time(500);
 	fan_off();
-}
-
-void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	moter_flag = 1;
-	while (failsafe_flag == 0)
-		;
-}
-
-void mode_6(void) {
-	read_all_walldatas();
-	start_SEN(1);
-	make_pass(x.goal, y.goal, 4, 0);
-//	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7400.0, 3000.0, 1000.0, nomal_run.accel, 2200, 1);
-//	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-//			1);
-//	write_all_walldatas();
-//	wait_time(100);
-
-//	uint8_t i;
-//	moter_flag = 1;
-//	log_start();
-//	go_entrance(nomal_run.accel, nomal_run.vel_search);
-//	for (i = 0; i < 1; i++) {
-//		pass_180(nomal_run.accel, nomal_run.vel_search);
-//	}
-//	stop90(nomal_run.accel, nomal_run.vel_search);
-//	while (SWITCH == 1) {
-//		moter_flag = 0;
-//	}
-//	log_output();
 
 }
 
 void mode_7(void) {
 
-	while (1) {
-		ui_led_3bit(5);
-		fan_on();
-		myprintf("test\n");
-	}
-//	output_SEN();
+
+
+//	while (1) {
+//		ui_led_3bit(5);
+//		fan_on();
+//		myprintf("test\n");
+//	}
+
+	output_SEN();
 //
 //	while (1) {
 //		//	moter_flag = 1;
@@ -254,7 +254,8 @@ void go_mode(uint8_t mode) {
 	direction = 0;
 	if (failsafe_flag == 1) {
 		while (failsafe_counter < 1000) {
-			myprintf("vel:%.2f,test1:%d,test2:%d\n", right_real.velocity, test1,test2);
+			myprintf("vel:%.2f,test1:%d,test2:%d\n", right_real.velocity, test1,
+					test2);
 		}
 	}
 	mode_flag = mode_flag & 0x7f;

@@ -27,7 +27,7 @@ void interrupt_cmt0(void) {
 	}
 
 	if (failsafe_flag == 1 && failsafe_counter < 1000) {
-		ui_led_3bit(7);
+	//	ui_led_3bit(7);
 		failsafe_counter++;
 		Moter_Stby = 1;
 		PID_control(&translation_ideal, &left_real, &right_real,
@@ -45,6 +45,15 @@ void interrupt_cmt0(void) {
 			AD_SEN();
 			wall_control();
 			real_angle_control();
+
+			if (angle_calibration_flag == 1) {
+				angle_calibration_counter++;
+				angle_calibration_integral += rotation_real.velocity;
+				if(angle_calibration_counter==1000){
+					angle_calibration_flag=0;
+				}
+			}
+
 			if (translation_parameter.run_flag == 1) {
 				control_accel(&translation_ideal, &translation_parameter, 0);
 			}
@@ -68,6 +77,7 @@ void interrupt_cmt0(void) {
 				log_sampling();
 			}
 			integral_vel_to_dis(&right_real.velocity, &right_real.dis);
+			integral_vel_to_dis(&rotation_real.velocity, &rotation_real.dis);
 			duty_to_moter();
 
 			led_count++;
@@ -93,10 +103,10 @@ void interrupt_cmt0(void) {
 				}
 			}
 		}
-		LEFTEING = 0;
-		RIGHTWING = 0;
-		LEFTFRONT = 0;
-		RIGHTFRONT = 0;
+//		LEFTEING = 0;
+//		RIGHTWING = 0;
+//		LEFTFRONT = 0;
+//		RIGHTFRONT = 0;
 	} else { //モード選択中
 //		real_velocity_control();
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);

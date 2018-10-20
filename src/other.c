@@ -17,7 +17,7 @@
 #include "speaker.h"
 
 void real_angle_control(void) {
-	rotation_real.velocity = -0.1930 + test_gyro2(); //-0.2450 +
+	rotation_real.velocity = -angle_calibration + test_gyro2(); //-0.2450 +
 	if (rotation_parameter.back_rightturn_flag == 1) {
 		rotation_real.velocity = -1 * rotation_real.velocity;
 	}
@@ -338,11 +338,27 @@ void Clock_Settting(void) {
 }
 
 void start_SEN(uint8_t mario_flag) {
+
 	SEN_check_flag = 1;
 	while (SEN_R.now < SEN_R.reference || SEN_RF.now < SEN_RF.reference) { //
 		moter_flag = 0;
 	}
 	SEN_check_flag = 0;
+	moter_flag = 1;
+	speaker_on(C_5, 6.0, 240);
+
+
+	angle_calibration_integral=0.0;
+	angle_calibration=0.0;
+	angle_calibration_counter=0;
+	angle_calibration_flag=0;
+	angle_calibration_flag=1;
+	while(angle_calibration_flag==1){
+
+	}
+	myprintf("%.4f\n",angle_calibration_integral);
+	angle_calibration=angle_calibration_integral/1000.0;
+
 	if (x.goal == 7 && y.goal == 7&&mario_flag==1) {
 		mario_start(180, 1);
 	} else {
@@ -350,17 +366,18 @@ void start_SEN(uint8_t mario_flag) {
 		wait_time(500);
 	}
 
-	moter_flag = 1;
 }
 
 void fan_on(void){
 	diameter=diameter_absorption;
 	FAN=1;
+	wait_time(1000);
 }
 
 
 void fan_off(void){
 	diameter=DIAMETER;
+	wait_time(500);
 	FAN=0;
 }
 

@@ -169,6 +169,10 @@ extern float oblique_Side_gain;
 extern volatile float diameter_absorption;
 
 extern uint16_t failsafe_counter;
+extern float angle_calibration;
+extern uint8_t angle_calibration_flag;
+extern uint16_t angle_calibration_counter;
+extern float angle_calibration_integral;
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

@@ -276,6 +276,15 @@ void turn_left_180_big(float vel) {
 		angle_offset = -1.2;
 	}
 
+	if (vel == 1200.0) {
+		in_offset = 0.0;
+		out_offset = 40.0;
+		rota_accel =8700.0;
+		rota_vel = 795.0;
+		kabekire_dis = 0.0;
+		angle_offset = 0.0;
+	}
+
 	while (SEN_L.now > SEN_L.threshold) {
 		translation_ideal.dis = kabekire_dis;
 	}
@@ -322,6 +331,16 @@ void turn_right_180_big(float vel) {
 		kabekire_dis = 4.0;
 		angle_offset = 1.5;
 	}
+
+	if (vel == 1200.0) {
+		in_offset = 0.0;
+		out_offset = 48.0;
+		rota_accel = 13000.0;//8700
+		rota_vel = 790.0;
+		kabekire_dis = 0.0;
+		angle_offset = 3.6;
+	}
+
 	while (SEN_R.now > SEN_R.threshold) {
 		translation_ideal.dis = kabekire_dis;
 	}
@@ -367,6 +386,14 @@ void turn_left_90_big(float vel) {
 		kabekire_dis = 3.0;
 		angle_offset = 0.3;
 	}
+	if (vel == 1200.0) {
+		in_offset = 11.0;
+		out_offset = 64.0;
+		rota_accel = 9500.0;
+		rota_vel = 1660.0;
+		kabekire_dis = 3.0;
+		angle_offset = 0.3;
+	}
 
 	while (SEN_L.now > SEN_L.threshold) {
 		translation_ideal.dis = kabekire_dis;
@@ -404,6 +431,14 @@ void turn_right_90_big(float vel) {
 		rota_vel = 1700.0;
 		kabekire_dis = 5.0;
 		angle_offset = 1.5;
+	}
+	if (vel == 1200.0) {
+		in_offset = 16.0;
+		out_offset = 48.0;
+		rota_accel = 8600.0;
+		rota_vel = 1700.0;
+		kabekire_dis = 5.0;
+		angle_offset = 2.2;
 	}
 	while (SEN_R.now > SEN_R.threshold) {
 		translation_ideal.dis = kabekire_dis;
