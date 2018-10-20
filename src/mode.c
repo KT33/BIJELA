@@ -59,7 +59,7 @@ void mode_1(void) {
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			1);
 	write_all_walldatas();
-fan_off();
+	fan_off();
 	wait_time(100);
 }
 
@@ -81,14 +81,13 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-	nomal_run.vel_max=3000.0;
-	nomal_run.accel=7000.0;
+	nomal_run.vel_max = 3000.0;
+	nomal_run.accel = 7000.0;
 	start_SEN(0);
 //	FAN = 1;
 	wait_time(500);
 	go_entrance(nomal_run.accel, 1000.0);
-	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max,
-			1000.0, 0.0);
+	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max, 1000.0, 0.0);
 	wait_straight();
 //	stop90(nomal_run.accel, nomal_run.vel_max);
 //	wait_time(500);
@@ -97,14 +96,14 @@ void mode_3(void) {
 }
 
 void mode_4(void) {
-	nomal_run.vel_max=3500.0;
-	nomal_run.accel=7000.0;
+	nomal_run.vel_max = 1100.0;
+	nomal_run.accel = 7000.0;
 	start_SEN(0);
 	fan_on();
 	wait_time(500);
 	go_entrance(nomal_run.accel, 1000.0);
-	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max,
-			1000.0, 0.0);
+	failsafe();
+	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max, 1000.0, 0.0);
 	wait_straight();
 //	stop90(nomal_run.accel, nomal_run.vel_max);
 //	wait_time(500);
@@ -112,15 +111,9 @@ void mode_4(void) {
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	read_all_walldatas();
-	start_SEN(1);
-	make_pass(x.goal, y.goal, 4, 0);
-//	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7200.0, 2800.0, 1000.0, nomal_run.accel, 2200, 1);
-//	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-//			1);
-//	write_all_walldatas();
-//	wait_time(100);
+	moter_flag = 1;
+	while (failsafe_flag == 0)
+		;
 }
 
 void mode_6(void) {
@@ -260,9 +253,9 @@ void go_mode(uint8_t mode) {
 	y.now = 0;
 	direction = 0;
 	if (failsafe_flag == 1) {
-		set_straight(180.0, nomal_run.accel * 2, left_real.velocity,
-				left_real.velocity, 0.0);
-		wait_straight();
+		while (failsafe_counter < 1000) {
+			myprintf("vel:%.2f,test1:%d,test2:%d\n", right_real.velocity, test1,test2);
+		}
 	}
 	mode_flag = mode_flag & 0x7f;
 	moter_flag = 0;

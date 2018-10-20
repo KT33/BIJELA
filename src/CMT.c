@@ -16,6 +16,8 @@
 void interrupt_cmt0(void) {
 	g_count++;
 	failsafe_accel = test_gyro();
+	real_velocity_control();
+
 	if ((right_real.velocity > 4500.0 || left_real.velocity > 4500.0
 			|| rotation_deviation.cumulative > 20000.0 //20000.0
 			|| rotation_deviation.cumulative < -20000.0
@@ -24,7 +26,17 @@ void interrupt_cmt0(void) {
 		failsafe();
 	}
 
-	real_velocity_control();
+	if (failsafe_flag == 1 && failsafe_counter < 1000) {
+		ui_led_3bit(7);
+		failsafe_counter++;
+		Moter_Stby = 1;
+		PID_control(&translation_ideal, &left_real, &right_real,
+				&run_left_deviation, &run_right_deviation, &run_gain,
+				&translation_parameter, &duty, 0);
+		duty_to_moter();
+	}
+
+	//	real_velocity_control();
 	if (mode_flag & 0x80) { //モード内
 		if (moter_flag == 1 && failsafe_flag == 0) {
 			failsafe_accel = test_gyro();
@@ -35,7 +47,6 @@ void interrupt_cmt0(void) {
 			real_angle_control();
 			if (translation_parameter.run_flag == 1) {
 				control_accel(&translation_ideal, &translation_parameter, 0);
-
 			}
 			if (rotation_parameter.run_flag == 1) {
 //			CENTERFRONT = 1;
@@ -74,10 +85,12 @@ void interrupt_cmt0(void) {
 				led_count = 0;
 			}
 		} else {
-			Moter_Stby = 0;
-			real_angle_control();
-			if (SEN_check_flag == 1) {
-				AD_SEN();
+			if (failsafe_flag == 0) {
+				Moter_Stby = 0;
+				real_angle_control();
+				if (SEN_check_flag == 1) {
+					AD_SEN();
+				}
 			}
 		}
 		LEFTEING = 0;
@@ -104,24 +117,25 @@ void failsafe(void) {
 	y.now = 0;
 	direction = 0;
 	fan_off();
-	UI_LED1 = 1;
-	UI_LED2 = 1;
-	UI_LED3 = 1;
-	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0) {
-		LEFTEING = 0;
-		RIGHTWING = 0;
-	} else if (rotation_deviation.cumulative > 20000.0) {
-		LEFTEING = 1;
-		RIGHTWING = 0;
-	} else if (failsafe_accel > 39.2) {
-		LEFTEING = 0;
-		RIGHTWING = 1;
-	}
-
-	RIGHTFRONT = 1;
-	LEFTFRONT = 1;
-	CENTERFRONT = 1;
+//	UI_LED1 = 1;
+//	UI_LED2 = 1;
+//	UI_LED3 = 1;
+//	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0) {
+//		LEFTEING = 0;
+//		RIGHTWING = 0;
+//	} else if (rotation_deviation.cumulative > 20000.0) {
+//		LEFTEING = 1;
+//		RIGHTWING = 0;
+//	} else if (failsafe_accel > 39.2) {
+//		LEFTEING = 0;
+//		RIGHTWING = 1;
+//	}
+//
+//	RIGHTFRONT = 1;
+//	LEFTFRONT = 1;
+//	CENTERFRONT = 1;
 	failsafe_flag = 1;
+	failsafe_counter = 0;
 	//moter_flag=0;
 }
 

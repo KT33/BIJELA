@@ -118,6 +118,7 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	}
 	duty->left += duty_left;
 	duty->right += duty_right;
+	test2=duty_left;
 
 }
 
@@ -384,7 +385,7 @@ void duty_to_moter(void) {
 		duty_right = -400 + 1;
 	}
 
-//	test1 = duty_left;
+	test1 = duty_left;
 //	test2 = duty_right;
 
 	MTU0.TGRB = (duty_right); //MOTER_R
