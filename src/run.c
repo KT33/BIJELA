@@ -10,6 +10,7 @@
 #include "stdint.h"
 #include "other.h"
 #include "iodefine.h"
+#include "speaker.h"
 
 void wall_control(void) {
 	if (wall_control_flag == 1 && wall_control_oblique_flag == 0) {

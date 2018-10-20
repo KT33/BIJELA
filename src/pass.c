@@ -502,11 +502,15 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 }
 
 void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
-		float oblique_accel, float oblique_max_vel) {
+		float oblique_accel, float oblique_max_vel, uint8_t absorption_flag) {
 	volatile uint8_t i = 0;
 	volatile int j = 0;
 	int8_t straight_count, oblique_flag = 0, oblique_straight_count = 0;
 	uint8_t x_box, y_box, direction_box;
+
+	if (absorption_flag == 1) {
+		fan_on();
+	}
 
 	for (i = 0; i < 255; i++) {
 		pass_oblique[i] = 0;
@@ -919,6 +923,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 			wait_time(50);
 		}
 	}
+	fan_off();
 }
 
 void out_put_pass(uint8_t *pass) {

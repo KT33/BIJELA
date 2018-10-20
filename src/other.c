@@ -98,6 +98,7 @@ void mode_select_by_encoder(void) {
 }
 
 void init_ALL(void) {
+	FAN=0;
 	Clock_Settting();
 	LED_Setting();
 	init_sci1();
@@ -110,7 +111,7 @@ void init_ALL(void) {
 	init_Moter_PWM();
 	wait_time(5);
 	Battery_Check();
-	FAN = 1;
+	FAN = 0;
 	clear_Map(&walldate_real);
 	clear_Map(&walldate_checked);
 	clear_adachiMap(&walldate_adachi);
@@ -350,5 +351,16 @@ void start_SEN(uint8_t mario_flag) {
 	}
 
 	moter_flag = 1;
+}
+
+void fan_on(void){
+	diameter=diameter_absorption;
+	FAN=1;
+}
+
+
+void fan_off(void){
+	diameter=DIAMETER;
+	FAN=0;
 }
 

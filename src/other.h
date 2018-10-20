@@ -30,4 +30,7 @@ void real_velocity_control(void);
 void real_angle_control(void);
 void log_output(void);
 void start_SEN(uint8_t);
+
+void fan_on(void);
+void fan_off(void);
 #endif /* OTHER_H_ */

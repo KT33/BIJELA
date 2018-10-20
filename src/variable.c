@@ -35,7 +35,8 @@ float wallcontrol_value;
 
 volatile int16_t i;
 
-volatile float diameter = 23.34; //タイヤ径 50
+volatile float diameter = DIAMETER; //タイヤ径 50 32
+volatile float diameter_absorption=23.14;
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
@@ -99,4 +100,9 @@ float failsafe_accel;
 
 uint16_t led_count = 0;
 uint8_t wall_control_oblique_flag = 0;
+
+uint16_t failsafe_counter=0;
+
+
+
 

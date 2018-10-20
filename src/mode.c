@@ -27,12 +27,14 @@ void mode_0(void) {
 
 //	uint8_t i;
 	start_SEN(0);
+
 	adachi_search_run_known(x.goal, y.goal, 4, nomal_run.accel,
 			nomal_run.vel_search, 1, 1);
 	write_all_walldatas();
 
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			0);
+	fan_off();
 	write_all_walldatas();
 	wait_time(100);
 
@@ -50,12 +52,14 @@ void mode_1(void) {
 
 	read_all_walldatas();
 	start_SEN(1);
+	fan_on();
 	make_pass(x.goal, y.goal, 4, 1);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 2500.0, 1000.0, nomal_run.accel, 2200);
-	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 0,
+	move_pass_oblique(7000.0, 2500.0, 1000.0, nomal_run.accel, 2200, 1);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			1);
 	write_all_walldatas();
+fan_off();
 	wait_time(100);
 }
 
@@ -77,29 +81,34 @@ void mode_2(void) {
 }
 
 void mode_3(void) {
-	read_all_walldatas();
-	start_SEN(1);
-	make_pass(x.goal, y.goal, 4, 0);
-//	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 2500.0, 1000.0, nomal_run.accel, 2200);
-	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-			0);
-	write_all_walldatas();
-	wait_time(100);
+	nomal_run.vel_max=3000.0;
+	nomal_run.accel=7000.0;
+	start_SEN(0);
+//	FAN = 1;
+	wait_time(500);
+	go_entrance(nomal_run.accel, 1000.0);
+	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max,
+			1000.0, 0.0);
+	wait_straight();
+//	stop90(nomal_run.accel, nomal_run.vel_max);
+//	wait_time(500);
+	fan_off();
 
 }
 
 void mode_4(void) {
-
-	read_all_walldatas();
-	start_SEN(1);
-	make_pass(x.goal, y.goal, 4, 0);
-//	output_Walldate(&walldate_adachi);
-	move_pass_big_turn(7000.0, 2500.0, 1000.0);
-	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-			0);
-	write_all_walldatas();
-	wait_time(100);
+	nomal_run.vel_max=3500.0;
+	nomal_run.accel=7000.0;
+	start_SEN(0);
+	fan_on();
+	wait_time(500);
+	go_entrance(nomal_run.accel, 1000.0);
+	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max,
+			1000.0, 0.0);
+	wait_straight();
+//	stop90(nomal_run.accel, nomal_run.vel_max);
+//	wait_time(500);
+	fan_off();
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
@@ -107,7 +116,7 @@ void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	start_SEN(1);
 	make_pass(x.goal, y.goal, 4, 0);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7200.0, 2800.0, 1000.0, nomal_run.accel, 2200);
+	move_pass_oblique(7200.0, 2800.0, 1000.0, nomal_run.accel, 2200, 1);
 //	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 //			1);
 //	write_all_walldatas();
@@ -119,7 +128,7 @@ void mode_6(void) {
 	start_SEN(1);
 	make_pass(x.goal, y.goal, 4, 0);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7400.0, 3000.0, 1000.0, nomal_run.accel, 2200);
+	move_pass_oblique(7400.0, 3000.0, 1000.0, nomal_run.accel, 2200, 1);
 //	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 //			1);
 //	write_all_walldatas();
@@ -142,23 +151,11 @@ void mode_6(void) {
 
 void mode_7(void) {
 
-	read_all_walldatas();
-	start_SEN(1);
-	make_pass(x.goal, y.goal, 4, 1);
-//	output_Walldate(&walldate_adachi);
-	move_pass_oblique(6800.0, 2500.0, 1000.0, nomal_run.accel - 1000.0, 1800);
-//	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-//			1);
-//	write_all_walldatas();
-//	wait_time(100);
-//	output_SEN();
-//	read_all_walldatas();
-//	make_pass(x.goal, y.goal, 4, 1);
-//	output_Walldate(&walldate_adachi);
-//	adachi_map(x.goal, y.goal, 4, walldate_real);
-//	output_Walldate(&walldate_real);
-//	output_Walldate(&walldate_checked);
-
+	while (1) {
+		ui_led_3bit(5);
+		fan_on();
+		myprintf("test\n");
+	}
 //	output_SEN();
 //
 //	while (1) {

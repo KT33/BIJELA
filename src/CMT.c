@@ -11,45 +11,17 @@
 #include "run.h"
 #include "other.h"
 #include "speaker.h"
+#include "CMT.h"
 
 void interrupt_cmt0(void) {
 	g_count++;
 	failsafe_accel = test_gyro();
 	if ((right_real.velocity > 4500.0 || left_real.velocity > 4500.0
 			|| rotation_deviation.cumulative > 20000.0 //20000.0
-			|| rotation_deviation.cumulative < -20000.0 || failsafe_accel > 50000.0)
+			|| rotation_deviation.cumulative < -20000.0
+			|| failsafe_accel > 50000.0)
 			&& translation_parameter.back_rightturn_flag == 0) { //|| failsafe_accel > 39.2
-		failsafe_flag = 1;
-		translation_ideal.accel = 0.0;
-		translation_ideal.velocity = 0.0;
-//		duty.left = 0;
-//		duty.right = 0;
-		duty_to_moter();
-		Moter_Stby = 1;
-//		MTU0.TGRB = 0; //MOTER_R
-//		MTU0.TGRD = 0; //MOTER_L
-		x.now = 0;
-		y.now = 0;
-		direction = 0;
-		UI_LED1 = 1;
-		UI_LED2 = 1;
-		UI_LED3 = 1;
-		if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0) {
-			LEFTEING = 0;
-			RIGHTWING = 0;
-		} else if (rotation_deviation.cumulative > 20000.0) {
-			LEFTEING = 1;
-			RIGHTWING = 0;
-		} else if (failsafe_accel > 39.2) {
-			LEFTEING = 0;
-			RIGHTWING = 1;
-		}
-
-		RIGHTFRONT = 1;
-		LEFTFRONT = 1;
-		CENTERFRONT = 1;
-		failsafe_flag = 1;
-		//moter_flag=0;
+		failsafe();
 	}
 
 	real_velocity_control();
@@ -116,6 +88,41 @@ void interrupt_cmt0(void) {
 //		real_velocity_control();
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
 	}
+}
+
+void failsafe(void) {
+	failsafe_flag = 1;
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
+//		duty.left = 0;
+//		duty.right = 0;
+	duty_to_moter();
+	Moter_Stby = 1;
+//		MTU0.TGRB = 0; //MOTER_R
+//		MTU0.TGRD = 0; //MOTER_L
+	x.now = 0;
+	y.now = 0;
+	direction = 0;
+	fan_off();
+	UI_LED1 = 1;
+	UI_LED2 = 1;
+	UI_LED3 = 1;
+	if (right_real.velocity > 2500.0 || left_real.velocity > 2500.0) {
+		LEFTEING = 0;
+		RIGHTWING = 0;
+	} else if (rotation_deviation.cumulative > 20000.0) {
+		LEFTEING = 1;
+		RIGHTWING = 0;
+	} else if (failsafe_accel > 39.2) {
+		LEFTEING = 0;
+		RIGHTWING = 1;
+	}
+
+	RIGHTFRONT = 1;
+	LEFTFRONT = 1;
+	CENTERFRONT = 1;
+	failsafe_flag = 1;
+	//moter_flag=0;
 }
 
 void init_cmt0(void) {

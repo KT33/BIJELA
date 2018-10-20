@@ -11,6 +11,7 @@
 #include "stdint.h"
 
 #define LogMax 2000
+#define DIAMETER 23.23
 
 
 typedef struct {
@@ -164,6 +165,11 @@ extern uint16_t led_count;
 extern uint8_t wall_control_oblique_flag;
 extern float oblique_Front_gain;
 extern float oblique_Side_gain;
+
+extern volatile float diameter_absorption;
+
+extern uint16_t failsafe_counter;
+
 
 #define UI_LED1 PORT2.PODR.BIT.B7
 #define UI_LED2 PORT5.PODR.BIT.B4

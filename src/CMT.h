@@ -10,5 +10,6 @@
 
 void interrupt_cmt0(void);
 void init_cmt0(void);
+void failsafe(void);
 
 #endif /* CMT_H_ */
