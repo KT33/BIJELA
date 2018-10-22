@@ -18,6 +18,10 @@ void interrupt_cmt0(void) {
 	failsafe_accel = test_gyro();
 	real_velocity_control();
 
+	if (SEN_check_flag == 1) {
+		AD_SEN();
+	}
+
 	if ((right_real.velocity > 4500.0 || left_real.velocity > 4500.0
 			|| rotation_deviation.cumulative > 20000.0 //20000.0
 			|| rotation_deviation.cumulative < -20000.0
@@ -28,6 +32,10 @@ void interrupt_cmt0(void) {
 
 	if (failsafe_flag == 1 && failsafe_counter < 1000) {
 	//	ui_led_3bit(7);
+		translation_ideal.accel=0.0;
+		translation_ideal.velocity=0.0;
+		run_left_deviation.cumulative=0.0;
+		run_right_deviation.cumulative=0.0;
 		failsafe_counter++;
 		Moter_Stby = 1;
 		PID_control(&translation_ideal, &left_real, &right_real,
@@ -98,9 +106,7 @@ void interrupt_cmt0(void) {
 			if (failsafe_flag == 0) {
 				Moter_Stby = 0;
 				real_angle_control();
-				if (SEN_check_flag == 1) {
-					AD_SEN();
-				}
+
 			}
 		}
 //		LEFTEING = 0;
@@ -126,7 +132,7 @@ void failsafe(void) {
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
-	fan_off();
+	FAN=0;
 //	UI_LED1 = 1;
 //	UI_LED2 = 1;
 //	UI_LED3 = 1;

@@ -55,7 +55,8 @@ void mode_1(void) {
 	fan_on();
 	make_pass(x.goal, y.goal, 4, 1);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 2500.0, 1000.0, nomal_run.accel, 2200, 1);
+	move_pass_oblique(7000.0, 3000.0, 1200.0, nomal_run.accel, 2200, 1);
+	wait_time(2000);
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			1);
 	write_all_walldatas();
@@ -80,57 +81,66 @@ void mode_2(void) {
 
 }
 
-void mode_3(void) {
+void mode_3(void) { //253.558
 	start_SEN(0);
 	fan_on();
-	go_entrance(nomal_run.accel, 1200.0);
-	set_straight(90.0, nomal_run.accel, 1200.0, 1200.0, 1200.0);
+	set_straight(253.558-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
+	wall_control_flag = 0;
 	wait_straight();
-	turn_left_90_big(1200.0);
-	set_straight(180.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	turn_left_v90(1200.0);
+	set_straight(253.558+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	myprintf("%.2f^n", Log[0]);
 
 }
 
 void mode_4(void) {
 	start_SEN(0);
 	fan_on();
-	go_entrance(nomal_run.accel, 1200.0);
-	set_straight(90.0, nomal_run.accel, 1200.0, 1200.0, 1200.0);
+	set_straight(253.558-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
+	wall_control_flag = 0;
 	wait_straight();
-	turn_right_90_big(1200.0);
-	set_straight(180.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	turn_right_v90(1200.0);
+	set_straight(253.558+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
-	myprintf("%.2f^n",Log[0]);
+	myprintf("%.2f^n", Log[0]);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-	nomal_run.vel_max = 3000.0;
-	nomal_run.accel = 7000.0;
+
 	start_SEN(0);
-//	FAN = 1;
+	fan_on();
 	wait_time(500);
-	go_entrance(nomal_run.accel, 1000.0);
-	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max, 1000.0, 0.0);
+	go_entrance(nomal_run.accel, 1200.0);
+	log_start();
+	set_straight(180.0 * 4, nomal_run.accel, 1200.0, 1200.0, 0.0);
 	wait_straight();
 //	stop90(nomal_run.accel, nomal_run.vel_max);
 //	wait_time(500);
 	fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	log_output();
 }
 
 void mode_6(void) {
-	nomal_run.vel_max = 1100.0;
+	nomal_run.vel_max = 1200.0;
 	nomal_run.accel = 7000.0;
 	start_SEN(0);
 	fan_on();
 	wait_time(500);
 	go_entrance(nomal_run.accel, 1000.0);
-	failsafe();
 	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max, 1000.0, 0.0);
 	wait_straight();
 //	stop90(nomal_run.accel, nomal_run.vel_max);
@@ -140,8 +150,6 @@ void mode_6(void) {
 }
 
 void mode_7(void) {
-
-
 
 //	while (1) {
 //		ui_led_3bit(5);
@@ -242,10 +250,11 @@ void go_mode(uint8_t mode) {
 		}
 		mode_7();
 	}
-	ui_reset();
+
 	wait_time(200);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
+
 	duty.left = 0;
 	duty.right = 0;
 	duty_to_moter();
@@ -254,14 +263,14 @@ void go_mode(uint8_t mode) {
 	direction = 0;
 	if (failsafe_flag == 1) {
 		while (failsafe_counter < 1000) {
-			myprintf("vel:%.2f,test1:%d,test2:%d\n", right_real.velocity, test1,
-					test2);
 		}
 	}
 	mode_flag = mode_flag & 0x7f;
 	moter_flag = 0;
 	failsafe_flag = 0;
 	SEN_check_flag = 0;
+	Moter_Stby=1;
+	ui_reset();
 }
 
 //	walldate_real.column[0] = 65535;

@@ -140,7 +140,7 @@ void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
 		Log[log_index] = translation_ideal.dis;
-		log2[log_index] = (float) SEN_R.now;
+		log2[log_index] = (float) SEN_L.now;
 //		log3[log_index] = translation_ideal.dis;
 		log_index++;
 		log_counter = 0;
@@ -154,13 +154,13 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", Log[i]);
+		myprintf("%.3f	%.3f\n", Log[i],log2[i]);
 	}
-	myprintf("\n");
-	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log2[i]);
-	}
+//	myprintf("\n");
+//	myprintf("\n");
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log2[i]);
+//	}
 	myprintf("\n");
 //	myprintf("\n");
 //	for (i = 0; i < LogMax; i++) {
@@ -340,6 +340,7 @@ void Clock_Settting(void) {
 void start_SEN(uint8_t mario_flag) {
 
 	SEN_check_flag = 1;
+	wait_time(2);
 	while (SEN_R.now < SEN_R.reference || SEN_RF.now < SEN_RF.reference) { //
 		moter_flag = 0;
 	}
@@ -356,7 +357,6 @@ void start_SEN(uint8_t mario_flag) {
 	while(angle_calibration_flag==1){
 
 	}
-	myprintf("%.4f\n",angle_calibration_integral);
 	angle_calibration=angle_calibration_integral/1000.0;
 
 	if (x.goal == 7 && y.goal == 7&&mario_flag==1) {
