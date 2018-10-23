@@ -45,7 +45,6 @@ void mode_0(void) {
 ////	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 //	write_all_walldatas();
 //	wait_time(1000);
-
 }
 
 void mode_1(void) {
@@ -118,20 +117,18 @@ void mode_4(void) {
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 
-	start_SEN(0);
-	fan_on();
-	wait_time(500);
-	go_entrance(nomal_run.accel, 1200.0);
-	log_start();
-	set_straight(180.0 * 4, nomal_run.accel, 1200.0, 1200.0, 0.0);
-	wait_straight();
-//	stop90(nomal_run.accel, nomal_run.vel_max);
-//	wait_time(500);
+	read_all_walldatas();
+	start_SEN(1);
+//	fan_on();
+	make_pass(x.goal, y.goal, 4, 1);
+	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7000.0, 3000.0, 1200.0, nomal_run.accel, 2200, 1);
+	wait_time(2000);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+			1);
+	write_all_walldatas();
 	fan_off();
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	log_output();
+	wait_time(100);
 }
 
 void mode_6(void) {

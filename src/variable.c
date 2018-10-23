@@ -22,9 +22,9 @@ normal_para_t nomal_rotation = { 500.0, 500.0, 0.0, 1800.0 }; //deg/sec //400.0,
 slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
 slarom_para_t slarom_600 = { 12500.0, 6000.0, { 21.0, 42.0 }, { 21.0, 36.0 } };
 
-sensor_t SEN_R = { 0, 1379, 600, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
+sensor_t SEN_R = { 0, 1373, 600, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
 //1445
-sensor_t SEN_L = { 0, 1662, 574, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
+sensor_t SEN_L = { 0, 1750, 574, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
 // 0, 1641, 574, 0, 0, 3368, 3100
 //3368
 sensor_t SEN_RF = { 0, 3282, 728, 0, 0, 224, 190 };

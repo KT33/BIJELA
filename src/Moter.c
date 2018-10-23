@@ -10,9 +10,9 @@
 #include "variable.h"
 
 void interrupt_mtu0(void){
-	CENTERFRONT=1;
-	LEFTFRONT=1;
-	RIGHTFRONT=1;
+//	CENTERFRONT=1;
+//	LEFTFRONT=1;
+//	RIGHTFRONT=1;
 }
 
 void init_Moter_PWM(void) {
