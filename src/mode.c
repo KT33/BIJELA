@@ -81,13 +81,14 @@ void mode_2(void) {
 }
 
 void mode_3(void) { //253.558
+
 	start_SEN(0);
 	fan_on();
-	set_straight(253.558-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
+	set_straight(127.28*2.0-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
 	wall_control_flag = 0;
 	wait_straight();
-	turn_left_v90(1200.0);
-	set_straight(253.558+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	turn_right_v90(1200);
+	set_straight(127.28*2+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
@@ -101,11 +102,11 @@ void mode_3(void) { //253.558
 void mode_4(void) {
 	start_SEN(0);
 	fan_on();
-	set_straight(253.558-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
-	wall_control_flag = 0;
+	set_straight(230.0+180.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
+//	wall_control_flag = 0;
 	wait_straight();
-	turn_right_v90(1200.0);
-	set_straight(253.558+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
+	turn_right_180_big(1200);
+	set_straight(180.0+90.0, nomal_run.accel-1000.0, 1200.0, 1200.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
@@ -121,8 +122,8 @@ void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	start_SEN(1);
 //	fan_on();
 	make_pass(x.goal, y.goal, 4, 1);
-	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 3000.0, 1200.0, nomal_run.accel, 2200, 1);
+//	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7000.0, 3000.0, 1000.0, nomal_run.accel, 2200, 0);
 	wait_time(2000);
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			1);

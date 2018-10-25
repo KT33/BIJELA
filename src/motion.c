@@ -278,7 +278,7 @@ void turn_left_180_big(float vel) {
 
 	if (vel == 1200.0) {
 		in_offset = 0.0;
-		out_offset = 40.0;
+		out_offset = 42.0;
 		rota_accel = 8700.0;
 		rota_vel = 795.0;
 		kabekire_dis = 0.0;
@@ -334,11 +334,11 @@ void turn_right_180_big(float vel) {
 
 	if (vel == 1200.0) {
 		in_offset = 0.0;
-		out_offset = 48.0;
-		rota_accel = 13000.0; //8700
-		rota_vel = 790.0;
+		out_offset = 38.0;
+		rota_accel = 10000.0; //8700
+		rota_vel = 782.0;
 		kabekire_dis = 0.0;
-		angle_offset = 3.6;
+		angle_offset = 2.0;
 	}
 
 	while (SEN_R.now > SEN_R.threshold) {
@@ -387,12 +387,12 @@ void turn_left_90_big(float vel) {
 		angle_offset = 0.3;
 	}
 	if (vel == 1200.0) {
-		in_offset = 11.0;
+		in_offset = 18.0;
 		out_offset = 64.0;
 		rota_accel = 9500.0;
 		rota_vel = 1660.0;
 		kabekire_dis = 3.0;
-		angle_offset = 0.3;
+		angle_offset = -0.4;
 	}
 
 	while (SEN_L.now > SEN_L.threshold) {
@@ -433,7 +433,7 @@ void turn_right_90_big(float vel) {
 		angle_offset = 1.5;
 	}
 	if (vel == 1200.0) {
-		in_offset = 16.0;
+		in_offset = 17.0;
 		out_offset = 48.0;
 		rota_accel = 8600.0;
 		rota_vel = 1700.0;
@@ -862,7 +862,7 @@ void turn_left_v90(float vel) {
 	}
 
 	if (vel == 1200.0) {
-		in_offset = -9.0 + 20.0;
+		in_offset = -8.4 + 20.0;
 		out_offset = 55.0 - 20.0;
 		rota_accel = 16000.0;
 		rota_vel = 1350.0;
@@ -900,7 +900,7 @@ void turn_right_v90(float vel) {
 	}
 
 	if (vel == 1200.0) {
-		in_offset = -6.8 + 20.0;
+		in_offset = -4.8 + 20.0;
 		out_offset = 34.0 - 20.0;
 		rota_accel = 14000.0;
 		rota_vel = 1300.0;
