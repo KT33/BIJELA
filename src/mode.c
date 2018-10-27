@@ -36,7 +36,7 @@ void mode_0(void) {
 			0);
 	fan_off();
 	write_all_walldatas();
-	wait_time(100);
+	wait_time(10);
 
 //	ui_led_3bit(1);
 //	make_pass(x.goal, y.goal, 4, 1);
@@ -52,15 +52,15 @@ void mode_1(void) {
 	read_all_walldatas();
 	start_SEN(1);
 	fan_on();
-	make_pass(x.goal, y.goal, 4, 1);
+	make_pass(x.goal, y.goal, 4, 0);
 //	output_Walldate(&walldate_adachi);
 	move_pass_oblique(7000.0, 3000.0, 1200.0, nomal_run.accel, 2200, 1);
-	wait_time(2000);
+//	wait_time(2000);
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-			1);
+			0);
 	write_all_walldatas();
 	fan_off();
-	wait_time(100);
+	wait_time(10);
 }
 
 void mode_2(void) {
@@ -69,11 +69,10 @@ void mode_2(void) {
 	adachi_search_run_known(x.goal, y.goal, 4, nomal_run.accel,
 			nomal_run.vel_search, 1, 0);
 	write_all_walldatas();
-
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 			1);
 	write_all_walldatas();
-	wait_time(100);
+	wait_time(10);
 //	adachi_search_run(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1, 1);
 //	write_all_walldatas();
 //	wait_time(100);
@@ -82,94 +81,104 @@ void mode_2(void) {
 
 void mode_3(void) { //253.558
 
-	start_SEN(0);
+	read_all_walldatas();
+	start_SEN(1);
 	fan_on();
-	set_straight(127.28*2.0-20.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
-	wall_control_flag = 0;
-	wait_straight();
-	turn_right_v90(1200);
-	set_straight(127.28*2+20.0, nomal_run.accel, 1200.0, 1200.0, 0.0);
-	wall_control_flag = 0;
-	wait_straight();
+	make_pass(x.goal, y.goal, 4, 0);
+//	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7300.0, 3200.0, 1200.0, nomal_run.accel, 2400, 1);
+//	wait_time(2000);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+			0);
+	write_all_walldatas();
 	fan_off();
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	myprintf("%.2f^n", Log[0]);
+	wait_time(10);
 
 }
 
 void mode_4(void) {
-	start_SEN(0);
+	read_all_walldatas();
+	start_SEN(1);
 	fan_on();
-	set_straight(230.0+180.0, nomal_run.accel, 1200.0, 0.0, 1200.0);
-//	wall_control_flag = 0;
-	wait_straight();
-	turn_right_180_big(1200);
-	set_straight(180.0+90.0, nomal_run.accel-1000.0, 1200.0, 1200.0, 0.0);
-	wall_control_flag = 0;
-	wait_straight();
+	make_pass(x.goal, y.goal, 4, 0);
+//	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7000.0, 3000.0, 1000.0, nomal_run.accel, 2200, 0);
+//	wait_time(2000);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+			0);
+	write_all_walldatas();
 	fan_off();
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	myprintf("%.2f^n", Log[0]);
+	wait_time(10);
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 
 	read_all_walldatas();
 	start_SEN(1);
-//	fan_on();
-	make_pass(x.goal, y.goal, 4, 1);
-//	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 3000.0, 1000.0, nomal_run.accel, 2200, 0);
-	wait_time(2000);
+	fan_on();
+	make_pass(x.goal, y.goal, 4, 0);
+	//	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7000.0, 3000.0, 1000.0, nomal_run.accel, 2200, 1);
+	//	wait_time(2000);
 	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-			1);
+			0);
 	write_all_walldatas();
 	fan_off();
-	wait_time(100);
+	wait_time(10);
+
 }
 
 void mode_6(void) {
-	nomal_run.vel_max = 1200.0;
-	nomal_run.accel = 7000.0;
-	start_SEN(0);
+	read_all_walldatas();
+	start_SEN(1);
 	fan_on();
-	wait_time(500);
-	go_entrance(nomal_run.accel, 1000.0);
-	set_straight(180.0 * 14, nomal_run.accel, nomal_run.vel_max, 1000.0, 0.0);
-	wait_straight();
-//	stop90(nomal_run.accel, nomal_run.vel_max);
-//	wait_time(500);
+	make_pass(x.goal, y.goal, 4, 0);
+	//	output_Walldate(&walldate_adachi);
+	move_pass_big_turn(7000.0, 3000.0, 1000.0);
+	//	wait_time(2000);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+			0);
+	write_all_walldatas();
 	fan_off();
+	wait_time(10);
 
 }
 
 void mode_7(void) {
+	read_all_walldatas();
+	start_SEN(1);
+	fan_on();
+	make_pass(x.goal, y.goal, 4, 0);
+//	output_Walldate(&walldate_adachi);
+	move_pass_oblique(7500.0, 3700.0, 1200.0, nomal_run.accel, 2400, 1);
+//	wait_time(2000);
+	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+			0);
+	write_all_walldatas();
+	fan_off();
+	wait_time(10);
 
-//	while (1) {
-//		ui_led_3bit(5);
-//		fan_on();
-//		myprintf("test\n");
-//	}
-
-	output_SEN();
+////	while (1) {
+////		ui_led_3bit(5);
+////		fan_on();
+////		myprintf("test\n");
+////	}
 //
-//	while (1) {
-//		//	moter_flag = 1;
-//		wait_time(1);
-//		real_angle_control();
-//		myprintf("%.4f\n", rotation_real.velocity);
-//////		ui_led_3bit(i);
-//////		i++;
-//////		if(i>=8){
-//////			i=0;
-//	}
-//////		wait_time(1);
-
-////		myprintf("%.8f\n", rotation_real.velocity);
+//	output_SEN();
+////
+////	while (1) {
+////		//	moter_flag = 1;
+////		wait_time(1);
+////		real_angle_control();
+////		myprintf("%.4f\n", rotation_real.velocity);
+////////		ui_led_3bit(i);
+////////		i++;
+////////		if(i>=8){
+////////			i=0;
+////	}
+////////		wait_time(1);
+//
+//////		myprintf("%.8f\n", rotation_real.velocity);
 //////		moter_flag = 1;
 //////		myprintf("%.3f\n", rotation_deviation.cumulative);
 //	}
@@ -267,7 +276,7 @@ void go_mode(uint8_t mode) {
 	moter_flag = 0;
 	failsafe_flag = 0;
 	SEN_check_flag = 0;
-	Moter_Stby=1;
+	Moter_Stby = 1;
 	ui_reset();
 }
 
