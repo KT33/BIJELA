@@ -277,6 +277,7 @@ void write_all_walldatas(void) {
 		write_walldata(0, walldate_real);
 		write_walldata(40, walldate_checked);
 		write_walldata(80, walldate_adachi);
+		speaker_on(C_5, 6.0, 240);
 //		cde(250, 1);
 	}
 }

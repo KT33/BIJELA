@@ -360,8 +360,11 @@ void start_SEN(uint8_t mario_flag) {
 	angle_calibration=angle_calibration_integral/1000.0;
 
 	if (x.goal == 7 && y.goal == 7&&mario_flag==1) {
-		mario_start(180, 1);
+//		mario_start(180, 1);
+		speaker_on(C_5, 6.0, 240);
+		wait_time(500);
 	} else {
+
 		speaker_on(C_5, 6.0, 240);
 		wait_time(500);
 	}
