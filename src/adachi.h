@@ -22,7 +22,7 @@ uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t);
 void adachi_search_run_known(uint8_t goal_x, uint8_t goal_y, uint8_t,
 		float accel, float vel, uint8_t, uint8_t);
 uint8_t how_to_move_search_known(uint8_t direction, int8_t x, int8_t y);
-void I_want_to_check_search_run(uint8_t,uint8_t);
+void I_want_to_check_search_run(uint8_t,uint8_t,uint8_t);
 uint8_t how_to_move_special(uint8_t direction, int8_t x, int8_t y);
 #endif /* ADACHI_H_ */
 

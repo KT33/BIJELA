@@ -693,8 +693,8 @@ uint8_t how_to_move_search_known(uint8_t direction, int8_t x, int8_t y) {
 }
 
 
-void I_want_to_check_search_run(uint8_t goal_x,uint8_t goal_y){
-	uint8_t straight_flag,goal_scale,flag;
+void I_want_to_check_search_run(uint8_t goal_x,uint8_t goal_y,uint8_t goal_scale){
+	uint8_t straight_flag=0,flag;
 	uint8_t traget_x,traget_y;
 	x.pass=0;
 	y.pass=0;

@@ -54,13 +54,13 @@ void mode_1(void) {
 	fan_on();
 	make_pass(x.goal, y.goal, 4, 0);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7000.0, 3000.0, 1200.0, nomal_run.accel, 2200, 1);
+	move_pass_oblique(9500.0, 4200.0, 1200.0, 9000.0, 3500.0, 1);
 //	wait_time(2000);
-	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-			0);
-	write_all_walldatas();
-	fan_off();
-	wait_time(10);
+//	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
+//			0);
+//	write_all_walldatas();
+//	fan_off();
+//	wait_time(10);
 }
 
 void mode_2(void) {
@@ -86,7 +86,7 @@ void mode_3(void) { //253.558
 	fan_on();
 	make_pass(x.goal, y.goal, 4, 0);
 //	output_Walldate(&walldate_adachi);
-	move_pass_oblique(7300.0, 3200.0, 1200.0, nomal_run.accel, 2400, 1);
+	move_pass_oblique(10000.0, 4500.0, 1200.0, 9000.0, 3500.0, 1);
 //	wait_time(2000);
 //	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
 //			0);
