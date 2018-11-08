@@ -36,7 +36,7 @@ float wallcontrol_value;
 volatile int16_t i;
 
 volatile float diameter = DIAMETER; //タイヤ径 50 32
-volatile float diameter_absorption=23.14;
+volatile float diameter_absorption=23.45;
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
@@ -92,6 +92,8 @@ uint8_t moter_flag = 0;
 float test_float;
 
 uint8_t failsafe_flag = 0;
+
+//uint8_t test_log_counter=0;
 
 volatile float Log[LogMax], log2[LogMax], log3[LogMax];
 

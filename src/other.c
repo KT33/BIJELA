@@ -115,6 +115,7 @@ void init_ALL(void) {
 	clear_Map(&walldate_real);
 	clear_Map(&walldate_checked);
 	clear_adachiMap(&walldate_adachi);
+	walldate_checked.row[1]=0x0001;
 //	clear_Map(&walldate_adachi);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
@@ -158,14 +159,14 @@ void log_output(void) {
 	}
 //	myprintf("\n");
 //	myprintf("\n");
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.3f\n", log2[i]);
-//	}
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", log2[i]);
+	}
 	myprintf("\n");
-//	myprintf("\n");
-//	for (i = 0; i < LogMax; i++) {
-//		myprintf("%.3f\n", log3[i]);
-//	}
+	myprintf("\n");
+	for (i = 0; i < LogMax; i++) {
+		myprintf("%.3f\n", log3[i]);
+	}
 }
 
 void Battery_Check(void) {
@@ -384,3 +385,6 @@ void fan_off(void){
 	FAN=0;
 }
 
+void para_mode(void){
+
+}
