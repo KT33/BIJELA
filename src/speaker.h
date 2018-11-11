@@ -86,5 +86,5 @@ void seven_ATM(int, int);
 void mizutamari(int, int);
 void nchancha(int, int);
 void mode_select_speaker(uint8_t mode);
-
+void mode_select_speaker_2(uint8_t mode);
 #endif /* SPEAKER_H_ */

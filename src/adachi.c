@@ -753,6 +753,7 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
+	special_goal_flag = 0;
 
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	coordinate();
@@ -777,8 +778,10 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 		adachi_special_move(x_local, y_local, wall_direction, nomal_run.accel,
 				nomal_run.vel_search); //見たい壁に対する位置と壁の絶対方角を入力
 	}
-	adachi_special_move(goal_x, goal_y, goal_scale, nomal_run.accel,
-			nomal_run.vel_search);
+	if (special_goal_flag == 0) {
+		adachi_special_move(goal_x, goal_y, goal_scale, nomal_run.accel,
+				nomal_run.vel_search);
+	}
 	if (goal_scale == 1) {
 		go_entrance(nomal_run.accel, nomal_run.vel_search);
 		coordinate();
@@ -935,6 +938,9 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 	}
 
 	while (failsafe_flag == 0) {
+		if (x.now == goal_x && y.now == goal_y) {
+			special_goal_flag = 1;
+		}
 		if (step_map[x.now][y.now] == 999) {
 			stop90(accel, vel);
 			failsafe_flag = 1;

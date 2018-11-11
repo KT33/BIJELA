@@ -174,6 +174,10 @@ extern uint8_t angle_calibration_flag;
 extern uint16_t angle_calibration_counter;
 extern float angle_calibration_integral;
 //extern uint8_t test_log_counter;
+extern uint8_t para_mode_flag;
+extern normal_para_t nomal_oblique;
+extern uint8_t special_goal_flag;
+
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

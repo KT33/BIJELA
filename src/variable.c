@@ -19,6 +19,7 @@ float oblique_Side_gain = 0.01; //0.1
 
 normal_para_t nomal_run = { 600.0, 2200.0, 20.0, 7000.0 }; //search,max,min,accel
 normal_para_t nomal_rotation = { 500.0, 500.0, 0.0, 1800.0 }; //deg/sec //400.0, 400.0, 0.0, 500.0
+normal_para_t nomal_oblique={0.0,3000.0,0.0,7000.0};
 slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
 slarom_para_t slarom_600 = { 12500.0, 6000.0, { 21.0, 42.0 }, { 21.0, 36.0 } };
 
@@ -108,6 +109,10 @@ float angle_calibration=0;
 float angle_calibration_integral=0;
 uint8_t angle_calibration_flag=0;
 uint16_t angle_calibration_counter=0;
+
+uint8_t para_mode_flag=0;
+
+uint8_t special_goal_flag=0;
 
 
 

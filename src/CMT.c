@@ -117,6 +117,9 @@ void interrupt_cmt0(void) {
 //		real_velocity_control();
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
 	}
+	if(para_mode_flag==1){
+		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
+	}
 }
 
 void failsafe(void) {

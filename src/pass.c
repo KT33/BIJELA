@@ -259,8 +259,8 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 		pass_big[i] = 0;
 	}
 
-	x.now = 0;
-	y.now = 0;
+//	x.now = 0;
+//	y.now = 0;
 
 	coordinate();
 	for (i = 0; pass[i] != 0xff; i++) {
@@ -516,9 +516,9 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		pass_oblique[i] = 0;
 	}
 
-	x.now = 0;
-	y.now = 0;
-	direction = 0;
+//	x.now = 0;
+//	y.now = 0;
+//	direction = 0;
 
 	coordinate();
 	for (i = 0; pass[i] != 0xff; i++) {
@@ -533,7 +533,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		coordinate();
 	}
 
-	ui_led_3bit(7);
+
 
 	x_box = x.now;
 	y_box = y.now;
@@ -839,12 +839,12 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	if (pass[254] == 1) {
 		if (pass_oblique[i - 1] == SHORTLEFT90
 				|| pass_oblique[i - 1] == SHORTRIGHT90) {
-			set_straight(93.0, accel, nomal_run.vel_search,
+			set_straight(90.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
 		} else if (pass[i - 1] > 35) {
-			set_straight(93.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(93.0, accel, max_vel, max_vel, 0.0);
+			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
 		}
 		wait_straight();
 		wait_time(50);
@@ -867,15 +867,15 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		} else if (pass[i - 1] > 35) {
 			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);//max_vel????
 		}
 		wait_straight();
-		if (x.goal == 7 && y.goal == 7 && failsafe_flag == 0) {
-			wait_time(5);
-			victory_fanfare(100, 1);
-		} else {
-			wait_time(200);
-		}
+//		if (x.goal == 7 && y.goal == 7 && failsafe_flag == 0) {
+//			wait_time(5);
+//			victory_fanfare(100, 1);
+//		} else {
+//			wait_time(200);
+//		}
 
 		if (getWall(x.now, y.now, direction, &walldate_real)) {
 

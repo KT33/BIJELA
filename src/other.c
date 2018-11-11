@@ -98,7 +98,7 @@ void mode_select_by_encoder(void) {
 }
 
 void init_ALL(void) {
-	FAN=0;
+	FAN = 0;
 	Clock_Settting();
 	LED_Setting();
 	init_sci1();
@@ -115,7 +115,7 @@ void init_ALL(void) {
 	clear_Map(&walldate_real);
 	clear_Map(&walldate_checked);
 	clear_adachiMap(&walldate_adachi);
-	walldate_checked.row[1]=0x0001;
+	walldate_checked.row[1] = 0x0001;
 //	clear_Map(&walldate_adachi);
 	SEN_F.threshold = (SEN_LF.threshold + SEN_RF.threshold) / 2;
 	SEN_F.reference = (SEN_LF.reference + SEN_RF.reference) / 2;
@@ -155,7 +155,7 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f	%.3f\n", Log[i],log2[i]);
+		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");
@@ -178,7 +178,7 @@ void Battery_Check(void) {
 
 	Batt = S12AD.ADDR0;
 	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
-	if (Battery < 7.72) {//7.7
+	if (Battery < 7.72) { //7.7
 		Moter_Stby = 0;
 		while (1) {
 			UI_LED1 = 1;
@@ -349,18 +349,17 @@ void start_SEN(uint8_t mario_flag) {
 	moter_flag = 1;
 	speaker_on(C_5, 6.0, 240);
 
-
-	angle_calibration_integral=0.0;
-	angle_calibration=0.0;
-	angle_calibration_counter=0;
-	angle_calibration_flag=0;
-	angle_calibration_flag=1;
-	while(angle_calibration_flag==1){
+	angle_calibration_integral = 0.0;
+	angle_calibration = 0.0;
+	angle_calibration_counter = 0;
+	angle_calibration_flag = 0;
+	angle_calibration_flag = 1;
+	while (angle_calibration_flag == 1) {
 
 	}
-	angle_calibration=angle_calibration_integral/1000.0;
+	angle_calibration = angle_calibration_integral / 1000.0;
 
-	if (x.goal == 7 && y.goal == 7&&mario_flag==1) {
+	if (x.goal == 7 && y.goal == 7 && mario_flag == 1) {
 //		mario_start(180, 1);
 		speaker_on(C_5, 6.0, 240);
 		wait_time(500);
@@ -372,19 +371,84 @@ void start_SEN(uint8_t mario_flag) {
 
 }
 
-void fan_on(void){
-	diameter=diameter_absorption;
-	FAN=1;
+void fan_on(void) {
+	diameter = diameter_absorption;
+	FAN = 1;
 	wait_time(1000);
 }
 
-
-void fan_off(void){
-	diameter=DIAMETER;
+void fan_off(void) {
+	diameter = DIAMETER;
 	wait_time(500);
-	FAN=0;
+	FAN = 0;
 }
 
-void para_mode(void){
-
+void para_mode(void) {
+	uint8_t mode = 0;
+	LEFTFRONT = 1;
+	CENTERFRONT = 1;
+	RIGHTFRONT = 1;
+	Moter_Stby=1;
+	mode_select_dis = 0;
+	para_mode_flag = 1;
+	speaker_on( C_6, 6.0, 240);
+	while (1) {
+		ui_led_3bit(mode);
+		if (mode_select_dis > 100) {
+			mode_select_dis = 0;
+			mode++;
+			if (mode >= 8) {
+				mode = 0;
+			}
+			mode_select_speaker_2(mode);
+		}
+		if (SWITCH == 0) {
+			chattering();
+			ui_reset();
+			para_mode_flag=0;
+			mode_select_speaker_2(mode);
+			break;
+		}
+	}
+	if (mode == 0) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 1) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 1200;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 2000.0;
+	} else if (mode == 2) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 3) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 4) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 5) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 6) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 7) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	}
 }

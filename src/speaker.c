@@ -335,27 +335,70 @@ void HPB(int bpm, int pitch) {     //120,1
 
 void mode_select_speaker(uint8_t mode) {
 	if (mode == 1) {
-		speaker_on( C_4,6.0 ,240);
+		speaker_on( C_4, 6.0, 240);
 	}
 	if (mode == 2) {
-		speaker_on(D_4,6.0, 240);
+		speaker_on(D_4, 6.0, 240);
 	}
 	if (mode == 3) {
-		speaker_on(E_4,6.0, 240);
+		speaker_on(E_4, 6.0, 240);
 	}
 	if (mode == 4) {
-		speaker_on(F_4,6.0, 240);
+		speaker_on(F_4, 6.0, 240);
 	}
 	if (mode == 5) {
-		speaker_on(G_4,6.0, 240);
+		speaker_on(G_4, 6.0, 240);
 	}
 	if (mode == 6) {
-		speaker_on(A_4,6.0, 240);
+		speaker_on(A_4, 6.0, 240);
 	}
 	if (mode == 7) {
-		speaker_on(B_4,6.0, 240);
+		speaker_on(B_4, 6.0, 240);
 	}
 	if (mode == 0) {
-		speaker_on(C_5,6.0, 240);
+		speaker_on(C_5, 6.0, 240);
+	}
+}
+
+void mode_select_speaker_2(uint8_t mode) {
+	if (mode == 1) {
+		speaker_on( C_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( C_4, 6.0, 480);
+	}
+	if (mode == 2) {
+		speaker_on(D_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( E_4, 6.0, 480);
+	}
+	if (mode == 3) {
+		speaker_on(E_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( F_4, 6.0, 480);
+	}
+	if (mode == 4) {
+		speaker_on(F_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( G_4, 6.0, 480);
+	}
+	if (mode == 5) {
+		speaker_on(G_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( A_4, 6.0, 480);
+	}
+	if (mode == 6) {
+		speaker_on(A_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( B_4, 6.0, 480);
+	}
+	if (mode == 7) {
+		speaker_on(B_4, 6.0, 480);
+		wait_time(100);
+		speaker_on( C_5, 6.0, 480);
+	}
+	if (mode == 0) {
+		speaker_on(C_5, 6.0, 480);
+		wait_time(100);
+		speaker_on( C_4, 6.0, 480);
 	}
 }
