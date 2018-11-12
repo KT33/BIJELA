@@ -776,18 +776,19 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 		}
 
 		adachi_special_move(x_local, y_local, wall_direction, nomal_run.accel,
-				nomal_run.vel_search); //見たい壁に対する位置と壁の絶対方角を入力
+				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale); //見たい壁に対する位置と壁の絶対方角を入力
 	}
 	if (special_goal_flag == 0) {
 		adachi_special_move(goal_x, goal_y, goal_scale, nomal_run.accel,
-				nomal_run.vel_search);
+				nomal_run.vel_search,(goal_y * 16 + goal_x), goal_scale);
 	}
 	if (goal_scale == 1) {
 		go_entrance(nomal_run.accel, nomal_run.vel_search);
 		coordinate();
 		addWall();
 	}
-	adachi_special_move(0, 0, 255, nomal_run.accel, nomal_run.vel_search);
+	adachi_special_move(0, 0, 255, nomal_run.accel,
+			nomal_run.vel_search,(goal_y * 16 + goal_x), goal_scale);
 
 }
 
@@ -917,7 +918,7 @@ uint8_t how_to_move_special(uint8_t x, uint8_t y, uint8_t direction) {
 }
 
 void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
-		float accel, float vel) {
+		float accel, float vel, uint8_t ture_goal, uint8_t ture_goal_scale) {
 	uint8_t flag, i; //flag 0:前,1:左折2:Uターン(けつあて)3:右折4:Uターン
 	uint8_t goal_scale = 1;
 	uint8_t straight_flag = 0;
@@ -938,8 +939,16 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 	}
 
 	while (failsafe_flag == 0) {
-		if (x.now == goal_x && y.now == goal_y) {
-			special_goal_flag = 1;
+		if (ture_goal_scale == 4) {
+			if ((x.now == (ture_goal % 16) && y.now == (ture_goal / 16))
+					|| (x.now == (ture_goal % 16) + 1
+							&& y.now == (ture_goal / 16))
+					|| (x.now == (ture_goal % 16)
+							&& y.now == (ture_goal / 16) + 1)
+					|| (x.now == (ture_goal % 16) + 1
+							&& y.now == (ture_goal / 16) + 1)) {
+				special_goal_flag = 1;
+			}
 		}
 		if (step_map[x.now][y.now] == 999) {
 			stop90(accel, vel);

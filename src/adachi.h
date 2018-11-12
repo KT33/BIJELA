@@ -26,7 +26,7 @@ void search_run_special(uint8_t goal_x,uint8_t goal_y,uint8_t goal_scale);
 uint16_t make_temporary_goal_XY(uint8_t ,uint8_t,uint8_t);
 uint8_t how_to_move_special(uint8_t x,uint8_t y,uint8_t direction);
 void adachi_special_move(uint8_t goal_x, uint8_t goal_y,uint8_t, float accel,
-		float vel);
+		float vel,uint8_t,uint8_t);
 uint8_t check_flag(uint16_t);
 void stop_move(float accel,float vel);
 

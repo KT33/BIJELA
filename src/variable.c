@@ -8,6 +8,7 @@
 #include "variable.h"
 #include "iodefine.h"
 #include "stdint.h"
+#include "speaker.h"
 
 gain_t rotation_gain = { 0.62, 0.010, 0.0 };
 //0.56, 0.015:安定感あり・段差弱し
@@ -37,7 +38,7 @@ float wallcontrol_value;
 volatile int16_t i;
 
 volatile float diameter = DIAMETER; //タイヤ径 50 32
-volatile float diameter_absorption=23.45;
+volatile float diameter_absorption=23.40;
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
@@ -114,6 +115,75 @@ uint8_t para_mode_flag=0;
 
 uint8_t special_goal_flag=0;
 
+void para_mode(void) {
+	uint8_t mode = 0;
+	LEFTFRONT = 1;
+	CENTERFRONT = 1;
+	RIGHTFRONT = 1;
+	Moter_Stby=1;
+	mode_select_dis = 0;
+	para_mode_flag = 1;
+	speaker_on( C_6, 6.0, 240);
+	while (1) {
+		ui_led_3bit(mode);
+		if (mode_select_dis > 100) {
+			mode_select_dis = 0;
+			mode++;
+			if (mode >= 8) {
+				mode = 0;
+			}
+			mode_select_speaker_2(mode);
+		}
+		if (SWITCH == 0) {
+			chattering();
+			ui_reset();
+			para_mode_flag=0;
+			mode_select_speaker_2(mode);
+			break;
+		}
+	}
+	if (mode == 0) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 10000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 1) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 3700;
+		nomal_oblique.accel = 8000.0;
+		nomal_oblique.vel_max = 3700.0;
+	} else if (mode == 2) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 4000;
+		nomal_oblique.accel = 8500.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 3) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 4200;
+		nomal_oblique.accel = 9000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 4) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 4500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 5) {
+		nomal_run.accel = 15000.0;
+		nomal_run.vel_max = 4700;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 3500.0;
+	} else if (mode == 6) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 2200.0;
+	} else if (mode == 7) {
+		nomal_run.accel = 7000.0;
+		nomal_run.vel_max = 1500;
+		nomal_oblique.accel = 7000.0;
+		nomal_oblique.vel_max = 1500.0;
+	}
+}
 
 
 

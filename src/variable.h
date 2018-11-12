@@ -178,6 +178,8 @@ extern uint8_t para_mode_flag;
 extern normal_para_t nomal_oblique;
 extern uint8_t special_goal_flag;
 
+void para_mode(void);
+
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

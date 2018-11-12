@@ -140,8 +140,8 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = translation_ideal.dis;
-		log2[log_index] = (float) SEN_L.now;
+		Log[log_index] = translation_ideal.velocity;
+		log2[log_index] = right_real.velocity;
 //		log3[log_index] = translation_ideal.dis;
 		log_index++;
 		log_counter = 0;
@@ -159,14 +159,14 @@ void log_output(void) {
 	}
 //	myprintf("\n");
 //	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log2[i]);
-	}
-	myprintf("\n");
-	myprintf("\n");
-	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f\n", log3[i]);
-	}
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log2[i]);
+//	}
+//	myprintf("\n");
+//	myprintf("\n");
+//	for (i = 0; i < LogMax; i++) {
+//		myprintf("%.3f\n", log3[i]);
+//	}
 }
 
 void Battery_Check(void) {
@@ -383,72 +383,3 @@ void fan_off(void) {
 	FAN = 0;
 }
 
-void para_mode(void) {
-	uint8_t mode = 0;
-	LEFTFRONT = 1;
-	CENTERFRONT = 1;
-	RIGHTFRONT = 1;
-	Moter_Stby=1;
-	mode_select_dis = 0;
-	para_mode_flag = 1;
-	speaker_on( C_6, 6.0, 240);
-	while (1) {
-		ui_led_3bit(mode);
-		if (mode_select_dis > 100) {
-			mode_select_dis = 0;
-			mode++;
-			if (mode >= 8) {
-				mode = 0;
-			}
-			mode_select_speaker_2(mode);
-		}
-		if (SWITCH == 0) {
-			chattering();
-			ui_reset();
-			para_mode_flag=0;
-			mode_select_speaker_2(mode);
-			break;
-		}
-	}
-	if (mode == 0) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 1) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 1200;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 2000.0;
-	} else if (mode == 2) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 3) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 4) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 5) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 6) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	} else if (mode == 7) {
-		nomal_run.accel = 7000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
-	}
-}
