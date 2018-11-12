@@ -760,9 +760,10 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	addWall();
 	while (failsafe_flag == 0) {
 
-		adachi_map(goal_x, goal_y, goal_scale, walldate_real); //歩数マップ展開
+//		adachi_map(goal_x, goal_y, goal_scale, walldate_real); //歩数マップ展開
 		Next_XY_16bit = make_temporary_goal_XY(goal_x, goal_y, goal_scale); //見たい壁の位置からゴールを算出
 		if (Next_XY_16bit == 0xffff) {
+//			speaker_on( C_4, 6.0, 500);
 			break;
 		}
 		wall_direction = check_flag(Next_XY_16bit);
@@ -776,19 +777,22 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 		}
 
 		adachi_special_move(x_local, y_local, wall_direction, nomal_run.accel,
-				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale); //見たい壁に対する位置と壁の絶対方角を入力
+				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale,
+				Next_XY_16bit); //見たい壁に対する位置と壁の絶対方角を入力
 	}
+//	speaker_on( C_4, 6.0, 500);
 	if (special_goal_flag == 0) {
 		adachi_special_move(goal_x, goal_y, goal_scale, nomal_run.accel,
-				nomal_run.vel_search,(goal_y * 16 + goal_x), goal_scale);
+				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale,
+				0xffff);
 	}
 	if (goal_scale == 1) {
 		go_entrance(nomal_run.accel, nomal_run.vel_search);
 		coordinate();
 		addWall();
 	}
-	adachi_special_move(0, 0, 255, nomal_run.accel,
-			nomal_run.vel_search,(goal_y * 16 + goal_x), goal_scale);
+	adachi_special_move(0, 0, 255, nomal_run.accel, nomal_run.vel_search,
+			(goal_y * 16 + goal_x), goal_scale, 0xffff);
 
 }
 
@@ -798,14 +802,18 @@ uint16_t make_temporary_goal_XY(uint8_t ture_goal_x, uint8_t ture_goal_y,
 	uint8_t x_local = 0, y_local = 0, local_direction = 0; //常にスタート座標からゴールへの道を探す
 	uint16_t Next_XY = 0, shift = 1;
 
+	adachi_map(ture_goal_x, ture_goal_y, goal_scale, walldate_real); //歩数マップ展開
+
 	while (failsafe_flag == 0) {
 		flag = how_to_move_special(x_local, y_local, local_direction);
+//		myprintf("flag:%d.x:%d,y:%d,dire:%d\n",flag,x_local,y_local,local_direction);
 
 		if (flag > 9) { //相対方角から絶対方角に変換
 			flag -= 10;
 			flag += local_direction;
 			flag %= 4;
 			flag += 10;
+//			speaker_on( C_4, 6.0, 500);
 			break;
 		}
 		if (flag == 1) {
@@ -855,6 +863,7 @@ uint16_t make_temporary_goal_XY(uint8_t ture_goal_x, uint8_t ture_goal_y,
 	if (shift == 255) { //経路内に未知壁なし
 		Next_XY = 0xffff;
 	}
+//	myprintf("%d\n",Next_XY);
 	return Next_XY; //一時的なゴール座標を返す
 }
 
@@ -918,11 +927,13 @@ uint8_t how_to_move_special(uint8_t x, uint8_t y, uint8_t direction) {
 }
 
 void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
-		float accel, float vel, uint8_t ture_goal, uint8_t ture_goal_scale) {
+		float accel, float vel, uint8_t ture_goal, uint8_t ture_goal_scale,
+		uint16_t input) {
 	uint8_t flag, i; //flag 0:前,1:左折2:Uターン(けつあて)3:右折4:Uターン
 	uint8_t goal_scale = 1;
 	uint8_t straight_flag = 0;
 	uint8_t slalom_flag = 1;
+	uint16_t NEW_XY_16;
 
 	if (wall_direction == 0) { //座標と壁の方角の関係から2つのゴール座標を設定
 		goal_scale = 100;
@@ -939,6 +950,12 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 	}
 
 	while (failsafe_flag == 0) {
+		NEW_XY_16 = make_temporary_goal_XY((ture_goal % 16), (ture_goal / 16),
+				ture_goal_scale);
+		if ((NEW_XY_16 != input) && (input != 0xffff)) {
+			break;
+		}
+
 		if (ture_goal_scale == 4) {
 			if ((x.now == (ture_goal % 16) && y.now == (ture_goal / 16))
 					|| (x.now == (ture_goal % 16) + 1
@@ -958,7 +975,7 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 		if (straight_flag == 1) {
 			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
 		} else {
-			adachi_map(goal_x, goal_y, goal_scale, walldate_real);
+			adachi_map_special(goal_x, goal_y, goal_scale, walldate_real);
 		}
 
 		if ((goal_scale == 1) && ((x.now == goal_x && y.now == goal_y))) { //帰宅時
@@ -1077,3 +1094,168 @@ void stop_move(float accel, float vel) {
 		wait_time(50);
 	}
 }
+
+void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
+		walldate_t walldate) {
+	uint8_t x_adachi, y_adachi, step;
+	queue_t q;
+//	uint8_t test = 0;
+
+//	moter_flag = 1;
+	q.head = 0;
+	q.tail = 0;
+
+	for (x_adachi = 0; x_adachi < 16; x_adachi++) {
+		for (y_adachi = 0; y_adachi < 16; y_adachi++) {
+			step_map[x_adachi][y_adachi] = 999;
+		}
+	}
+
+	if (goal_scale == 1) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+	} else if (goal_scale == 4) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x + 1][goal_y] = 0;
+		x_adachi = goal_x + 1;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x][goal_y + 1] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y + 1;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		step_map[goal_x + 1][goal_y + 1] = 0;
+		x_adachi = goal_x + 1;
+		y_adachi = goal_y + 1;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+	} else if (goal_scale == 100) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		if (goal_y < 15) {
+			step_map[goal_x][goal_y + 1] = 0;
+			x_adachi = goal_x;
+			y_adachi = goal_y + 1;
+			step = 0;
+			queue_push(&q, x_adachi, y_adachi);
+		}
+	} else if (goal_scale == 101) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		if (goal_x > 0) {
+			step_map[goal_x - 1][goal_y] = 0;
+			x_adachi = goal_x - 1;
+			y_adachi = goal_y;
+			step = 0;
+			queue_push(&q, x_adachi, y_adachi);
+		}
+	} else if (goal_scale == 102) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		if (goal_y > 0) {
+			step_map[goal_x][goal_y - 1] = 0;
+			x_adachi = goal_x;
+			y_adachi = goal_y - 1;
+			step = 0;
+			queue_push(&q, x_adachi, y_adachi);
+		}
+	} else if (goal_scale == 103) {
+		step_map[goal_x][goal_y] = 0;
+		x_adachi = goal_x;
+		y_adachi = goal_y;
+		step = 0;
+		queue_push(&q, x_adachi, y_adachi);
+		if (goal_x < 15) {
+			step_map[goal_x + 1][goal_y] = 0;
+			x_adachi = goal_x + 1;
+			y_adachi = goal_y;
+			step = 0;
+			queue_push(&q, x_adachi, y_adachi);
+		}
+	}
+
+	do {
+		flag = 0;
+		queue_pop(&q, &x_adachi, &y_adachi);
+
+///////////////////////////////////////////
+//		step = step_map[x_adachi][y_adachi];
+/////////////////////////////////////////
+
+//////
+//		while (step + 3 < step_map[x_adachi][y_adachi]) {
+//			queue_push(&q, x_adachi, y_adachi);
+//			queue_pop(&q, &x_adachi, &y_adachi);
+//		}
+
+		step = step_map[x_adachi][y_adachi];
+
+//////
+
+		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
+				&& (step_map[x_adachi][y_adachi + 1] > step + 1)
+				&& ((y_adachi + 1) < 16)) {
+			if ((getWall(x_adachi, y_adachi, North, &walldate_checked) == 0)) {
+				step_map[x_adachi][y_adachi + 1] = step + 1;
+			} else {
+				step_map[x_adachi][y_adachi + 1] = step + 3;
+			}
+
+			queue_push(&q, x_adachi, y_adachi + 1);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
+				&& (step_map[x_adachi - 1][y_adachi] > step + 1)
+				&& ((x_adachi - 1) >= 0)) {
+			if ((getWall(x_adachi, y_adachi, West, &walldate_checked) == 0)) {
+				step_map[x_adachi - 1][y_adachi] = step + 1;
+			} else {
+				step_map[x_adachi - 1][y_adachi] = step + 3;
+			}
+			queue_push(&q, x_adachi - 1, y_adachi);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
+				&& (step_map[x_adachi][y_adachi - 1] > step + 1)
+				&& ((y_adachi - 1) >= 0)) {
+			if ((getWall(x_adachi, y_adachi, South, &walldate_checked) == 0)) {
+				step_map[x_adachi][y_adachi - 1] = step + 1;
+			} else {
+				step_map[x_adachi][y_adachi - 1] = step + 3;
+			}
+			queue_push(&q, x_adachi, y_adachi - 1);
+			flag = 10;
+		}
+		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
+				&& (step_map[x_adachi + 1][y_adachi] > step + 1)
+				&& ((x_adachi + 1) < 16)) {
+			if ((getWall(x_adachi, y_adachi, East, &walldate_checked) == 0)) {
+				step_map[x_adachi + 1][y_adachi] = step + 1;
+			} else {
+				step_map[x_adachi + 1][y_adachi] = step + 3;
+			}
+			queue_push(&q, x_adachi + 1, y_adachi);
+			flag = 10;
+		}
+//		myprintf("fast	%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+	} while (q.tail != q.head);
+}
+

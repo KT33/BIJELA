@@ -27,8 +27,10 @@ void mode_0(void) {
 
 //	uint8_t i;
 	start_SEN(0);
+	wait_time(3000);
 	search_run_special(x.goal, y.goal, 4);
 	write_all_walldatas();
+
 
 }
 
@@ -43,7 +45,6 @@ void mode_1(void) {
 	fan_off();
 	wait_time(2000);
 	make_pass(0, 0, 1, 0);
-	;
 	move_pass_big_turn(7000.0, 2200.0, 1000.0);
 
 	wait_time(10);
@@ -90,8 +91,27 @@ void mode_4(void) {
 	para_mode();
 	start_SEN(0);
 	fan_on();
-	set_straight(150.0 + 180.0 * 13.0, nomal_run.accel, nomal_run.vel_max, 0.0, 0.0);
+	set_straight(150.0 + 180.0 * 13.0, nomal_run.accel, nomal_run.vel_max, 0.0,
+			0.0);
 	log_start();
+	wait_straight();
+	fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	log_output();
+
+}
+
+void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
+
+	start_SEN(0);
+	fan_on();
+	set_straight(150.0+180.0*2.0, 7000.0, 1300.0, 0.0, 1300.0);
+	wait_straight();
+	log_start();
+	turn_left_180_big(1300);
+	set_straight(270.0, 7000.0, 1300.0, 1300.0, 0.0);
 	wait_straight();
 	fan_off();
 	while(SWITCH==1){
@@ -101,45 +121,36 @@ void mode_4(void) {
 
 }
 
-void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-
-
-
-}
-
 void mode_6(void) {
+	rotation_gain.Ki=0.020;
 	start_SEN(0);
-	go_entrance(nomal_run.accel, nomal_run.vel_search);
-	wait_time(500);
-	stop90(nomal_run.accel, nomal_run.vel_search);
-
-//	read_all_walldatas();
-//	start_SEN(1);
-//	fan_on();
-//	make_pass(x.goal, y.goal, 4, 1);
-//	//	output_Walldate(&walldate_adachi);
-//	fan_on();
-//	move_pass_big_turn(7000.0, 3000.0, 1200.0);
-	//	wait_time(2000);
-//	adachi_search_run_known(0, 0, 1, nomal_run.accel, nomal_run.vel_search, 1,
-//			0);
-//	write_all_walldatas();
-//	fan_off();
-//	wait_time(10);
-
+	fan_on();
+	set_straight(150.0+180.0*2.0, 7000.0, 1300.0, 0.0, 1300.0);
+	wait_straight();
+	log_start();
+	turn_right_180_big(1300);
+	set_straight(270.0, 7000.0, 1300.0, 1300.0, 0.0);
+	wait_straight();
+	fan_off();
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	log_output();
 }
 
 void mode_7(void) {
-
-//	read_all_walldatas();
+	read_all_walldatas();
+	adachi_map(x.goal, y.goal, 4, walldate_real);
 //	adachi_map(x.goal, y.goal, 4, walldate_adachi);
 //	make_pass(x.goal, y.goal, 4, 0);
-//	output_Walldate(&walldate_adachi);
-//	out_put_pass(pass);
-	fan_on();
-	while (SWITCH == 1) {
+	make_temporary_goal_XY(x.goal, y.goal, 4);
+	output_Walldate(&walldate_real);
 
-	}
+//	out_put_pass(pass);
+//	fan_on();
+//	while (SWITCH == 1) {
+//
+//	}
 //	para_mode();
 ////	while (1) {
 ////		ui_led_3bit(5);

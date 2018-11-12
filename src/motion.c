@@ -284,6 +284,14 @@ void turn_left_180_big(float vel) {
 		kabekire_dis = 0.0;
 		angle_offset = 0.0;
 	}
+	if(vel==100.0){
+		in_offset = 0.0;
+		out_offset = 42.0;
+		rota_accel = 8500.0;
+		rota_vel = 1000.0;
+		kabekire_dis = 0.0;
+		angle_offset = 0.0;
+	}
 
 	while (SEN_L.now > SEN_L.threshold) {
 		translation_ideal.dis = kabekire_dis;
@@ -337,6 +345,14 @@ void turn_right_180_big(float vel) {
 		out_offset = 38.0;
 		rota_accel = 10000.0; //8700
 		rota_vel = 782.0;
+		kabekire_dis = 0.0;
+		angle_offset = 2.0;
+	}
+	if (vel == 1300.0) {
+		in_offset = 0.0;
+		out_offset = 38.0;
+		rota_accel = 9000.0; //8700
+		rota_vel = 1100.0;
 		kabekire_dis = 0.0;
 		angle_offset = 2.0;
 	}
@@ -882,8 +898,9 @@ void turn_left_v90(float vel) {
 	set_rotation(90.0 + angle_offset, rota_accel, rota_vel, vel);
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
-	wall_control_flag = 0;
+	wall_control_oblique_flag = 1;
 	wait_straight();
+	wall_control_oblique_flag = 0;
 }
 
 void turn_right_v90(float vel) {
@@ -920,8 +937,9 @@ void turn_right_v90(float vel) {
 	set_rotation(-90.0 + angle_offset, rota_accel, rota_vel, vel);
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
-	wall_control_flag = 0;
+	wall_control_oblique_flag = 1;
 	wait_straight();
+	wall_control_oblique_flag = 0;
 }
 
 void farst_turn_right_45_in(float vel) {
