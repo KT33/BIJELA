@@ -48,7 +48,6 @@ void speaker_on(int frq, float beat, int bpm) {
 	wait_time((int) (60000.0f / bpm * 4.0f / beat - 10.0f));
 	TPUA.TSTR.BIT.CST0 = 0;     // TPU5 0:停止,1:開始
 	wait_time(10);
-
 }
 
 void nchancha(int bpm, int pitch) {     //200,2

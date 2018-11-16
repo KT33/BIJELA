@@ -521,6 +521,62 @@ uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t walldate) 
 	return flag;
 }
 
+uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y,
+		walldate_t walldate) {
+	uint8_t step, flag, i;
+	int8_t a, b;
+	if (direction == North) {
+		i = 0;
+		a = 1;
+		b = 0;
+	} else if (direction == West) {
+		i = 1;
+		a = 0;
+		b = 1;
+	} else if (direction == South) {
+		i = 2;
+		a = -1;
+		b = 0;
+	} else if (direction == East) {
+		i = 3;
+		a = 0;
+		b = -1;
+	}
+//	if ((y - a >= 0) && (x + b < 16)) {
+//		if ((getWall(x, y, (North + i) % 4, &walldate) == 1)
+//				&& (getWall(x, y, (East + i) % 4, &walldate) == 1)
+//				&& (getWall(x, y, (West + i) % 4, &walldate) == 1)) {
+//			flag = 2;
+//		} else {
+//			flag = 4;
+//		}
+//		step = step_map[x + b][y - a];
+//	}
+	step = step_map[x + b][y - a];
+	if ((x - a >= 0) && (y - b >= 0)
+			&& (getWall(x, y, (West + i) % 4, &walldate) == 0)) {
+		if (step_map[x - a][y - b] <= step) {
+			flag = 1;
+			step = step_map[x - a][y - b];
+		}
+	}
+	if ((x + a <= 15) && (y + b <= 15)
+			&& (getWall(x, y, (East + i) % 4, &walldate) == 0)) {
+		if (step_map[x + a][y + b] <= step) {
+			flag = 3;
+			step = step_map[x + a][y + b];
+		}
+	}
+	if ((y + a <= 15) && (x - b >= 0)
+			&& (getWall(x, y, (North + i) % 4, &walldate) == 0)) {
+		if (step_map[x - b][y + a] <= step) {
+			flag = 0;
+			step = step_map[x - b][y + a];
+		}
+	}
+	return flag;
+}
+
 void right_hand(float accel, float vel) {
 	int i = 0;
 	go_entrance(accel, vel);
@@ -750,6 +806,22 @@ uint8_t how_to_move_search_known(uint8_t direction, int8_t x, int8_t y) {
 void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	uint16_t Next_XY_16bit;
 	uint8_t x_local, y_local, wall_direction, Next_XY_8bit;
+
+	if(goal_scale==4){
+		x.now=goal_x;
+		y.now=goal_y;
+		add_East_wall(&walldate_checked);
+		add_North_wall(&walldate_checked);
+		pull_East_wall(&walldate_adachi);
+		pull_North_wall(&walldate_adachi);
+		x.now=goal_x+1;
+		y.now=goal_y+1;
+		add_West_wall(&walldate_checked);
+		add_South_wall(&walldate_checked);
+		pull_West_wall(&walldate_adachi);
+		pull_South_wall(&walldate_adachi);
+	}
+
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
@@ -934,6 +1006,7 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 	uint8_t straight_flag = 0;
 	uint8_t slalom_flag = 1;
 	uint16_t NEW_XY_16;
+
 
 	if (wall_direction == 0) { //座標と壁の方角の関係から2つのゴール座標を設定
 		goal_scale = 100;

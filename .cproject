@@ -123,6 +123,7 @@
 								</option>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.30758051" name="最適化レベル" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimize.level1" valueType="enumerated"/>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop.1729948243" name="自動ループ展開を行う" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.loop.default" valueType="enumerated"/>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimizationType.1715910456" name="最適化方法" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimizationType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.optimizationType.size" valueType="enumerated"/>
 								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.2010866296" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
 								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.2086274067" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
 							</tool>

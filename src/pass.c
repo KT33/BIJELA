@@ -35,13 +35,15 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 	i = 0;
 	while (1) {
 
+//	myprintf("x:%d,y:%d\n",x.pass,y.pass);
+
 		if (step_map[x.pass][y.pass] == 0) {
 			break;
 		}
 
-		flag = how_to_move(direction_pass, (int8_t) x.pass, (int8_t) y.pass,
+		flag = how_to_move_pass(direction_pass, (int8_t) x.pass, (int8_t) y.pass,
 				walldate_adachi);
-		//	myprintf("flag:%d,%d,%d,%d\n", flag, x.pass, y.pass,direction_pass);
+//			myprintf("flag:%d,%d,%d,%d\n", flag, x.pass, y.pass,direction_pass);
 		if (flag == 0) {
 			pass[i] = 0; //直進
 		}
@@ -255,6 +257,16 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 	int8_t straight_count;
 	uint8_t x_box, y_box, direction_box;
 
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
+	translation_ideal.dis = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.dis = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.back_rightturn_flag = 0;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
+
 	for (i = 0; i < 255; i++) {
 		pass_big[i] = 0;
 	}
@@ -381,6 +393,10 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 		coordinate();
 	} else if (pass_big[i] == BIGRIGHT90) {
 		farst_turn_right_90_big(big_turn_vel);
+	}else if(pass_big[i] == SHORTLEFT90){
+		go_entrance(accel, nomal_run.vel_search);
+		slalom_left90(nomal_run.accel, nomal_run.vel_search);
+		coordinate();
 	}
 
 	for (i = 1; pass_big[i] != 0xff; i++) {
@@ -507,6 +523,17 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	volatile int j = 0;
 	int8_t straight_count, oblique_flag = 0, oblique_straight_count = 0;
 	uint8_t x_box, y_box, direction_box;
+
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
+	translation_ideal.dis = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.dis = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.back_rightturn_flag = 0;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
+	wallcontrol_value=0.0;
 
 	if (absorption_flag == 1) {
 		fan_on();
@@ -862,12 +889,12 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 
 		if (pass_oblique[i - 1] == SHORTLEFT90
 				|| pass_oblique[i - 1] == SHORTRIGHT90) {
-			set_straight(90.0, accel, nomal_run.vel_search,
+			set_straight(88.0, accel, nomal_run.vel_search,
 					nomal_run.vel_search, 0.0);
 		} else if (pass[i - 1] > 35) {
-			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);
+			set_straight(88.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(90.0, accel, max_vel, big_turn_vel, 0.0);//max_vel????
+			set_straight(88.0, accel, max_vel, big_turn_vel, 0.0);//max_vel????
 		}
 		wait_straight();
 //		if (x.goal == 7 && y.goal == 7 && failsafe_flag == 0) {

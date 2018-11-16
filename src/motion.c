@@ -63,7 +63,15 @@ void turn_180(float accel, float vel) {
 	wait_time(50);
 	set_rotation(180.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(50);
+//	wait_time(50);
+	if (u_turn_counter > 4) {
+		write_all_walldatas();
+		u_turn_counter = 0;
+	} else {
+		wait_time(5);
+		u_turn_counter++;
+	}
+
 	set_straight(90.0, accel, vel, 0.0, vel);
 	wait_straight();
 }
@@ -76,7 +84,13 @@ void ketuate(float accel, float vel) {
 	wait_rotation();
 	wait_time(50);
 	back_100();
-	wait_time(50);
+	if (u_turn_counter > 4) {
+		write_all_walldatas();
+		u_turn_counter = 0;
+	} else {
+		wait_time(5);
+		u_turn_counter++;
+	}
 	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
@@ -84,19 +98,19 @@ void ketuate(float accel, float vel) {
 void ketuate_right(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(50);
+	wait_time(5);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(50);
+	wait_time(5);
 	back_100();
 	wait_time(50);
 	go_center(accel, vel);
-	wait_time(50);
+	wait_time(5);
 	set_rotation(90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(50);
+	wait_time(5);
 	back_100();
-	wait_time(50);
+	wait_time(5);
 	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
@@ -104,20 +118,20 @@ void ketuate_right(float accel, float vel) {
 void ketuate_left(float accel, float vel) {
 	set_straight(90.0, accel, vel, vel, 0.0);
 	wait_straight();
-	wait_time(50);
+	wait_time(5);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(50);
+	wait_time(5);
 	back_100();
-	wait_time(50);
+	wait_time(5);
 	set_straight(57.0, accel, vel, 0.0, 0.0);
 	wait_straight();
-	wait_time(50);
+	wait_time(5);
 	set_rotation(-90.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
 	wait_rotation();
-	wait_time(50);
+	wait_time(5);
 	back_100();
-	wait_time(50);
+	wait_time(5);
 	rotation_deviation.cumulative = 0.0;
 	go_entrance(accel, vel);
 }
@@ -224,7 +238,7 @@ void slalom_right90(float run_accel, float run_vel) {
 		rota_vel = slarom_600.max_vel;
 		in_offset = slarom_600.right.in_offset - 2.0;
 		out_offset = slarom_600.right.out_offset + 3.0;
-		angle_offset = 2.0;
+		angle_offset = 1.0;
 	}
 	set_straight(in_offset, run_accel, run_vel, run_vel, run_vel);
 	wait_straight();
@@ -284,7 +298,7 @@ void turn_left_180_big(float vel) {
 		kabekire_dis = 0.0;
 		angle_offset = 0.0;
 	}
-	if(vel==100.0){
+	if (vel == 100.0) {
 		in_offset = 0.0;
 		out_offset = 42.0;
 		rota_accel = 8500.0;
@@ -351,8 +365,8 @@ void turn_right_180_big(float vel) {
 	if (vel == 1300.0) {
 		in_offset = 0.0;
 		out_offset = 38.0;
-		rota_accel = 9000.0; //8700
-		rota_vel = 1100.0;
+		rota_accel = 12000.0; //8700
+		rota_vel = 800.0;
 		kabekire_dis = 0.0;
 		angle_offset = 2.0;
 	}

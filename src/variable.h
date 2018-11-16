@@ -11,7 +11,7 @@
 #include "stdint.h"
 
 #define LogMax 2000
-#define DIAMETER 23.46
+#define DIAMETER 23.37
 
 
 typedef struct {
@@ -177,9 +177,12 @@ extern float angle_calibration_integral;
 extern uint8_t para_mode_flag;
 extern normal_para_t nomal_oblique;
 extern uint8_t special_goal_flag;
+extern uint8_t u_turn_counter;
+
+extern uint8_t speaker_flag;
+extern uint16_t speaker_counter;
 
 void para_mode(void);
-
 
 
 #define UI_LED1 PORT2.PODR.BIT.B7

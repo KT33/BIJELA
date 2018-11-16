@@ -24,29 +24,32 @@
 
 void mode_0(void) {
 //	start_SEN();
-
 //	uint8_t i;
 	start_SEN(0);
-	wait_time(3000);
 	search_run_special(x.goal, y.goal, 4);
 	write_all_walldatas();
-
-
 }
 
 void mode_1(void) {
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
-//	fan_on();
 	make_pass(x.goal, y.goal, 4, 0);
 	move_pass_oblique(nomal_run.accel, nomal_run.vel_max, 1200,
 			nomal_oblique.accel, nomal_oblique.vel_max, 1);
 	fan_off();
-	wait_time(2000);
+	wait_time(500);
+
+//	while (SWITCH == 1) {
+//		moter_flag = 0;
+//	}
+//	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
+//	make_pass(0, 0, 1, 0);
+//	out_put_pass(pass);
+//	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
+
 	make_pass(0, 0, 1, 0);
 	move_pass_big_turn(7000.0, 2200.0, 1000.0);
-
 	wait_time(10);
 }
 
@@ -88,66 +91,44 @@ void mode_3(void) { //253.558
 }
 
 void mode_4(void) {
-	para_mode();
 	start_SEN(0);
-	fan_on();
-	set_straight(150.0 + 180.0 * 13.0, nomal_run.accel, nomal_run.vel_max, 0.0,
-			0.0);
-	log_start();
+	set_straight(140.0 + 180.0, 7000.0, 600.0, 0.0, 600.0);
 	wait_straight();
-	fan_off();
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	log_output();
+	slalom_right90(7000.0, 600.0);
+	set_straight(180.0, 7000.0, 600.0, 600.0, 0.0);
+	wall_control_flag = 0;
+	wait_straight();
 
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 
 	start_SEN(0);
-	fan_on();
-	set_straight(150.0+180.0*2.0, 7000.0, 1300.0, 0.0, 1300.0);
+	set_straight(140.0 + 180.0, 7000.0, 600.0, 0.0, 600.0);
 	wait_straight();
-	log_start();
-	turn_left_180_big(1300);
-	set_straight(270.0, 7000.0, 1300.0, 1300.0, 0.0);
+	slalom_left90(7000.0, 600.0);
+	set_straight(180.0, 7000.0, 600.0, 600.0, 0.0);
+	wall_control_flag = 0;
 	wait_straight();
-	fan_off();
-	while(SWITCH==1){
-		moter_flag=0;
-	}
-	log_output();
 
 }
 
 void mode_6(void) {
-	rotation_gain.Ki=0.020;
-	start_SEN(0);
-	fan_on();
-	set_straight(150.0+180.0*2.0, 7000.0, 1300.0, 0.0, 1300.0);
-	wait_straight();
-	log_start();
-	turn_right_180_big(1300);
-	set_straight(270.0, 7000.0, 1300.0, 1300.0, 0.0);
-	wait_straight();
-	fan_off();
-	while(SWITCH==1){
-		moter_flag=0;
-	}
-	log_output();
+	read_all_walldatas();
+	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
+	make_pass(x.goal, y.goal, 4, 0);
+	output_Walldate(&walldate_adachi);
+	output_Walldate(&walldate_checked);
+	output_Walldate(&walldate_real);
+	out_put_pass(pass);
+	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
 }
 
 void mode_7(void) {
-	read_all_walldatas();
-	adachi_map(x.goal, y.goal, 4, walldate_real);
-//	adachi_map(x.goal, y.goal, 4, walldate_adachi);
-//	make_pass(x.goal, y.goal, 4, 0);
-	make_temporary_goal_XY(x.goal, y.goal, 4);
-	output_Walldate(&walldate_real);
+
+	fan_on();
 
 //	out_put_pass(pass);
-//	fan_on();
 //	while (SWITCH == 1) {
 //
 //	}
@@ -192,6 +173,7 @@ void go_mode(uint8_t mode) {
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
+	wallcontrol_value = 0.0;
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
