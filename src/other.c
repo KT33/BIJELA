@@ -140,8 +140,8 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = (float) SEN_R.diff;
-		log2[log_index] = (float) SEN_L.diff;
+		Log[log_index] = rotation_ideal.velocity;
+		log2[log_index] = rotation_real.velocity;
 //		log3[log_index] = translation_ideal.dis;
 		log_index++;
 		log_counter = 0;

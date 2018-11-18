@@ -96,15 +96,15 @@ void mode_4(void) {
 	set_straight(140.0 + 90.0, 7000.0, 1300.0, 0.0, 1300.0);
 	wait_straight();
 	turn_right_45_in(1300.0);
-	set_straight(253.558+20.0, 7000.0, 1300.0, 1300.0, 0.0);
+	set_straight(253.558 + 20.0, 7000.0, 1300.0, 1300.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
 	myprintf("%.2f\n",Log[0]);
-
+//	log_output();
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
@@ -113,20 +113,19 @@ void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 	set_straight(140.0 + 90.0, 7000.0, 1300.0, 0.0, 1300.0);
 	wait_straight();
 	turn_right_135_in(1300.0);
-	set_straight(253.558+20.0, 7000.0, 1300.0, 1300.0, 0.0);
+	set_straight(253.558 + 20.0, 7000.0, 1300.0, 1300.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
 	fan_off();
-	while(SWITCH==1){
-		moter_flag=0;
+	while (SWITCH == 1) {
+		moter_flag = 0;
 	}
-	myprintf("%.2f\n",Log[0]);
+	myprintf("%.2f\n", Log[0]);
 }
-
 
 void mode_6(void) {
 	read_all_walldatas();
-	adachi_map_special(x.goal,y.goal, 4, walldate_real);
+	adachi_map_special(x.goal, y.goal, 4, walldate_real);
 	output_Walldate(&walldate_real);
 }
 
@@ -156,8 +155,8 @@ void go_mode(uint8_t mode) {
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
 	wallcontrol_value = 0.0;
-	run_left_deviation.cumulative=0.0;
-	run_right_deviation.cumulative=0.0;
+	run_left_deviation.cumulative = 0.0;
+	run_right_deviation.cumulative = 0.0;
 	x.now = 0;
 	y.now = 0;
 	direction = 0;
