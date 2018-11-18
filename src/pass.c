@@ -266,6 +266,9 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
+	wallcontrol_value=0.0;
+	run_left_deviation.cumulative=0.0;
+	run_right_deviation.cumulative=0.0;
 
 	for (i = 0; i < 255; i++) {
 		pass_big[i] = 0;
@@ -534,6 +537,8 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
 	wallcontrol_value=0.0;
+	run_left_deviation.cumulative=0.0;
+	run_right_deviation.cumulative=0.0;
 
 	if (absorption_flag == 1) {
 		fan_on();
@@ -951,6 +956,18 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		}
 	}
 	fan_off();
+	translation_ideal.accel = 0.0;
+	translation_ideal.velocity = 0.0;
+	translation_ideal.dis = 0.0;
+	rotation_ideal.accel = 0.0;
+	rotation_ideal.dis = 0.0;
+	rotation_ideal.velocity = 0.0;
+	rotation_parameter.back_rightturn_flag = 0;
+	rotation_deviation.now = 0.0;
+	rotation_deviation.cumulative = 0.0;
+	wallcontrol_value=0.0;
+	run_left_deviation.cumulative=0.0;
+	run_right_deviation.cumulative=0.0;
 }
 
 void out_put_pass(uint8_t *pass) {

@@ -24,9 +24,9 @@ normal_para_t nomal_oblique={0.0,3000.0,0.0,7000.0};
 slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
 slarom_para_t slarom_600 = { 12500.0, 6000.0, { 20.0, 41.0 }, { 22.0, 40.0 } };
 
-sensor_t SEN_R = { 0, 1345, 600, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
+sensor_t SEN_R = { 0, 1400, 600, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
 //1445
-sensor_t SEN_L = { 0, 1300, 574, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
+sensor_t SEN_L = { 0, 1230, 574, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
 // 0, 1641, 574, 0, 0, 3368, 3100
 //3368
 sensor_t SEN_RF = { 0, 3282, 728, 0, 0, 224, 190 };

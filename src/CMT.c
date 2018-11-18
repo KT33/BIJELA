@@ -115,6 +115,8 @@ void interrupt_cmt0(void) {
 //		RIGHTFRONT = 0;
 	} else { //モード選択中
 //		real_velocity_control();
+		LEFTEING = 0;
+		RIGHTWING = 0;
 		integral_vel_to_dis(&right_real.velocity, &mode_select_dis);
 	}
 	if(para_mode_flag==1){

@@ -92,70 +92,52 @@ void mode_3(void) { //253.558
 
 void mode_4(void) {
 	start_SEN(0);
-	set_straight(140.0 + 180.0, 7000.0, 600.0, 0.0, 600.0);
+	fan_on();
+	set_straight(140.0 + 90.0, 7000.0, 1300.0, 0.0, 1300.0);
 	wait_straight();
-	slalom_right90(7000.0, 600.0);
-	set_straight(180.0, 7000.0, 600.0, 600.0, 0.0);
+	turn_right_45_in(1300.0);
+	set_straight(253.558+20.0, 7000.0, 1300.0, 1300.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
+	fan_off();
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	myprintf("%.2f\n",Log[0]);
 
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-
 	start_SEN(0);
-	set_straight(140.0 + 180.0, 7000.0, 600.0, 0.0, 600.0);
+	fan_on();
+	set_straight(140.0 + 90.0, 7000.0, 1300.0, 0.0, 1300.0);
 	wait_straight();
-	slalom_left90(7000.0, 600.0);
-	set_straight(180.0, 7000.0, 600.0, 600.0, 0.0);
+	turn_right_135_in(1300.0);
+	set_straight(253.558+20.0, 7000.0, 1300.0, 1300.0, 0.0);
 	wall_control_flag = 0;
 	wait_straight();
-
+	fan_off();
+	while(SWITCH==1){
+		moter_flag=0;
+	}
+	myprintf("%.2f\n",Log[0]);
 }
+
 
 void mode_6(void) {
 	read_all_walldatas();
-	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
-	make_pass(x.goal, y.goal, 4, 0);
-	output_Walldate(&walldate_adachi);
-	output_Walldate(&walldate_checked);
+	adachi_map_special(x.goal,y.goal, 4, walldate_real);
 	output_Walldate(&walldate_real);
-	out_put_pass(pass);
-	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
 }
 
 void mode_7(void) {
+	output_SEN();
 
-	fan_on();
+//	fan_on();
 
 //	out_put_pass(pass);
 //	while (SWITCH == 1) {
 //
-//	}
-//	para_mode();
-////	while (1) {
-////		ui_led_3bit(5);
-////		fan_on();
-////		myprintf("test\n");
-////	}
-//
-//	output_SEN();
-////
-////	while (1) {
-////		//	moter_flag = 1;
-////		wait_time(1);
-////		real_angle_control();
-////		myprintf("%.4f\n", rotation_real.velocity);
-////////		ui_led_3bit(i);
-////////		i++;
-////////		if(i>=8){
-////////			i=0;
-////	}
-////////		wait_time(1);
-//
-//////		myprintf("%.8f\n", rotation_real.velocity);
-//////		moter_flag = 1;
-//////		myprintf("%.3f\n", rotation_deviation.cumulative);
 //	}
 }
 
@@ -174,6 +156,8 @@ void go_mode(uint8_t mode) {
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
 	wallcontrol_value = 0.0;
+	run_left_deviation.cumulative=0.0;
+	run_right_deviation.cumulative=0.0;
 	x.now = 0;
 	y.now = 0;
 	direction = 0;

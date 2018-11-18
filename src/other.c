@@ -379,6 +379,8 @@ void fan_on(void) {
 
 void fan_off(void) {
 	diameter = DIAMETER;
+	LEFTEING = 0;
+	RIGHTWING = 0;
 	wait_time(500);
 	FAN = 0;
 }

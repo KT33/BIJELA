@@ -726,6 +726,7 @@ void adachi_search_run_known(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 				coordinate();
 			}
 		}
+
 		coordinate();
 		addWall();
 	}
@@ -807,15 +808,15 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	uint16_t Next_XY_16bit;
 	uint8_t x_local, y_local, wall_direction, Next_XY_8bit;
 
-	if(goal_scale==4){
-		x.now=goal_x;
-		y.now=goal_y;
+	if (goal_scale == 4) {
+		x.now = goal_x;
+		y.now = goal_y;
 		add_East_wall(&walldate_checked);
 		add_North_wall(&walldate_checked);
 		pull_East_wall(&walldate_adachi);
 		pull_North_wall(&walldate_adachi);
-		x.now=goal_x+1;
-		y.now=goal_y+1;
+		x.now = goal_x + 1;
+		y.now = goal_y + 1;
 		add_West_wall(&walldate_checked);
 		add_South_wall(&walldate_checked);
 		pull_West_wall(&walldate_adachi);
@@ -1007,7 +1008,6 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 	uint8_t slalom_flag = 1;
 	uint16_t NEW_XY_16;
 
-
 	if (wall_direction == 0) { //座標と壁の方角の関係から2つのゴール座標を設定
 		goal_scale = 100;
 	} else if (wall_direction == 1) {
@@ -1172,7 +1172,10 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate) {
 	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
-//	uint8_t test = 0;
+	uint8_t unknown_priority = 3;
+	uint8_t straight_priority = 2;
+	uint8_t nomal_value = 5;
+	uint8_t flag = 0;
 
 //	moter_flag = 1;
 	q.head = 0;
@@ -1180,7 +1183,7 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 
 	for (x_adachi = 0; x_adachi < 16; x_adachi++) {
 		for (y_adachi = 0; y_adachi < 16; y_adachi++) {
-			step_map[x_adachi][y_adachi] = 999;
+			step_map[x_adachi][y_adachi] = 0xffff;
 		}
 	}
 
@@ -1283,52 +1286,171 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 
 //////
 
+//		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
+//				&& (step_map[x_adachi][y_adachi + 1] > step + 1)
+//				&& ((y_adachi + 1) < 16)) {
+//			if ((getWall(x_adachi, y_adachi, North, &walldate_checked) == 0)) {
+//				step_map[x_adachi][y_adachi + 1] = step + 1;
+//			} else {
+//				step_map[x_adachi][y_adachi + 1] = step + unknown_priority;
+//			}
+//
+//			queue_push(&q, x_adachi, y_adachi + 1);
+//			flag = 10;
+//		}
+//		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
+//				&& (step_map[x_adachi - 1][y_adachi] > step + 1)
+//				&& ((x_adachi - 1) >= 0)) {
+//			if ((getWall(x_adachi, y_adachi, West, &walldate_checked) == 0)) {
+//				step_map[x_adachi - 1][y_adachi] = step + 1;
+//			} else {
+//				step_map[x_adachi - 1][y_adachi] = step + unknown_priority;
+//			}
+//			queue_push(&q, x_adachi - 1, y_adachi);
+//			flag = 10;
+//		}
+//		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
+//				&& (step_map[x_adachi][y_adachi - 1] > step + 1)
+//				&& ((y_adachi - 1) >= 0)) {
+//			if ((getWall(x_adachi, y_adachi, South, &walldate_checked) == 0)) {
+//				step_map[x_adachi][y_adachi - 1] = step + 1;
+//			} else {
+//				step_map[x_adachi][y_adachi - 1] = step + unknown_priority;
+//			}
+//			queue_push(&q, x_adachi, y_adachi - 1);
+//			flag = 10;
+//		}
+//		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
+//				&& (step_map[x_adachi + 1][y_adachi] > step + 1)
+//				&& ((x_adachi + 1) < 16)) {
+//			if ((getWall(x_adachi, y_adachi, East, &walldate_checked) == 0)) {
+//				step_map[x_adachi + 1][y_adachi] = step + 1;
+//			} else {
+//				step_map[x_adachi + 1][y_adachi] = step + unknown_priority;
+//			}
+//			queue_push(&q, x_adachi + 1, y_adachi);
+//			flag = 10;
+//		}
+///////////////////////////////////////////////////////////////////
 		if ((getWall(x_adachi, y_adachi, North, &walldate) == 0)
-				&& (step_map[x_adachi][y_adachi + 1] > step + 1)
 				&& ((y_adachi + 1) < 16)) {
-			if ((getWall(x_adachi, y_adachi, North, &walldate_checked) == 0)) {
-				step_map[x_adachi][y_adachi + 1] = step + 1;
-			} else {
-				step_map[x_adachi][y_adachi + 1] = step + 3;
+			if (((step_map[x_adachi][y_adachi - 1] < step)
+					&& (step_map[x_adachi][y_adachi - 1] >= step - nomal_value))
+					&& (y_adachi - 1) >= 0
+					&& getWall(x_adachi, y_adachi, South, &walldate_adachi) == 0
+					&& step_map[x_adachi][y_adachi + 1]
+							> step + nomal_value - straight_priority + 1) {
+				step_map[x_adachi][y_adachi + 1] = step + nomal_value
+						- straight_priority;
+				flag = 1;
 			}
-
-			queue_push(&q, x_adachi, y_adachi + 1);
-			flag = 10;
+			if ((getWall(x_adachi, y_adachi, North, &walldate_checked) == 0)
+					&& step_map[x_adachi][y_adachi + 1]
+							> step + nomal_value - unknown_priority + 1) {
+				step_map[x_adachi][y_adachi + 1] = step + nomal_value
+						- unknown_priority;
+				flag = 1;
+			}
+			if (step_map[x_adachi][y_adachi + 1] > step + nomal_value + 1
+					&& flag == 0) {
+				step_map[x_adachi][y_adachi + 1] = step + nomal_value;
+				flag = 1;
+			}
+			if (flag == 1) {
+				queue_push(&q, x_adachi, y_adachi + 1);
+				flag = 0;
+			}
 		}
 		if ((getWall(x_adachi, y_adachi, West, &walldate) == 0)
-				&& (step_map[x_adachi - 1][y_adachi] > step + 1)
 				&& ((x_adachi - 1) >= 0)) {
-			if ((getWall(x_adachi, y_adachi, West, &walldate_checked) == 0)) {
-				step_map[x_adachi - 1][y_adachi] = step + 1;
-			} else {
-				step_map[x_adachi - 1][y_adachi] = step + 3;
+			if (((step_map[x_adachi + 1][y_adachi] < step)
+					&& (step_map[x_adachi + 1][y_adachi] >= step - nomal_value))
+					&& (x_adachi + 1) < 16
+					&& getWall(x_adachi, y_adachi, East, &walldate_adachi) == 0
+					&& step_map[x_adachi - 1][y_adachi]
+							> step + nomal_value - straight_priority + 1) {
+				step_map[x_adachi - 1][y_adachi] = step + nomal_value
+						- straight_priority;
+				flag = 1;
 			}
-			queue_push(&q, x_adachi - 1, y_adachi);
-			flag = 10;
+			if ((getWall(x_adachi, y_adachi, West, &walldate_checked) == 0)
+					&& step_map[x_adachi - 1][y_adachi]
+							> step + nomal_value - unknown_priority + 1) {
+				step_map[x_adachi - 1][y_adachi] = step + nomal_value
+						- unknown_priority;
+				flag = 1;
+			}
+			if (step_map[x_adachi - 1][y_adachi] > step + nomal_value + 1
+					&& flag == 0) {
+				step_map[x_adachi - 1][y_adachi] = step + nomal_value;
+				flag = 1;
+			}
+
+			if (flag == 1) {
+				queue_push(&q, x_adachi - 1, y_adachi);
+				flag = 0;
+			}
 		}
 		if ((getWall(x_adachi, y_adachi, South, &walldate) == 0)
-				&& (step_map[x_adachi][y_adachi - 1] > step + 1)
 				&& ((y_adachi - 1) >= 0)) {
-			if ((getWall(x_adachi, y_adachi, South, &walldate_checked) == 0)) {
-				step_map[x_adachi][y_adachi - 1] = step + 1;
-			} else {
-				step_map[x_adachi][y_adachi - 1] = step + 3;
+			if (((step_map[x_adachi][y_adachi + 1] < step)
+					&& (step_map[x_adachi][y_adachi + 1] >= step - nomal_value))
+					&& (y_adachi + 1) < 16
+					&& getWall(x_adachi, y_adachi, North, &walldate_adachi) == 0
+					&& step_map[x_adachi][y_adachi - 1]
+							> step + nomal_value - straight_priority + 1) {
+				step_map[x_adachi][y_adachi - 1] = step + nomal_value
+						- straight_priority;
+				flag = 1;
 			}
-			queue_push(&q, x_adachi, y_adachi - 1);
-			flag = 10;
+			if ((getWall(x_adachi, y_adachi, South, &walldate_checked) == 0)
+					&& step_map[x_adachi][y_adachi - 1]
+							> step + nomal_value - unknown_priority + 1) {
+				step_map[x_adachi][y_adachi - 1] = step + nomal_value
+						- unknown_priority;
+				flag = 1;
+			}
+			if (step_map[x_adachi][y_adachi - 1] > step + nomal_value + 1
+					&& flag == 0) {
+				step_map[x_adachi][y_adachi - 1] = step + nomal_value;
+				flag = 1;
+			}
+			if (flag == 1) {
+				queue_push(&q, x_adachi, y_adachi - 1);
+				flag = 0;
+			}
 		}
 		if ((getWall(x_adachi, y_adachi, East, &walldate) == 0)
 				&& (step_map[x_adachi + 1][y_adachi] > step + 1)
 				&& ((x_adachi + 1) < 16)) {
-			if ((getWall(x_adachi, y_adachi, East, &walldate_checked) == 0)) {
-				step_map[x_adachi + 1][y_adachi] = step + 1;
-			} else {
-				step_map[x_adachi + 1][y_adachi] = step + 3;
+			if (((step_map[x_adachi - 1][y_adachi] < step)
+					&& (step_map[x_adachi - 1][y_adachi] >= step - nomal_value))
+					&& (x_adachi - 1) >= 0
+					&& getWall(x_adachi, y_adachi, West, &walldate_adachi) == 0
+					&& step_map[x_adachi + 1][y_adachi]
+							> step + nomal_value - straight_priority + 1) {
+				step_map[x_adachi + 1][y_adachi] = step + nomal_value
+						- straight_priority;
+				flag = 1;
 			}
-			queue_push(&q, x_adachi + 1, y_adachi);
-			flag = 10;
+			if ((getWall(x_adachi, y_adachi, East, &walldate_checked) == 0)
+					&& step_map[x_adachi + 1][y_adachi]
+							> step + nomal_value - unknown_priority + 1) {
+				step_map[x_adachi + 1][y_adachi] = step + nomal_value
+						- unknown_priority;
+				flag = 1;
+			}
+			if (step_map[x_adachi + 1][y_adachi] > step + nomal_value + 1
+					&& flag == 0) {
+				step_map[x_adachi + 1][y_adachi] = step + nomal_value;
+				flag = 1;
+			}
+			if (flag == 1) {
+				queue_push(&q, x_adachi + 1, y_adachi);
+				flag = 0;
+			}
 		}
-//		myprintf("fast	%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+//		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
 	} while (q.tail != q.head);
 }
 

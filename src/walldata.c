@@ -198,7 +198,11 @@ void output_Walldate(walldate_t *walldate) {
 				myprintf(" ");
 			}
 			myprintf("\x1b[m");
-			myprintf(" %3d ", step_map[x_check][y_check]); //step_Map[x_check][y_check]
+			if (step_map[x_check][y_check] < 1000) {
+				myprintf(" %3d ", step_map[x_check][y_check]); //step_Map[x_check][y_check]
+			} else {
+				myprintf(" %3d ", 999);
+			}
 		}
 		if (getWall(15, y_check, East, walldate) == 1) {
 			myprintf("\x1b[31m");
