@@ -42,7 +42,7 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		}
 
 		flag = how_to_move_pass(direction_pass, (int8_t) x.pass, (int8_t) y.pass,
-				walldate_adachi);
+				walldate_adachi,pass[i-1]);
 //			myprintf("flag:%d,%d,%d,%d\n", flag, x.pass, y.pass,direction_pass);
 		if (flag == 0) {
 			pass[i] = 0; //直進

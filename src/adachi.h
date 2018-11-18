@@ -31,7 +31,7 @@ uint8_t check_flag(uint16_t);
 void stop_move(float accel,float vel);
 void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate);
-uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y, walldate_t walldate);
+uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y, walldate_t walldate,uint8_t before_flag);
 
 #endif /* ADACHI_H_ */
 

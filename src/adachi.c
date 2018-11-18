@@ -522,8 +522,8 @@ uint8_t how_to_move(uint8_t direction, int8_t x, int8_t y, walldate_t walldate) 
 }
 
 uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y,
-		walldate_t walldate) {
-	uint8_t step, flag, i;
+		walldate_t walldate, uint8_t before_flag) {
+	uint8_t step, flag = 255, i;
 	int8_t a, b;
 	if (direction == North) {
 		i = 0;
@@ -562,7 +562,14 @@ uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y,
 	}
 	if ((x + a <= 15) && (y + b <= 15)
 			&& (getWall(x, y, (East + i) % 4, &walldate) == 0)) {
-		if (step_map[x + a][y + b] <= step) {
+		if (step_map[x + a][y + b] == step && flag == 1) {
+			if (before_flag == 3) {
+
+			} else {
+				flag = 3;
+				step = step_map[x + a][y + b];
+			}
+		} else if (step_map[x + a][y + b] <= step) {
 			flag = 3;
 			step = step_map[x + a][y + b];
 		}
