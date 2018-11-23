@@ -562,16 +562,21 @@ uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y,
 	}
 	if ((x + a <= 15) && (y + b <= 15)
 			&& (getWall(x, y, (East + i) % 4, &walldate) == 0)) {
+		myprintf("(%d,%d),dire:%d,flag:%d,before_flag:%d\n", x, y, direction,
+				flag, before_flag);
 		if (step_map[x + a][y + b] == step && flag == 1) {
 			if (before_flag == 3) {
-
+				flag = 1;
+				myprintf("flag=1\n");
 			} else {
 				flag = 3;
 				step = step_map[x + a][y + b];
+				myprintf("flag=3\n");
 			}
 		} else if (step_map[x + a][y + b] <= step) {
 			flag = 3;
 			step = step_map[x + a][y + b];
+			myprintf("flag=33\n");
 		}
 	}
 	if ((y + a <= 15) && (x - b >= 0)
@@ -581,6 +586,7 @@ uint8_t how_to_move_pass(uint8_t direction, int8_t x, int8_t y,
 			step = step_map[x - b][y + a];
 		}
 	}
+	myprintf("last%d\n", flag);
 	return flag;
 }
 
@@ -834,7 +840,7 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	y.now = 0;
 	direction = 0;
 	special_goal_flag = 0;
-
+	add_wall_flag = 1;
 	go_entrance(nomal_run.accel, nomal_run.vel_search);
 	coordinate();
 	addWall();
@@ -861,6 +867,7 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 				Next_XY_16bit); //見たい壁に対する位置と壁の絶対方角を入力
 	}
 //	speaker_on( C_4, 6.0, 500);
+//	add_wall_flag = 0;
 	if (special_goal_flag == 0) {
 		adachi_special_move(goal_x, goal_y, goal_scale, nomal_run.accel,
 				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale,
@@ -1055,7 +1062,11 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 		if (straight_flag == 1) {
 			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
 		} else {
-			adachi_map_special(goal_x, goal_y, goal_scale, walldate_real);
+			if (wall_direction == 255) {
+				adachi_map_special(goal_x, goal_y, goal_scale, walldate_adachi);
+			} else {
+				adachi_map_special(goal_x, goal_y, goal_scale, walldate_real);
+			}
 		}
 
 		if ((goal_scale == 1) && ((x.now == goal_x && y.now == goal_y))) { //帰宅時
@@ -1107,7 +1118,7 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 			turn_180(accel, vel);
 		}
 		if (flag > 11) {
-			set_straight(180.0 * (flag - 10), 5000.0, 1500.0, vel, vel);
+			set_straight(180.0 * (flag - 10), 5000.0, 1400.0, vel, vel);
 			wait_straight();
 			for (i = 0; i < flag - 10 - 1; i++) {
 				coordinate();

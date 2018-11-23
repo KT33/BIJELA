@@ -133,7 +133,7 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 1;
+	log_how_often = 2;
 	log_flag = 1;
 }
 
@@ -141,8 +141,8 @@ void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
 		Log[log_index] = rotation_ideal.velocity;
-		log2[log_index] = rotation_real.velocity;
-//		log3[log_index] = translation_ideal.dis;
+		log2[log_index] =rotation_real.velocity ;
+		log3[log_index] = wallcontrol_value;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -155,7 +155,7 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
+		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");
@@ -346,7 +346,7 @@ void start_SEN(uint8_t mario_flag) {
 		moter_flag = 0;
 	}
 	SEN_check_flag = 0;
-	moter_flag = 1;
+
 	speaker_on(C_5, 6.0, 240);
 
 	angle_calibration_integral = 0.0;
@@ -358,6 +358,7 @@ void start_SEN(uint8_t mario_flag) {
 
 	}
 	angle_calibration = angle_calibration_integral / 1000.0;
+	moter_flag = 1;
 
 	if (x.goal == 7 && y.goal == 7 && mario_flag == 1) {
 //		mario_start(180, 1);
@@ -368,6 +369,7 @@ void start_SEN(uint8_t mario_flag) {
 		speaker_on(C_5, 6.0, 240);
 		wait_time(500);
 	}
+	rotation_deviation.cumulative=0;
 
 }
 

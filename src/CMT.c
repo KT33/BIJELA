@@ -18,6 +18,10 @@ void interrupt_cmt0(void) {
 	failsafe_accel = test_gyro();
 	real_velocity_control();
 
+	if (log_flag == 1) {
+		log_sampling();
+	}
+
 	if (SEN_check_flag == 1) {
 		AD_SEN();
 	}
@@ -81,9 +85,7 @@ void interrupt_cmt0(void) {
 						&rotation_gain, &rotation_parameter, &duty, 1);
 			}
 			integral(&translation_ideal);
-			if (log_flag == 1) {
-				log_sampling();
-			}
+
 			integral_vel_to_dis(&right_real.velocity, &right_real.dis);
 			integral_vel_to_dis(&rotation_real.velocity, &rotation_real.dis);
 			duty_to_moter();
@@ -103,6 +105,13 @@ void interrupt_cmt0(void) {
 				led_count = 0;
 			}
 		} else {
+			if (angle_calibration_flag == 1) {
+				angle_calibration_counter++;
+				angle_calibration_integral += rotation_real.velocity;
+				if(angle_calibration_counter==1000){
+					angle_calibration_flag=0;
+				}
+			}
 			if (failsafe_flag == 0) {
 				Moter_Stby = 0;
 				real_angle_control();

@@ -17,25 +17,29 @@ void wall_control(void) {
 		if (((translation_ideal.velocity) > 350) && (SEN_L.diff < 15)
 				&& (SEN_R.diff < 15) && (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
 			if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
-				wallcontrol_value =
-						wall_cntrol_gain.Kp
-								* (((float) SEN_L.now - (float) SEN_L.reference)
-										- ((float) SEN_R.now
-												- (float) SEN_R.reference));
+				wallcontrol_value = wall_cntrol_gain.Kp
+						* (((float) SEN_L.now - (float) SEN_L.reference)
+								- ((float) SEN_R.now - (float) SEN_R.reference))
+						+ wall_cntrol_gain.Kd
+								* (float) (SEN_L.diff_1ms - SEN_R.diff_1ms);
 //				LEFTFRONT = 1;
 //				RIGHTFRONT = 1;
 //				CENTERFRONT = 1;
 			} else if (SEN_L.now < SEN_L.threshold
 					&& SEN_R.now > SEN_R.threshold) {
 				wallcontrol_value = -2.0 * wall_cntrol_gain.Kp
-						* ((float) SEN_R.now - (float) SEN_R.reference);
+						* ((float) SEN_R.now - (float) SEN_R.reference)
+						+ wall_cntrol_gain.Kd
+								* (float) (-2* SEN_R.diff_1ms);
 //				LEFTFRONT = 0;
 //				RIGHTFRONT = 1;
 //				CENTERFRONT = 1;
 			} else if (SEN_L.now > SEN_L.threshold
 					&& SEN_R.now < SEN_R.threshold) {
 				wallcontrol_value = 2.0 * wall_cntrol_gain.Kp
-						* ((float) SEN_L.now - (float) SEN_L.reference);
+						* ((float) SEN_L.now - (float) SEN_L.reference)
+						+ wall_cntrol_gain.Kd
+								* (float) (2*SEN_L.diff_1ms);
 //				LEFTFRONT = 1;
 //				RIGHTFRONT = 0;
 //				CENTERFRONT = 1;
@@ -110,6 +114,7 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 
 	if (rotation_flag == 1) {
 		duty_left = duty_left * -1;
+		test2 = duty_left;
 //		test_float=left_deviation->now;
 	}
 	if (parameter->back_rightturn_flag == 1) {
@@ -118,7 +123,6 @@ void PID_control(run_t *ideal, run_t *left, run_t *right,
 	}
 	duty->left += duty_left;
 	duty->right += duty_right;
-	test2=duty_left;
 
 }
 

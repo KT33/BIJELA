@@ -11,7 +11,7 @@
 #include "stdint.h"
 
 #define LogMax 2000
-#define DIAMETER 23.37
+#define DIAMETER 23.27
 
 
 typedef struct {
@@ -181,6 +181,9 @@ extern uint8_t u_turn_counter;
 
 extern uint8_t speaker_flag;
 extern uint16_t speaker_counter;
+extern uint8_t FF_flag;
+extern slarom_para_t slarom_700;
+extern uint8_t add_wall_flag;
 
 void para_mode(void);
 

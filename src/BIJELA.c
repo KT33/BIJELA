@@ -55,8 +55,8 @@ void main() {
 	CENTERFRONT = 1;
 	while (1) {
 		//	myprintf("%6.2f\n", angle);
-		x.goal = 0;
-		y.goal = 13;
+		x.goal = 2;
+		y.goal = 3;
 		ui_led_3bit(mode_flag);
 		if (mode_select_dis > 50) {
 			mode_select_dis = 0;

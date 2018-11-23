@@ -41,8 +41,8 @@ void make_pass(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 			break;
 		}
 
-		flag = how_to_move_pass(direction_pass, (int8_t) x.pass, (int8_t) y.pass,
-				walldate_adachi,pass[i-1]);
+		flag = how_to_move_pass(direction_pass, (int8_t) x.pass,
+				(int8_t) y.pass, walldate_adachi, pass[i - 1]);
 //			myprintf("flag:%d,%d,%d,%d\n", flag, x.pass, y.pass,direction_pass);
 		if (flag == 0) {
 			pass[i] = 0; //直進
@@ -266,9 +266,9 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
-	wallcontrol_value=0.0;
-	run_left_deviation.cumulative=0.0;
-	run_right_deviation.cumulative=0.0;
+	wallcontrol_value = 0.0;
+	run_left_deviation.cumulative = 0.0;
+	run_right_deviation.cumulative = 0.0;
 
 	for (i = 0; i < 255; i++) {
 		pass_big[i] = 0;
@@ -396,7 +396,7 @@ void move_pass_big_turn(float accel, float max_vel, float big_turn_vel) {
 		coordinate();
 	} else if (pass_big[i] == BIGRIGHT90) {
 		farst_turn_right_90_big(big_turn_vel);
-	}else if(pass_big[i] == SHORTLEFT90){
+	} else if (pass_big[i] == SHORTLEFT90) {
 		go_entrance(accel, nomal_run.vel_search);
 		slalom_left90(nomal_run.accel, nomal_run.vel_search);
 		coordinate();
@@ -526,6 +526,16 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	volatile int j = 0;
 	int8_t straight_count, oblique_flag = 0, oblique_straight_count = 0;
 	uint8_t x_box, y_box, direction_box;
+	float ro_ki_box=rotation_gain.Ki;
+	float ro_kp_box=rotation_gain.Kp;
+
+	if (big_turn_vel >= 1300.0) {
+		rotation_gain.Kp = 0.67;
+		rotation_gain.Ki = 0.0025;
+	} else {
+		rotation_gain.Kp = 0.62;
+		rotation_gain.Ki = 0.01;
+	}
 
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
@@ -536,9 +546,9 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
-	wallcontrol_value=0.0;
-	run_left_deviation.cumulative=0.0;
-	run_right_deviation.cumulative=0.0;
+	wallcontrol_value = 0.0;
+	run_left_deviation.cumulative = 0.0;
+	run_right_deviation.cumulative = 0.0;
 
 	if (absorption_flag == 1) {
 		fan_on();
@@ -564,8 +574,6 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		}
 		coordinate();
 	}
-
-
 
 	x_box = x.now;
 	y_box = y.now;
@@ -792,6 +800,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 
 	for (i = 1; pass_oblique[i] != 0xff && failsafe_flag == 0; i++) {
 		if (pass_oblique[i] < 35) { //直進の途中
+			wall_control_oblique_flag = 0;
 			if (pass_oblique[i - 1] == SHORTLEFT90
 					|| pass_oblique[i - 1] == SHORTRIGHT90) {
 				if (pass_oblique[i + 1] == SHORTLEFT90
@@ -867,6 +876,8 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	x.now = x_box;
 	y.now = y_box;
 	direction = direction_box;
+	rotation_gain.Kp = 0.62;
+	rotation_gain.Ki = 0.01;
 
 	if (pass[254] == 1) {
 		if (pass_oblique[i - 1] == SHORTLEFT90
@@ -899,7 +910,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		} else if (pass[i - 1] > 35) {
 			set_straight(88.0, accel, max_vel, big_turn_vel, 0.0);
 		} else {
-			set_straight(88.0, accel, max_vel, big_turn_vel, 0.0);//max_vel????
+			set_straight(88.0, accel, max_vel, big_turn_vel, 0.0); //max_vel????
 		}
 		wait_straight();
 //		if (x.goal == 7 && y.goal == 7 && failsafe_flag == 0) {
@@ -908,6 +919,14 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 //		} else {
 //			wait_time(200);
 //		}
+
+		fan_off();
+		wait_time(700);
+		rotation_deviation.now = 0.0;
+		rotation_deviation.cumulative = 0.0;
+		wallcontrol_value = 0.0;
+		run_left_deviation.cumulative = 0.0;
+		run_right_deviation.cumulative = 0.0;
 
 		if (getWall(x.now, y.now, direction, &walldate_real)) {
 
@@ -965,9 +984,9 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	rotation_parameter.back_rightturn_flag = 0;
 	rotation_deviation.now = 0.0;
 	rotation_deviation.cumulative = 0.0;
-	wallcontrol_value=0.0;
-	run_left_deviation.cumulative=0.0;
-	run_right_deviation.cumulative=0.0;
+	wallcontrol_value = 0.0;
+	run_left_deviation.cumulative = 0.0;
+	run_right_deviation.cumulative = 0.0;
 }
 
 void out_put_pass(uint8_t *pass) {

@@ -71,82 +71,84 @@ void pull_North_wall(walldate_t *walldate) {
 
 void addWall(void) {
 //	uint16_t new;
-	if (direction == North) {
-		if (SEN_L.now > SEN_L.threshold) {
-			add_West_wall(&walldate_real);
-		} else {
-			pull_West_wall(&walldate_adachi);
+	if (add_wall_flag == 1) {
+		if (direction == North) {
+			if (SEN_L.now > SEN_L.threshold) {
+				add_West_wall(&walldate_real);
+			} else {
+				pull_West_wall(&walldate_adachi);
+			}
+			if (SEN_R.now > SEN_R.threshold) {
+				add_East_wall(&walldate_real);
+			} else {
+				pull_East_wall(&walldate_adachi);
+			}
+			if (SEN_F.now > SEN_F.threshold) {
+				add_North_wall(&walldate_real);
+			} else {
+				pull_North_wall(&walldate_adachi);
+			}
+			add_West_wall(&walldate_checked);
+			add_East_wall(&walldate_checked);
+			add_North_wall(&walldate_checked);
+		} else if (direction == West) {
+			if (SEN_L.now > SEN_L.threshold) {
+				add_South_wall(&walldate_real);
+			} else {
+				pull_South_wall(&walldate_adachi);
+			}
+			if (SEN_R.now > SEN_R.threshold) {
+				add_North_wall(&walldate_real);
+			} else {
+				pull_North_wall(&walldate_adachi);
+			}
+			if (SEN_F.now > SEN_F.threshold) {
+				add_West_wall(&walldate_real);
+			} else {
+				pull_West_wall(&walldate_adachi);
+			}
+			add_West_wall(&walldate_checked);
+			add_South_wall(&walldate_checked);
+			add_North_wall(&walldate_checked);
+		} else if (direction == South) {
+			if (SEN_L.now > SEN_L.threshold) {
+				add_East_wall(&walldate_real);
+			} else {
+				pull_East_wall(&walldate_adachi);
+			}
+			if (SEN_R.now > SEN_R.threshold) {
+				add_West_wall(&walldate_real);
+			} else {
+				pull_West_wall(&walldate_adachi);
+			}
+			if (SEN_F.now > SEN_F.threshold) {
+				add_South_wall(&walldate_real);
+			} else {
+				pull_South_wall(&walldate_adachi);
+			}
+			add_West_wall(&walldate_checked);
+			add_South_wall(&walldate_checked);
+			add_East_wall(&walldate_checked);
+		} else if (direction == East) {
+			if (SEN_L.now > SEN_L.threshold) {
+				add_North_wall(&walldate_real);
+			} else {
+				pull_North_wall(&walldate_adachi);
+			}
+			if (SEN_R.now > SEN_R.threshold) {
+				add_South_wall(&walldate_real);
+			} else {
+				pull_South_wall(&walldate_adachi);
+			}
+			if (SEN_F.now > SEN_F.threshold) {
+				add_East_wall(&walldate_real);
+			} else {
+				pull_East_wall(&walldate_adachi);
+			}
+			add_North_wall(&walldate_checked);
+			add_South_wall(&walldate_checked);
+			add_East_wall(&walldate_checked);
 		}
-		if (SEN_R.now > SEN_R.threshold) {
-			add_East_wall(&walldate_real);
-		} else {
-			pull_East_wall(&walldate_adachi);
-		}
-		if (SEN_F.now > SEN_F.threshold) {
-			add_North_wall(&walldate_real);
-		} else {
-			pull_North_wall(&walldate_adachi);
-		}
-		add_West_wall(&walldate_checked);
-		add_East_wall(&walldate_checked);
-		add_North_wall(&walldate_checked);
-	} else if (direction == West) {
-		if (SEN_L.now > SEN_L.threshold) {
-			add_South_wall(&walldate_real);
-		} else {
-			pull_South_wall(&walldate_adachi);
-		}
-		if (SEN_R.now > SEN_R.threshold) {
-			add_North_wall(&walldate_real);
-		} else {
-			pull_North_wall(&walldate_adachi);
-		}
-		if (SEN_F.now > SEN_F.threshold) {
-			add_West_wall(&walldate_real);
-		} else {
-			pull_West_wall(&walldate_adachi);
-		}
-		add_West_wall(&walldate_checked);
-		add_South_wall(&walldate_checked);
-		add_North_wall(&walldate_checked);
-	} else if (direction == South) {
-		if (SEN_L.now > SEN_L.threshold) {
-			add_East_wall(&walldate_real);
-		} else {
-			pull_East_wall(&walldate_adachi);
-		}
-		if (SEN_R.now > SEN_R.threshold) {
-			add_West_wall(&walldate_real);
-		} else {
-			pull_West_wall(&walldate_adachi);
-		}
-		if (SEN_F.now > SEN_F.threshold) {
-			add_South_wall(&walldate_real);
-		} else {
-			pull_South_wall(&walldate_adachi);
-		}
-		add_West_wall(&walldate_checked);
-		add_South_wall(&walldate_checked);
-		add_East_wall(&walldate_checked);
-	} else if (direction == East) {
-		if (SEN_L.now > SEN_L.threshold) {
-			add_North_wall(&walldate_real);
-		} else {
-			pull_North_wall(&walldate_adachi);
-		}
-		if (SEN_R.now > SEN_R.threshold) {
-			add_South_wall(&walldate_real);
-		} else {
-			pull_South_wall(&walldate_adachi);
-		}
-		if (SEN_F.now > SEN_F.threshold) {
-			add_East_wall(&walldate_real);
-		} else {
-			pull_East_wall(&walldate_adachi);
-		}
-		add_North_wall(&walldate_checked);
-		add_South_wall(&walldate_checked);
-		add_East_wall(&walldate_checked);
 	}
 }
 
