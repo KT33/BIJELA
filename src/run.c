@@ -14,7 +14,7 @@
 
 void wall_control(void) {
 	if (wall_control_flag == 1 && wall_control_oblique_flag == 0) {
-		if (((translation_ideal.velocity) > 350) && (SEN_L.diff < 15)
+		if (((translation_ideal.velocity) > 300.0) && (SEN_L.diff < 15)
 				&& (SEN_R.diff < 15) && (SEN_F.now < SEN_F.reference)) { //&& (SEN_L.diff < 2000) && (SEN_R.diff < 2000)&& (SEN_F.now < SEN_F.threshold * 100))
 			if (SEN_L.now > SEN_L.threshold && SEN_R.now > SEN_R.threshold) {
 				wallcontrol_value = wall_cntrol_gain.Kp
@@ -29,8 +29,7 @@ void wall_control(void) {
 					&& SEN_R.now > SEN_R.threshold) {
 				wallcontrol_value = -2.0 * wall_cntrol_gain.Kp
 						* ((float) SEN_R.now - (float) SEN_R.reference)
-						+ wall_cntrol_gain.Kd
-								* (float) (-2* SEN_R.diff_1ms);
+						+ wall_cntrol_gain.Kd * (float) (-2 * SEN_R.diff_1ms);
 //				LEFTFRONT = 0;
 //				RIGHTFRONT = 1;
 //				CENTERFRONT = 1;
@@ -38,8 +37,7 @@ void wall_control(void) {
 					&& SEN_R.now < SEN_R.threshold) {
 				wallcontrol_value = 2.0 * wall_cntrol_gain.Kp
 						* ((float) SEN_L.now - (float) SEN_L.reference)
-						+ wall_cntrol_gain.Kd
-								* (float) (2*SEN_L.diff_1ms);
+						+ wall_cntrol_gain.Kd * (float) (2 * SEN_L.diff_1ms);
 //				LEFTFRONT = 1;
 //				RIGHTFRONT = 0;
 //				CENTERFRONT = 1;
@@ -55,25 +53,31 @@ void wall_control(void) {
 //			RIGHTFRONT = 0;
 //			CENTERFRONT = 0;
 		}
-	} else if (wall_control_flag == 1 && wall_control_oblique_flag == 1) {
+	} else if (wall_control_flag == 1 && wall_control_oblique_flag >= 1) {
 		wallcontrol_value = 0.0; //ここに斜め壁制御を書く
-		if (SEN_L.now > SEN_L.oblique_threshold && SEN_L.diff_1ms < 180) {
-			wallcontrol_value = oblique_Side_gain
-					* (SEN_L.now - SEN_L.oblique_reference);
-
-		} else if (SEN_LF.now > SEN_LF.oblique_threshold && SEN_LF.diff < 20) {
-			wallcontrol_value = oblique_Front_gain
-					* (SEN_LF.now - SEN_LF.oblique_reference);
+		if (wall_control_oblique_flag == 1 || wall_control_oblique_flag == 2) {
+			if (SEN_L.now > SEN_L.oblique_threshold && SEN_L.diff_1ms < 180) {
+				wallcontrol_value += (float) oblique_Side_gain
+						* (SEN_L.now - SEN_L.oblique_reference);
+			}
+			if (SEN_LF.now > SEN_LF.oblique_threshold
+					&& SEN_LF.diff < 20) {
+				wallcontrol_value += (float) oblique_Front_gain
+						* (SEN_LF.now - SEN_LF.oblique_reference);
+			}
 		}
-		if (SEN_R.now > SEN_R.oblique_threshold && SEN_R.diff_1ms < 180) {
-			wallcontrol_value -= oblique_Side_gain
-					* (SEN_R.now - SEN_R.oblique_reference);
+		if (wall_control_oblique_flag == 1 || wall_control_oblique_flag == 3) {
+			if (SEN_R.now > SEN_R.oblique_threshold && SEN_R.diff_1ms < 180) {
+				wallcontrol_value -= (float) oblique_Side_gain
+						* (SEN_R.now - SEN_R.oblique_reference) * 2.0;
 
-		} else if (SEN_RF.now > SEN_RF.oblique_threshold && SEN_RF.diff < 30) {
-			wallcontrol_value -= oblique_Front_gain
-					* (SEN_RF.now - SEN_RF.oblique_reference);
+			}
+			if (SEN_RF.now > SEN_RF.oblique_threshold
+					&& SEN_RF.diff < 30) {
+				wallcontrol_value -= (float) oblique_Front_gain
+						* (SEN_RF.now - SEN_RF.oblique_reference);
+			}
 		}
-
 	} else {
 		wallcontrol_value = 0.0;
 	}

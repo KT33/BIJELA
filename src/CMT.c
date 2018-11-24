@@ -27,8 +27,8 @@ void interrupt_cmt0(void) {
 	}
 
 	if ((right_real.velocity > 4500.0 || left_real.velocity > 4500.0
-			|| rotation_deviation.cumulative > 20000.0 //20000.0
-			|| rotation_deviation.cumulative < -20000.0
+			|| rotation_deviation.cumulative > 80000.0 //20000.0
+			|| rotation_deviation.cumulative < -80000.0
 			|| failsafe_accel > 50000.0)
 			&& translation_parameter.back_rightturn_flag == 0) { //|| failsafe_accel > 39.2
 		failsafe();
@@ -166,6 +166,7 @@ void failsafe(void) {
 //	CENTERFRONT = 1;
 	failsafe_flag = 1;
 	failsafe_counter = 0;
+//	speaker_on( C_4, 6.0, 500);
 	//moter_flag=0;
 }
 

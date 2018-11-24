@@ -25,16 +25,21 @@
 void mode_0(void) {
 //	start_SEN();
 //	uint8_t i;
-	nomal_run.vel_search=600.0;
+	wall_cntrol_gain.Kp = 0.1;
+	wall_cntrol_gain.Kd = 0.1;
+	nomal_run.vel_search = 600.0;
 	start_SEN(0);
 	search_run_special(x.goal, y.goal, 4);
 	write_all_walldatas();
 }
 
 void mode_1(void) {
+	wall_cntrol_gain.Kp = 0.5;
+	wall_cntrol_gain.Kd = 0.1;
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
+	wait_time(30);
 	make_pass(x.goal, y.goal, 4, 0);
 	move_pass_oblique(nomal_run.accel, nomal_run.vel_max, 1200,
 			nomal_oblique.accel, nomal_oblique.vel_max, 1);
@@ -55,76 +60,81 @@ void mode_1(void) {
 }
 
 void mode_2(void) {
+	wall_cntrol_gain.Kp = 0.5;
+	wall_cntrol_gain.Kd = 0.1;
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
+	wait_time(30);
 	make_pass(x.goal, y.goal, 4, 0);
 	move_pass_oblique(nomal_run.accel, nomal_run.vel_max, 1300,
 			nomal_oblique.accel, nomal_oblique.vel_max, 1);
 	fan_off();
 	wait_time(100);
 
-	while (SWITCH == 1) {
-		moter_flag = 0;
-	}
-	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
-	make_pass(0, 0, 1, 0);
-	output_Walldate(&walldate_adachi);
-	out_put_pass(pass);
-
-
+//	while (SWITCH == 1) {
+//		moter_flag = 0;
+//	}
+//	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
 //	make_pass(0, 0, 1, 0);
-//	move_pass_big_turn(7000.0, 2200.0, 1000.0);
-//	wait_time(10);
+//	output_Walldate(&walldate_adachi);
+//	out_put_pass(pass);
+
+	make_pass(0, 0, 1, 0);
+	move_pass_big_turn(7000.0, 2200.0, 1000.0);
+	wait_time(10);
 
 }
 
 void mode_3(void) { //253.558
-//	rotation_gain.Kp = 0.67;
-//	rotation_gain.Ki = 0.0025;
+	rotation_gain.Kp = 0.67;
+	rotation_gain.Ki = 0.0025;
 	start_SEN(0);
 	fan_on();
-	set_straight(253.558-20.0, 7000.0, 1200.0, 0.0, 1200.0);
-	wall_control_flag = 0;
+	set_straight(253.558 - 20.0, 7000.0, 1300.0, 0.0, 1300.0);
+	//		wall_control_flag = 0;
 	log_start();
 	wait_straight();
-	turn_right_45_out(1200.0);
-	set_straight(180.0, 7000.0, 1200.0, 1200.0, 0.0);
-	wall_control_flag = 0;
+//	slalom_right90(nomal_run.accel, nomal_run.vel_search);
+	turn_left_v90(1300);
+	set_straight(253.558 + 20.0, 7000.0, 1300.0, 1300.0, 0.0);
+//	wall_control_flag = 0;
 	wait_straight();
-	fan_off();
+	//		fan_off();
 	while (SWITCH == 1) {
 		moter_flag = 0;
 	}
-//	myprintf("%.2f\n", Log[0]);
-	log_output();
 }
 
 void mode_4(void) {
-		rotation_gain.Kp = 0.67;
-		rotation_gain.Ki = 0.0025;
-		start_SEN(0);
-		fan_on();
-		set_straight(253.558-20.0, 7000.0, 1300.0, 0.0, 1300.0);
-		wall_control_flag = 0;
-		log_start();
-		wait_straight();
-		turn_right_45_out(1300.0);
-		set_straight(180.0, 7000.0, 1300.0, 1300.0, 0.0);
-		wall_control_flag = 0;
-		wait_straight();
-		fan_off();
-		while (SWITCH == 1) {
-			moter_flag = 0;
-		}
+	rotation_gain.Kp = 0.67;
+	rotation_gain.Ki = 0.0025;
+	start_SEN(0);
+	fan_on();
+	set_straight(253.558 - 20.0, 7000.0, 1300.0, 0.0, 1300.0);
+//		wall_control_flag = 0;
+	log_start();
+	wait_straight();
+//	slalom_right90(nomal_run.accel, nomal_run.vel_search);
+	turn_right_v90(1300);
+	set_straight(253.558 + 20.0, 7000.0, 1300.0, 1300.0, 0.0);
+//	wall_control_flag = 0;
+	wait_straight();
+//		fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 //	rotation_gain.Kd=0.1;
 	start_SEN(0);
 //	fan_on();
-	set_straight(142.0+180.0*14, 7000.0, 600.0, 0.0, 0.0);
-//	wall_control_flag = 0;
+	oblique_Front_gain = 0.6; //0.6
+	oblique_Side_gain = 0.15;
+	set_straight(127.28 * 10.0, 7000.0, 600.0, 0.0, 0.0);
+	wall_control_oblique_flag = 1;
+	log_start();
 	wait_straight();
 //	turn_left_45_out(1300.0);
 //	set_straight(180.0, 7000.0, 1300.0, 1300.0, 0.0);
@@ -138,16 +148,37 @@ void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 }
 
 void mode_6(void) {
-//	para_mode();
-	x.now=2;
-	y.now=3;
-	direction=3;
-	read_all_walldatas();
-	make_pass(0,0,1, 0);
-	output_Walldate(&walldate_adachi);
-	output_Walldate(&walldate_real);
-	output_Walldate(&walldate_checked);
-	out_put_pass(pass);
+
+	//	rotation_gain.Kd=0.1;
+	start_SEN(0);
+	fan_on();
+	wall_cntrol_gain.Kp = 0.5;
+	wall_cntrol_gain.Kd = 0.1;
+	set_straight(142.0 + 180.0 * 9.0, 10000.0, 3500.0, 0.0, 0.0);
+	wall_control_flag = 1;
+	wall_control_oblique_flag = 0;
+	log_start();
+	wait_straight();
+	//	turn_left_45_out(1300.0);
+	//	set_straight(180.0, 7000.0, 1300.0, 1300.0, 0.0);
+	//	wall_control_flag = 0;
+	//	wait_straight();
+	fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	log_output();
+
+////	para_mode();
+//	x.now=2;
+//	y.now=3;
+//	direction=3;
+//	read_all_walldatas();
+//	make_pass(0,0,1, 0);
+//	output_Walldate(&walldate_adachi);
+//	output_Walldate(&walldate_real);
+//	output_Walldate(&walldate_checked);
+//	out_put_pass(pass);
 }
 
 void mode_7(void) {

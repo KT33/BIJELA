@@ -76,17 +76,23 @@ void addWall(void) {
 			if (SEN_L.now > SEN_L.threshold) {
 				add_West_wall(&walldate_real);
 			} else {
-				pull_West_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, West, &walldate_real) == 0) {
+					pull_West_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_R.now > SEN_R.threshold) {
 				add_East_wall(&walldate_real);
 			} else {
-				pull_East_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, East, &walldate_real) == 0) {
+					pull_East_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_F.now > SEN_F.threshold) {
 				add_North_wall(&walldate_real);
 			} else {
-				pull_North_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, North, &walldate_real) == 0) {
+					pull_North_wall(&walldate_adachi);
+				}
 			}
 			add_West_wall(&walldate_checked);
 			add_East_wall(&walldate_checked);
@@ -95,17 +101,23 @@ void addWall(void) {
 			if (SEN_L.now > SEN_L.threshold) {
 				add_South_wall(&walldate_real);
 			} else {
-				pull_South_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, South, &walldate_real) == 0) {
+					pull_South_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_R.now > SEN_R.threshold) {
 				add_North_wall(&walldate_real);
 			} else {
-				pull_North_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, North, &walldate_real) == 0) {
+					pull_North_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_F.now > SEN_F.threshold) {
 				add_West_wall(&walldate_real);
 			} else {
-				pull_West_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, West, &walldate_real) == 0) {
+					pull_West_wall(&walldate_adachi);
+				}
 			}
 			add_West_wall(&walldate_checked);
 			add_South_wall(&walldate_checked);
@@ -114,17 +126,23 @@ void addWall(void) {
 			if (SEN_L.now > SEN_L.threshold) {
 				add_East_wall(&walldate_real);
 			} else {
-				pull_East_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, East, &walldate_real) == 0) {
+					pull_East_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_R.now > SEN_R.threshold) {
 				add_West_wall(&walldate_real);
 			} else {
-				pull_West_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, West, &walldate_real) == 0) {
+					pull_West_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_F.now > SEN_F.threshold) {
 				add_South_wall(&walldate_real);
 			} else {
-				pull_South_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, South, &walldate_real) == 0) {
+					pull_South_wall(&walldate_adachi);
+				}
 			}
 			add_West_wall(&walldate_checked);
 			add_South_wall(&walldate_checked);
@@ -133,17 +151,23 @@ void addWall(void) {
 			if (SEN_L.now > SEN_L.threshold) {
 				add_North_wall(&walldate_real);
 			} else {
-				pull_North_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, North, &walldate_real) == 0) {
+					pull_North_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_R.now > SEN_R.threshold) {
 				add_South_wall(&walldate_real);
 			} else {
-				pull_South_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, South, &walldate_real) == 0) {
+					pull_South_wall(&walldate_adachi);
+				}
 			}
 			if (SEN_F.now > SEN_F.threshold) {
 				add_East_wall(&walldate_real);
 			} else {
-				pull_East_wall(&walldate_adachi);
+				if (getWall(x.now, y.now, East, &walldate_real) == 0) {
+					pull_East_wall(&walldate_adachi);
+				}
 			}
 			add_North_wall(&walldate_checked);
 			add_South_wall(&walldate_checked);

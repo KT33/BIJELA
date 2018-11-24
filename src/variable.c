@@ -26,13 +26,13 @@ slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
 slarom_para_t slarom_600 = { 12500.0, 6000.0, { 18.0, 45.0 }, { 21.0, 38.0 } };
 slarom_para_t slarom_700 = { 15000.0, 3600.0, { 8.0, 46.0 }, { 8.0, 39.0 } };
 
-sensor_t SEN_R = { 0, 1381, 500, 0, 0, 3272, 2944 }; //now,reference,threshold,diff
+sensor_t SEN_R = { 0, 1381, 500, 0, 0, 3200, 3200 }; //now,reference,threshold,diff
 //1445
-sensor_t SEN_L = { 0, 1189, 350, 0, 0, 3368, 3100 }; //oblique_reference,oblique_threshold
+sensor_t SEN_L = { 0, 1015, 350, 0, 0, 3200, 3200 }; //oblique_reference,oblique_threshold
 // 0, 1641, 574, 0, 0, 3368, 3100
 //3368
-sensor_t SEN_RF = { 0, 3282, 728, 0, 0, 224, 190 };
-sensor_t SEN_LF = { 0, 3320, 680, 0, 0, 359, 330 };
+sensor_t SEN_RF = { 0, 3282, 562, 0, 0, 230, 200 };
+sensor_t SEN_LF = { 0, 3320, 420, 0, 0, 235, 210 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 float wallcontrol_value;
@@ -159,29 +159,29 @@ void para_mode(void) {
 		nomal_oblique.vel_max = 3500.0;
 	} else if (mode == 1) {
 		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 3700;
-		nomal_oblique.accel = 8000.0;
-		nomal_oblique.vel_max = 3700.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel =10000.0;
+		nomal_oblique.vel_max = 2500.0;
 	} else if (mode == 2) {
 		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 4000;
-		nomal_oblique.accel = 8500.0;
-		nomal_oblique.vel_max = 3500.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel =10000.0;
+		nomal_oblique.vel_max = 2800.0;
 	} else if (mode == 3) {
 		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 4200;
-		nomal_oblique.accel = 9000.0;
-		nomal_oblique.vel_max = 3500.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel =10000.0;
+		nomal_oblique.vel_max = 3000.0;
 	} else if (mode == 4) {
 		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 4500;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel =10000.0;
+		nomal_oblique.vel_max = 2000.0;
 	} else if (mode == 5) {
 		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 4700;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 3500.0;
+		nomal_run.vel_max = 3500;
+		nomal_oblique.accel =10000.0;
+		nomal_oblique.vel_max = 1500.0;
 	} else if (mode == 6) {
 		nomal_run.accel = 10000.0;
 		nomal_run.vel_max = 3200;

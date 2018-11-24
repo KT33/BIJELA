@@ -133,16 +133,16 @@ void wait_time(int ms) {
 void log_start(void) {
 	log_counter = 0;
 	log_index = 0;
-	log_how_often = 2;
+	log_how_often = 1;
 	log_flag = 1;
 }
 
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = rotation_ideal.velocity;
-		log2[log_index] =rotation_real.velocity ;
-		log3[log_index] = wallcontrol_value;
+		Log[log_index] = wallcontrol_value;
+		log2[log_index] =rotation_real.velocity;
+//		log3[log_index] = rotation_real.velocity;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -155,7 +155,8 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
+		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
+//		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");
@@ -178,7 +179,7 @@ void Battery_Check(void) {
 
 	Batt = S12AD.ADDR0;
 	Battery = (float) Batt * 0.00248648; //(9.97+20.8)/9.97*3.3/4096
-	if (Battery < 7.72) { //7.7
+	if (Battery < 7.74) { //7.7
 		Moter_Stby = 0;
 		while (1) {
 			UI_LED1 = 1;
