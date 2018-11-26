@@ -975,6 +975,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 		}
 	}
 	fan_off();
+	wait_time(100);
 	translation_ideal.accel = 0.0;
 	translation_ideal.velocity = 0.0;
 	translation_ideal.dis = 0.0;
@@ -987,6 +988,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 	wallcontrol_value = 0.0;
 	run_left_deviation.cumulative = 0.0;
 	run_right_deviation.cumulative = 0.0;
+	wallcontrol_value=0.0;
 }
 
 void out_put_pass(uint8_t *pass) {

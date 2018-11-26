@@ -67,8 +67,14 @@ void turn_180(float accel, float vel) {
 	if (getWall(x.now, y.now, (direction + 2) % 4, &walldate_real) == 1) {
 		wait_time(50);
 		back_100();
-		if (u_turn_counter > 4) {
-			write_all_walldatas();
+		if (u_turn_counter == 100) {
+			write_all_walldatas(255);
+			u_turn_counter = 0;
+		}
+		if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+				|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
+				|| (x.now == 8 && y.now == 8)) {
+			write_all_walldatas(0);
 			u_turn_counter = 0;
 		} else {
 			wait_time(5);
@@ -77,8 +83,14 @@ void turn_180(float accel, float vel) {
 		rotation_deviation.cumulative = 0.0;
 		go_entrance(accel, vel);
 	} else {
-		if (u_turn_counter > 4) {
-			write_all_walldatas();
+		if (u_turn_counter == 100 ) {
+			write_all_walldatas(255);
+			u_turn_counter = 0;
+		}
+		if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+				|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
+				|| (x.now == 8 && y.now == 8)) {
+			write_all_walldatas(0);
 			u_turn_counter = 0;
 		} else {
 			wait_time(5);
@@ -100,8 +112,14 @@ void ketuate(float accel, float vel) {
 	wait_rotation();
 	wait_time(50);
 	back_100();
-	if (u_turn_counter > 4) {
-		write_all_walldatas();
+	if (u_turn_counter == 100) {
+		write_all_walldatas(255);
+		u_turn_counter = 0;
+	}
+	if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+			|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
+			|| (x.now == 8 && y.now == 8)) {
+		write_all_walldatas(0);
 		u_turn_counter = 0;
 	} else {
 		wait_time(5);
@@ -851,14 +869,14 @@ void turn_right_45_out(float vel) {
 //	log_sampling();
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 //	wall_control_flag = 0;
-	oblique_Front_gain*=2;
-	oblique_Side_gain*=2;
+	oblique_Front_gain *= 2;
+	oblique_Side_gain *= 2;
 	wall_control_oblique_flag = 3;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(-45.0 + angle_offset, rota_accel, rota_vel, vel);
-	oblique_Front_gain/=2;
-	oblique_Side_gain/=2;
+	oblique_Front_gain /= 2;
+	oblique_Side_gain /= 2;
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
 	wall_control_oblique_flag = 0;
@@ -887,12 +905,14 @@ void turn_left_45_out(float vel) {
 	}
 
 	if (vel == 1200.0) {
-		in_offset = 28.0 + 20.0;
+		in_offset = 28.0 + 20.0;//28
 		out_offset = 35.0;
 		rota_accel = 12500.0;
 		rota_vel = 1170.0;
 		angle_offset = 0.0;
-		kabekire_dis = 7.2;
+		////////////////////////////
+		kabekire_dis =7.2;//7.2
+		/////////////////////////////////
 	}
 
 	if (vel == 1300.0) {
@@ -906,21 +926,27 @@ void turn_left_45_out(float vel) {
 
 	while (SEN_L.now > 2000) {
 		translation_ideal.dis = kabekire_dis;
+		LEFTFRONT=1;
+		RIGHTFRONT=1;
+		CENTERFRONT=1;
 //		Log[0] = translation_ideal.dis;
 	}
+	LEFTFRONT=1;
+	RIGHTFRONT=1;
+	CENTERFRONT=0;
 
 //	Log[0] = translation_ideal.dis;
 //	log_sampling();
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 //	wall_control_flag = 0;
 	wall_control_oblique_flag = 2;
-	oblique_Front_gain*=2;
-	oblique_Side_gain*=2;
+	oblique_Front_gain *= 2;
+	oblique_Side_gain *= 2;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(45.0 + angle_offset, rota_accel, rota_vel, vel);
-	oblique_Front_gain/=2;
-	oblique_Side_gain/=2;
+	oblique_Front_gain /= 2;
+	oblique_Side_gain /= 2;
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
 	wall_control_oblique_flag = 0;
@@ -976,14 +1002,14 @@ void turn_right_135_out(float vel) {
 	//log_start();
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 //	wall_control_flag = 0;
-	oblique_Front_gain*=2;
-	oblique_Side_gain*=2;
+	oblique_Front_gain *= 2;
+	oblique_Side_gain *= 2;
 	wall_control_oblique_flag = 3;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(-135.0 + angle_offset, rota_accel, rota_vel, vel);
-	oblique_Front_gain/=2;
-	oblique_Side_gain/=2;
+	oblique_Front_gain /= 2;
+	oblique_Side_gain /= 2;
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
 	wall_control_oblique_flag = 0;
@@ -1039,13 +1065,13 @@ void turn_left_135_out(float vel) {
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 //	wall_control_flag = 0;
 	wall_control_oblique_flag = 2;
-	oblique_Front_gain*=2;
-	oblique_Side_gain*=2;
+	oblique_Front_gain *= 2;
+	oblique_Side_gain *= 2;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(135.0 + angle_offset, rota_accel, rota_vel, vel);
-	oblique_Front_gain/=2;
-	oblique_Side_gain/=2;
+	oblique_Front_gain /= 2;
+	oblique_Side_gain /= 2;
 	wait_rotation();
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
 	wall_control_oblique_flag = 0;
@@ -1089,7 +1115,7 @@ void turn_left_v90(float vel) {
 		rota_accel = 22000.0;
 		rota_vel = 1260.0;
 		kabekire_dis = 5.2;
-		angle_offset = 0.4;
+		angle_offset = 0.8;	//0.4
 		while (SEN_L.now > 1500) {
 			translation_ideal.dis = kabekire_dis;
 			//		Log[0] = translation_ideal.dis;
@@ -1100,8 +1126,8 @@ void turn_left_v90(float vel) {
 //	log_sampling();
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
 	wall_control_oblique_flag = 2;
-	oblique_Front_gain*=6;
-	oblique_Side_gain*=6;
+	oblique_Front_gain *= 6;
+	oblique_Side_gain *= 6;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(90.0 + angle_offset, rota_accel, rota_vel, vel);
@@ -1110,8 +1136,8 @@ void turn_left_v90(float vel) {
 	wall_control_oblique_flag = 1;
 
 	wait_straight();
-	oblique_Front_gain/=6;
-	oblique_Side_gain/=6;
+	oblique_Front_gain /= 6;
+	oblique_Side_gain /= 6;
 }
 
 void turn_right_v90(float vel) {
@@ -1127,22 +1153,22 @@ void turn_right_v90(float vel) {
 		kabekire_dis = 14.3;
 	}
 
-	if (vel == 1200.0) {
+	if (vel == 1200.0 || vel == 1300.0) {
 		in_offset = -4.8 + 20.0;
 		out_offset = 34.0 - 20.0;
 		rota_accel = 14000.0;
 		rota_vel = 1300.0;
-		angle_offset = 2.2;
+		angle_offset = 2.2;	//2.2
 		kabekire_dis = 13.2;
 	}
 
 	if (vel == 1300.0) {
 		in_offset = -3.0 + 20.0;
-		out_offset = 78.0 - 20.0;
-		rota_accel = 26000.0;
-		rota_vel = 1100.0;
+		out_offset = 81.0 - 20.0;
+		rota_accel = 30000.0;	//26000
+		rota_vel = 1500.0;	//1100
 		kabekire_dis = 15.6;
-		angle_offset = 5.8;
+		angle_offset = 2.0;
 	}
 
 	while (SEN_R.now > 2000.0) {
@@ -1152,20 +1178,39 @@ void turn_right_v90(float vel) {
 
 //	Log[0] = translation_ideal.dis;
 //	log_sampling();
+//	if (vel == 1300.0) {
+//		set_straight(in_offset-5.0, 12000.0, vel, vel, 1200.0);
+//		rotation_gain.Kp = 0.62;
+//		rotation_gain.Ki = 0.010;
+//	} else {
+//		set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+//	}
+
 	set_straight(in_offset, nomal_run.accel, vel, vel, vel);
+
 //	wall_control_flag = 0;
-	oblique_Front_gain*=6;
-	oblique_Side_gain*=6;
+	oblique_Front_gain *= 6;
+	oblique_Side_gain *= 6;
 	wall_control_oblique_flag = 3;
 	wait_straight();
 //	wall_control_oblique_flag = 0;
 	set_rotation(-90.0 + angle_offset, rota_accel, rota_vel, vel);
 	wait_rotation();
+
+	//	if (vel == 1300.0) {
+//		set_straight(out_offset-5.0, 14000.0, vel, 1200.0, vel);
+//		rotation_gain.Kp = 0.67;
+//		rotation_gain.Ki = 0.0025;
+//	} else {
+//		set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+//	}
+
 	set_straight(out_offset, nomal_run.accel, vel, vel, vel);
+
 	wall_control_oblique_flag = 1;
 	wait_straight();
-	oblique_Front_gain/=6;
-	oblique_Side_gain/=6;
+	oblique_Front_gain /= 6;
+	oblique_Side_gain /= 6;
 	wall_control_oblique_flag = 0;
 }
 

@@ -28,6 +28,6 @@ void erase_all(void);
 void write_unit(uint16_t block, uint16_t data);
 void write_walldata(uint16_t start_block, walldate_t walldata);
 void read_walldata(uint16_t start_block, walldate_t *walldata);
-void write_all_walldatas(void);
+void write_all_walldatas(uint8_t);
 void read_all_walldatas(void);
 #endif /* DATAFLASH_H_ */

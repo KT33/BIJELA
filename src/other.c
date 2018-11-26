@@ -140,9 +140,9 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = wallcontrol_value;
-		log2[log_index] =rotation_real.velocity;
-//		log3[log_index] = rotation_real.velocity;
+		Log[log_index] = rotation_ideal.velocity;
+		log2[log_index] = rotation_real.velocity;
+		log3[log_index] = (float) test2;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -155,8 +155,8 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
-		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
-//		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
+//		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
+		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");
@@ -370,7 +370,7 @@ void start_SEN(uint8_t mario_flag) {
 		speaker_on(C_5, 6.0, 240);
 		wait_time(500);
 	}
-	rotation_deviation.cumulative=0;
+	rotation_deviation.cumulative = 0;
 
 }
 

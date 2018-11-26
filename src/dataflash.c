@@ -270,14 +270,18 @@ void read_walldata(uint16_t start_block, walldate_t *walldata) {
 	}
 }
 
-void write_all_walldatas(void) {
+void write_all_walldatas(uint8_t flag) {
 	if (failsafe_flag == 0) {
 		init_dataflash();
 		erase_all();
 		write_walldata(0, walldate_real);
 		write_walldata(40, walldate_checked);
 		write_walldata(80, walldate_adachi);
-		speaker_on(C_5, 6.0, 240);
+		if (flag != 255) {
+			speaker_on(C_5, 6.0, 240);
+		}else{
+			hikakin(250, 1);
+		}
 //		cde(250, 1);
 	}
 }

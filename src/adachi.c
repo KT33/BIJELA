@@ -865,9 +865,14 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 		adachi_special_move(x_local, y_local, wall_direction, nomal_run.accel,
 				nomal_run.vel_search, (goal_y * 16 + goal_x), goal_scale,
 				Next_XY_16bit); //見たい壁に対する位置と壁の絶対方角を入力
-//		speaker_on( C_4, 6.0, 700);
+		speaker_on( C_4, 6.0, 1000);
 	}
-//	speaker_on( C_4, 6.0, 800);
+	/////////////////////////
+	failsafe_flag = 1;
+	speaker_on( C_4, 6.0, 700);
+	/////////////////////////////////////
+	u_turn_counter = 100;
+//	speaker_on( D_4, 6.0, 1200);
 //	add_wall_flag = 0;
 	if (special_goal_flag == 0) {
 //		speaker_on( C_5, 6.0, 700);
@@ -880,7 +885,8 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 		coordinate();
 		addWall();
 	}
-	speaker_on( C_7, 6.0, 1000);
+//	speaker_on( C_7, 6.0, 1000);
+	u_turn_counter = 5;
 	adachi_special_move(0, 0, 255, nomal_run.accel, nomal_run.vel_search,
 			(goal_y * 16 + goal_x), goal_scale, 0xffff);
 
@@ -893,7 +899,6 @@ uint16_t make_temporary_goal_XY(uint8_t ture_goal_x, uint8_t ture_goal_y,
 	uint16_t Next_XY = 0, shift = 1;
 
 	adachi_map(ture_goal_x, ture_goal_y, goal_scale, walldate_real); //歩数マップ展開
-
 
 	while (failsafe_flag == 0) {
 		flag = how_to_move_special(x_local, y_local, local_direction);
@@ -961,7 +966,7 @@ uint16_t make_temporary_goal_XY(uint8_t ture_goal_x, uint8_t ture_goal_y,
 uint8_t how_to_move_special(uint8_t x, uint8_t y, uint8_t direction) {
 	uint16_t step;
 	int8_t a, b;
-	uint8_t  flag = 111, i;
+	uint8_t flag = 111, i;
 	if (direction == North) {
 		i = 0;
 		a = 1;
@@ -981,7 +986,7 @@ uint8_t how_to_move_special(uint8_t x, uint8_t y, uint8_t direction) {
 	}
 
 	step = step_map[x][y];
-	if(step==0xffff){
+	if (step == 0xffff) {
 		stop90(7000.0, 600.0);
 		failsafe_flag = 1;
 	}
@@ -1053,7 +1058,7 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 			break;
 		}
 		if ((NEW_XY_16 != input) && (input == 0xffff)) {
-			failsafe_flag=1;
+			failsafe_flag = 1;
 			break;
 		}
 
@@ -1075,7 +1080,7 @@ void adachi_special_move(uint8_t goal_x, uint8_t goal_y, uint8_t wall_direction,
 			adachi_map_straight(goal_x, goal_y, goal_scale, walldate_real);
 		} else {
 			if (wall_direction == 255) {
-				adachi_map(goal_x, goal_y, goal_scale, walldate_real);
+				adachi_map_special(goal_x, goal_y, goal_scale, walldate_real);
 			} else {
 				adachi_map_special(goal_x, goal_y, goal_scale, walldate_real);
 			}
@@ -1207,10 +1212,14 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 		walldate_t walldate) {
 	uint8_t x_adachi, y_adachi, step;
 	queue_t q;
-	uint8_t unknown_priority = 3;
-	uint8_t straight_priority = 2;
+	uint8_t unknown_priority = 0;
+	uint8_t straight_priority = 0;
 	uint8_t nomal_value = 5;
 	uint8_t flag = 0;
+
+	if (goal_x == 0 && goal_y == 0) {
+		straight_priority = 4;
+	}
 
 //	moter_flag = 1;
 	q.head = 0;
@@ -1371,7 +1380,7 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 				&& ((y_adachi + 1) < 16)) {
 			if (((step_map[x_adachi][y_adachi - 1] < step)
 					&& (step_map[x_adachi][y_adachi - 1] >= step - nomal_value))
-					&& (y_adachi - 1) >= 0
+					&& ((y_adachi - 1) >= 0)
 					&& getWall(x_adachi, y_adachi, South, &walldate_adachi) == 0
 					&& step_map[x_adachi][y_adachi + 1]
 							> step + nomal_value - straight_priority + 1) {
@@ -1380,8 +1389,8 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 				flag = 1;
 			}
 			if ((getWall(x_adachi, y_adachi, North, &walldate_checked) == 0)
-					&& step_map[x_adachi][y_adachi + 1]
-							> step + nomal_value - unknown_priority + 1) {
+					&& (step_map[x_adachi][y_adachi + 1]
+							> step + nomal_value - unknown_priority + 1)) {
 				step_map[x_adachi][y_adachi + 1] = step + nomal_value
 						- unknown_priority;
 				flag = 1;
@@ -1400,17 +1409,17 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 				&& ((x_adachi - 1) >= 0)) {
 			if (((step_map[x_adachi + 1][y_adachi] < step)
 					&& (step_map[x_adachi + 1][y_adachi] >= step - nomal_value))
-					&& (x_adachi + 1) < 16
-					&& getWall(x_adachi, y_adachi, East, &walldate_adachi) == 0
-					&& step_map[x_adachi - 1][y_adachi]
-							> step + nomal_value - straight_priority + 1) {
+					&& ((x_adachi + 1) < 16)
+					&& (getWall(x_adachi, y_adachi, East, &walldate_adachi) == 0)
+					&& (step_map[x_adachi - 1][y_adachi]
+							> step + nomal_value - straight_priority + 1)) {
 				step_map[x_adachi - 1][y_adachi] = step + nomal_value
 						- straight_priority;
 				flag = 1;
 			}
 			if ((getWall(x_adachi, y_adachi, West, &walldate_checked) == 0)
-					&& step_map[x_adachi - 1][y_adachi]
-							> step + nomal_value - unknown_priority + 1) {
+					&& (step_map[x_adachi - 1][y_adachi]
+							> step + nomal_value - unknown_priority + 1)) {
 				step_map[x_adachi - 1][y_adachi] = step + nomal_value
 						- unknown_priority;
 				flag = 1;
@@ -1485,7 +1494,7 @@ void adachi_map_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale,
 				flag = 0;
 			}
 		}
-//		myprintf("%d,%d,%d,%d\n", x_adachi, y_adachi, q.head, q.tail);
+//		myprintf("%d,%d,%d\n", x_adachi, y_adachi, step);
 	} while (q.tail != q.head);
 }
 
