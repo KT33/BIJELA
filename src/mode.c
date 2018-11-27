@@ -30,12 +30,16 @@ void mode_0(void) {
 	nomal_run.vel_search = 600.0;
 	start_SEN(0);
 	search_run_special(x.goal, y.goal, 4);
-	write_all_walldatas(0);
+	if (u_turn_counter == 100) {
+		write_all_walldatas(255);
+	} else {
+		write_all_walldatas(0);
+	}
 }
 
 void mode_1(void) {
-	wall_cntrol_gain.Kp = 0.5;
-	wall_cntrol_gain.Kd = 0.1;
+	wall_cntrol_gain.Kp = 0.6;
+	wall_cntrol_gain.Kd = 0.2;
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
@@ -55,7 +59,9 @@ void mode_1(void) {
 //	myprintf("x:%d,y:%d,dire:%d\n", x.now, y.now, direction);
 
 	make_pass(0, 0, 1, 0);
-	move_pass_big_turn(7000.0, 2200.0, 1000.0);
+	move_pass_oblique(nomal_run.accel, nomal_run.vel_max, 1200,
+			nomal_oblique.accel, nomal_oblique.vel_max, 1);
+	fan_off();
 	wait_time(10);
 }
 
@@ -81,7 +87,9 @@ void mode_2(void) {
 //	out_put_pass(pass);
 
 	make_pass(0, 0, 1, 0);
-	move_pass_big_turn(7000.0, 2200.0, 1000.0);
+	move_pass_oblique(nomal_run.accel, nomal_run.vel_max, 1200,
+			nomal_oblique.accel, nomal_oblique.vel_max, 1);
+	fan_off();
 	wait_time(10);
 
 }
@@ -142,7 +150,9 @@ void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
 }
 
 void mode_6(void) {
-
+	uint8_t flag;
+	uint16_t test;
+	uint8_t dire, x_x, y_y;
 //	wall_cntrol_gain.Kp = 0.5;
 //	wall_cntrol_gain.Kd = 0.1;
 //	para_mode();
@@ -171,9 +181,9 @@ void mode_6(void) {
 //	y.now=3;
 //	direction=3;
 	read_all_walldatas();
-//	make_pass(7, 7, 4, 0);
 	adachi_map(7, 7, 4, walldate_real);
-	output_Walldate(&walldate_adachi);
+	flag = how_to_move_search_known(3, 2, 15);
+	myprintf("%d\n", flag);
 	output_Walldate(&walldate_real);
 	output_Walldate(&walldate_checked);
 	//out_put_pass(pass);

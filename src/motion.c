@@ -70,8 +70,7 @@ void turn_180(float accel, float vel) {
 		if (u_turn_counter == 100) {
 			write_all_walldatas(255);
 			u_turn_counter = 0;
-		}
-		if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+		}else if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
 				|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
 				|| (x.now == 8 && y.now == 8)) {
 			write_all_walldatas(0);
@@ -86,8 +85,7 @@ void turn_180(float accel, float vel) {
 		if (u_turn_counter == 100 ) {
 			write_all_walldatas(255);
 			u_turn_counter = 0;
-		}
-		if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+		}else if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
 				|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
 				|| (x.now == 8 && y.now == 8)) {
 			write_all_walldatas(0);
@@ -115,8 +113,7 @@ void ketuate(float accel, float vel) {
 	if (u_turn_counter == 100) {
 		write_all_walldatas(255);
 		u_turn_counter = 0;
-	}
-	if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
+	}else if (u_turn_counter > 4 || (x.now == 7 && y.now == 7)
 			|| (x.now == 8 && y.now == 7) || (x.now == 7 && y.now == 8)
 			|| (x.now == 8 && y.now == 8)) {
 		write_all_walldatas(0);
