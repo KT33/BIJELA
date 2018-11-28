@@ -150,7 +150,7 @@ extern uint8_t moter_flag;
 extern float test_float;
 extern uint8_t failsafe_flag;
 
-extern volatile float Log[LogMax],log2[LogMax],log3[LogMax];
+extern volatile float Log[LogMax],log2[LogMax],log3[LogMax],log4[LogMax];
 extern uint8_t SEN_check_flag;
 extern float failsafe_accel;
 

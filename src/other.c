@@ -140,9 +140,10 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = rotation_ideal.velocity;
-		log2[log_index] = rotation_real.velocity;
-		log3[log_index] = (float) test2;
+		Log[log_index] = (float) SEN_L.now;
+		log2[log_index] = (float) SEN_LF.now;
+		log3[log_index] = (float) SEN_RF.now;
+		log4[log_index] = (float) SEN_R.now;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -156,7 +157,8 @@ void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
 //		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
-		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i],log3[i]);
+//		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i], log3[i]);
+		myprintf("%.3f	%.3f  %.3f	%.3f\n", Log[i], log2[i], log3[i],log4[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");

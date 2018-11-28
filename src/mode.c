@@ -38,8 +38,8 @@ void mode_0(void) {
 }
 
 void mode_1(void) {
-	wall_cntrol_gain.Kp = 0.6;
-	wall_cntrol_gain.Kd = 0.2;
+	wall_cntrol_gain.Kp = 0.5;
+	wall_cntrol_gain.Kd = 0.4;
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
@@ -67,7 +67,7 @@ void mode_1(void) {
 
 void mode_2(void) {
 	wall_cntrol_gain.Kp = 0.5;
-	wall_cntrol_gain.Kd = 0.1;
+	wall_cntrol_gain.Kd = 0.4;
 	para_mode();
 	read_all_walldatas();
 	start_SEN(1);
@@ -139,14 +139,33 @@ void mode_4(void) {
 }
 
 void mode_5(void) { //nomal_run.accel, nomal_run.vel_search,nomal_run.vel_search
-
-	read_all_walldatas();
+	start_SEN(0);
 	wall_cntrol_gain.Kp = 0.1;
 	wall_cntrol_gain.Kd = 0.1;
-	nomal_run.vel_search = 600.0;
-	start_SEN(0);
-	search_run_special(x.goal, y.goal, 4);
-	write_all_walldatas(0);
+//	fan_on();
+	wait_time(100);
+	set_straight(142.0 + 180.0 * 6.0 + 90.0, 7000.0, 600.0, 0.0, 0.0);
+	log_start();
+	wait_straight();
+//	fan_off();
+	set_rotation(183.0, nomal_rotation.accel, nomal_rotation.vel_search, 0.0);
+	wait_rotation();
+	log_flag=0;
+	wait_time(50);
+	back_100();
+//	wall_cntrol_gain.Kp = 0.1;
+//	wall_cntrol_gain.Kd = 0.1;
+	rotation_deviation.cumulative = 0.0;
+//	fan_on();
+	wait_time(100);
+	set_straight(142.0 + 180.0 * 6.0 + 90.0, 7000.0, 600.0, 0.0, 0.0);
+	wait_straight();
+//	fan_off();
+	while (SWITCH == 1) {
+		moter_flag = 0;
+	}
+	log_output();
+
 }
 
 void mode_6(void) {

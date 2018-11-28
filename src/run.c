@@ -47,6 +47,24 @@ void wall_control(void) {
 //				RIGHTFRONT = 0;
 //				CENTERFRONT = 1;
 			}
+		} else if ((SEN_L.now > SEN_L.reference)
+				&& ((translation_ideal.velocity) > 580.0)
+				&& (SEN_F.now < SEN_F.threshold)) {
+			wallcontrol_value = 2.0 * wall_cntrol_gain.Kp
+					* ((float) SEN_L.now - (float) SEN_L.reference)
+					+ wall_cntrol_gain.Kd * (float) (2 * SEN_L.diff_1ms);
+			if (translation_ideal.velocity > 1600.0) {
+				wallcontrol_value *= 0.1;
+			}
+		} else if ((SEN_R.now > SEN_R.reference)
+				&& ((translation_ideal.velocity) > 580.0)
+				&& (SEN_F.now < SEN_F.threshold)) {
+			wallcontrol_value = -2.0 * wall_cntrol_gain.Kp
+					* ((float) SEN_R.now - (float) SEN_R.reference)
+					+ wall_cntrol_gain.Kd * (float) (-2 * SEN_R.diff_1ms);
+			if (translation_ideal.velocity > 1600.0) {
+				wallcontrol_value *= 0.1;
+			}
 		} else {
 			wallcontrol_value = 0.0;
 //			LEFTFRONT = 0;
@@ -60,8 +78,7 @@ void wall_control(void) {
 				wallcontrol_value += (float) oblique_Side_gain
 						* (SEN_L.now - SEN_L.oblique_reference);
 			}
-			if (SEN_LF.now > SEN_LF.oblique_threshold
-					&& SEN_LF.diff < 20) {
+			if (SEN_LF.now > SEN_LF.oblique_threshold && SEN_LF.diff < 20) {
 				wallcontrol_value += (float) oblique_Front_gain
 						* (SEN_LF.now - SEN_LF.oblique_reference);
 			}
@@ -72,8 +89,7 @@ void wall_control(void) {
 						* (SEN_R.now - SEN_R.oblique_reference) * 2.0;
 
 			}
-			if (SEN_RF.now > SEN_RF.oblique_threshold
-					&& SEN_RF.diff < 30) {
+			if (SEN_RF.now > SEN_RF.oblique_threshold && SEN_RF.diff < 30) {
 				wallcontrol_value -= (float) oblique_Front_gain
 						* (SEN_RF.now - SEN_RF.oblique_reference);
 			}
