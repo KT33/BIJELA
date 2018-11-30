@@ -772,6 +772,8 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 //////////////////////////////////////////////////////////////////////////
 	moter_flag = 1;
 
+
+	log_start();
 	i = 0;
 	coordinate();
 	if (pass_oblique[i] < 35) {
@@ -822,6 +824,7 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 							big_turn_vel, big_turn_vel);
 				}
 			}
+			wall_control_oblique_flag = 0;
 			wait_straight();
 //			for (j = 0; j < pass_oblique[i] / 2; j++) {
 //				coordinate();
@@ -869,7 +872,6 @@ void move_pass_oblique(float accel, float max_vel, float big_turn_vel,
 			set_straight(127.28 * (pass_oblique[i] - 200), oblique_accel,
 					oblique_max_vel, big_turn_vel, big_turn_vel);
 			wait_straight();
-			wall_control_oblique_flag = 0;
 		}
 	}
 

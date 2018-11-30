@@ -851,7 +851,7 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	coordinate();
 	addWall();
 	while (failsafe_flag == 0) {
-		speaker_on( C_4, 6.0, 1300);
+//		speaker_on( C_4, 6.0, 1300);
 //		adachi_map(goal_x, goal_y, goal_scale, walldate_real); //歩数マップ展開
 		Next_XY_16bit = make_temporary_goal_XY(goal_x, goal_y, goal_scale); //見たい壁の位置からゴールを算出
 		if (Next_XY_16bit == 0xffff) {
@@ -875,7 +875,7 @@ void search_run_special(uint8_t goal_x, uint8_t goal_y, uint8_t goal_scale) {
 	}
 	/////////////////////////
 //	failsafe_flag = 1;
-	speaker_on( F_4, 6.0, 700);
+//	speaker_on( F_4, 6.0, 700);
 	/////////////////////////////////////
 	u_turn_counter = 100;
 //	speaker_on( D_4, 6.0, 1200);

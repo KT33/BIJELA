@@ -184,6 +184,10 @@ extern uint16_t speaker_counter;
 extern uint8_t FF_flag;
 extern slarom_para_t slarom_700;
 extern uint8_t add_wall_flag;
+extern float oblique_offset_front;
+extern float oblique_offset_side;
+extern float oblique_front_box;
+extern float oblique_side_box;
 
 void para_mode(void);
 

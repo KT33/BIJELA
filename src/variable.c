@@ -26,13 +26,13 @@ slarom_para_t slarom_500 = { 7000.0, 6000.0, { 15.0, 35.0 }, { 15.0, 22.0 } };
 slarom_para_t slarom_600 = { 12500.0, 6000.0, { 18.0, 45.0 }, { 21.0, 38.0 } };
 slarom_para_t slarom_700 = { 15000.0, 3600.0, { 8.0, 46.0 }, { 8.0, 39.0 } };
 
-sensor_t SEN_R = { 0, 1381, 500, 0, 0, 3200, 3200 }; //now,reference,threshold,diff
+sensor_t SEN_R = { 0, 1422, 500, 0, 0, 3000, 3000 }; //now,reference,threshold,diff
 //1445
-sensor_t SEN_L = { 0, 1015, 350, 0, 0, 3200, 3200 }; //oblique_reference,oblique_threshold
+sensor_t SEN_L = { 0, 1089, 350, 0, 0, 3000, 3000 }; //oblique_reference,oblique_threshold
 // 0, 1641, 574, 0, 0, 3368, 3100
 //3368
-sensor_t SEN_RF = { 0, 3282, 562, 0, 0, 230, 200 };
-sensor_t SEN_LF = { 0, 3320, 420, 0, 0, 235, 210 };
+sensor_t SEN_RF = { 0, 3282, 562, 0, 0, 250, 250 };
+sensor_t SEN_LF = { 0, 3320, 420, 0, 0, 250, 250 };
 sensor_t SEN_F = { 0, 0, 0, 0 };
 
 float wallcontrol_value;
@@ -40,7 +40,7 @@ float wallcontrol_value;
 volatile int16_t i;
 
 volatile float diameter = DIAMETER; //タイヤ径 50 32
-volatile float diameter_absorption=23.19;
+volatile float diameter_absorption=23.14;
 volatile float tread = 48.0; //トレッド幅
 
 volatile int g_count;
@@ -124,6 +124,12 @@ uint8_t speaker_flag=0;
 uint16_t speaker_counter=0;
 uint8_t FF_flag=0;
 
+float oblique_offset_front=1.0;
+float oblique_offset_side=1.0;
+
+float oblique_front_box;
+float oblique_side_box;
+
 
 void para_mode(void) {
 	uint8_t mode = 0;
@@ -158,15 +164,15 @@ void para_mode(void) {
 		nomal_oblique.accel = 10000.0;
 		nomal_oblique.vel_max = 3500.0;
 	} else if (mode == 1) {
-		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel =10000.0;
+		nomal_run.accel = 13000.0;
+		nomal_run.vel_max = 3000;
+		nomal_oblique.accel =8000.0;
 		nomal_oblique.vel_max = 2500.0;
 	} else if (mode == 2) {
-		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel =10000.0;
-		nomal_oblique.vel_max = 2800.0;
+		nomal_run.accel = 10000.0;
+		nomal_run.vel_max = 2800;
+		nomal_oblique.accel =8000.0;
+		nomal_oblique.vel_max = 2000.0;
 	} else if (mode == 3) {
 		nomal_run.accel = 15000.0;
 		nomal_run.vel_max = 3500;
@@ -178,20 +184,20 @@ void para_mode(void) {
 		nomal_oblique.accel =10000.0;
 		nomal_oblique.vel_max = 2000.0;
 	} else if (mode == 5) {
-		nomal_run.accel = 15000.0;
-		nomal_run.vel_max = 3500;
-		nomal_oblique.accel =10000.0;
-		nomal_oblique.vel_max = 1500.0;
+		nomal_run.accel = 16000.0;
+		nomal_run.vel_max = 3600;
+		nomal_oblique.accel =16000.0;
+		nomal_oblique.vel_max = 3600.0;
 	} else if (mode == 6) {
-		nomal_run.accel = 10000.0;
-		nomal_run.vel_max = 3200;
-		nomal_oblique.accel = 7000.0;
-		nomal_oblique.vel_max = 2200.0;
-	} else if (mode == 7) {
 		nomal_run.accel = 7000.0;
 		nomal_run.vel_max = 1500;
 		nomal_oblique.accel = 7000.0;
 		nomal_oblique.vel_max = 1500.0;
+	} else if (mode == 7) {
+		nomal_run.accel = 16000.0;
+		nomal_run.vel_max = 3700;
+		nomal_oblique.accel = 15000.0;
+		nomal_oblique.vel_max = 3700.0;
 	}
 }
 

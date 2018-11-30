@@ -140,10 +140,10 @@ void log_start(void) {
 void log_sampling(void) {
 	log_counter++;
 	if (log_counter == log_how_often) {
-		Log[log_index] = (float) SEN_L.now;
-		log2[log_index] = (float) SEN_LF.now;
-		log3[log_index] = (float) SEN_RF.now;
-		log4[log_index] = (float) SEN_R.now;
+		Log[log_index] = test_float;
+		log2[log_index] = oblique_Front_gain;
+		log3[log_index] = oblique_Side_gain;
+//		log4[log_index] = (float) SEN_R.now;
 		log_index++;
 		log_counter = 0;
 		if (log_index == LogMax - 1) {
@@ -156,9 +156,10 @@ void log_sampling(void) {
 void log_output(void) {
 	int i;
 	for (i = 0; i < LogMax; i++) {
+//		myprintf("%d	%.3f\n",i, Log[i]);
 //		myprintf("%.3f	%.3f\n", Log[i], log2[i]);
-//		myprintf("%.3f	%.3f  %.3f\n", Log[i], log2[i], log3[i]);
-		myprintf("%.3f	%.3f  %.3f	%.3f\n", Log[i], log2[i], log3[i],log4[i]);
+		myprintf("%d	%.9f	%.9f  %.9f\n",i, Log[i], log2[i], log3[i]);
+//		myprintf("%.3f	%.3f  %.3f	%.3f\n", Log[i], log2[i], log3[i],log4[i]);
 	}
 //	myprintf("\n");
 //	myprintf("\n");
